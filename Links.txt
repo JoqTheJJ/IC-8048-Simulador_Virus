@@ -1,0 +1,21 @@
+<<< Links >>>
+
+Documento (Google doc)
+https://docs.google.com/document/d/1QrH2hyUHJJnLnm2QUKZHZ2NSL5A9iFZqj4Tk286S_C4/edit
+
+
+Diagrama de Clases
+https://drive.google.com/file/d/1EbQrKLT1coZam3Sh9O3WbCJqZNH5sFNZ/view
+
+
+
+
+
+
+< Papers >
+
+Movimiento agentes autónomos (Paper Craig)
+https://www.researchgate.net/publication/2495826_Steering_Behaviors_For_Autonomous_Characters
+
+Contagio en espacios cerrados (Paper Principal)
+http://www.scielo.org.bo/pdf/rbf/v37n37/v37n37_a04.pdf
