@@ -18,8 +18,8 @@ float distancia = 2.0;            // Distancia en metros a la persona infectada
 State estado;
 
 //Formula usada
-float calcularConcentracionQuantaEquilibrada(int PersonasInfectadas){
-  float tasaEmisionPorHora = tasaEmisionQuanta * PersonasInfectadas;
+float calcularConcentracionQuantaEquilibrada(float tasaExhalacion, int PersonasInfectadas){
+  float tasaEmisionPorHora = tasaExhalacion * PersonasInfectadas;
   float tasaEliminacionPorHora = tasaDeVentilacion + 0.24; // 0.24 = Tasa de deposición de los aerosoles en el ambiente
   float quantaEquilibradaPorHora = tasaEmisionPorHora / tasaEliminacionPorHora;
   float quantaEquilibradaPorMinuto = quantaEquilibradaPorHora / 60;
@@ -27,8 +27,8 @@ float calcularConcentracionQuantaEquilibrada(int PersonasInfectadas){
 }
 
 //Se remueve la variable personas
-float calcularConcentracionQuantaEquilibradaIndividual(){
-  float tasaEmisionPorHora = tasaEmisionQuanta;
+float calcularConcentracionQuantaEquilibradaIndividual(float tasaExhalacion){
+  float tasaEmisionPorHora = tasaExhalacion;
   float tasaEliminacionPorHora = tasaDeVentilacion + 0.24; // 0.24 = Tasa de deposición de los aerosoles en el ambiente
   float quantaEquilibradaPorHora = tasaEmisionPorHora / tasaEliminacionPorHora;
   float quantaEquilibradaPorMinuto = quantaEquilibradaPorHora / 60;
@@ -88,8 +88,33 @@ float tasaInhalacion(State estado){
   }
 }
 
-float quantaInhalada(float distancia){
-  float concentracionQuanta = calcularConcentracionQuantaEquilibradaIndividual();
+float tasaExhalacion(State estado){
+  switch (estado){
+    case CONCERT:
+    //Realizar ejercicio moderado
+      return 170;
+      
+    case WANDER:
+    //Caminar lentamente + alteracion
+      return 11.4;
+      
+    case STILL:
+    //Estar parado
+      return 2.3;
+      
+    case UNAVAILABLE:
+    //Ausencia de presencia
+      return 0;
+      
+    default:
+      println("Estado del agente invalido");
+      return 0;
+  }
+}
+
+//Tasa de exhalacion hay que ponerla mascarilla
+float quantaInhalada(float distancia, float tasaExhalacion){
+  float concentracionQuanta = calcularConcentracionQuantaEquilibradaIndividual(tasaExhalacion);
   float tasaInhalacion = tasaInhalacion(estado);
   float ajusteDistancia = ajusteDistancia(distancia);
   
