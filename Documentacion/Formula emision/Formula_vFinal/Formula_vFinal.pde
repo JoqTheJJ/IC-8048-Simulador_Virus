@@ -47,6 +47,14 @@ Yo diria 1 o 2 quanta, talvez 1.5?
 
 Falta hacer la emision de quanta por los infectados
  pero es parecido a la tasa de inhalacion
+ 
+ 
+ 
+ 
+1 vez por segundo
+se infecta
+
+FPS % 60 = infeccion
 */
 
 
@@ -60,7 +68,7 @@ float tasaInhalacion(State estado){
   switch (estado){
     case CONCERT:
     //Realizar ejercicio moderado
-      return 2.35;
+      return 2.75;
       
     case WANDER:
     //Caminar lentamente + alteracion
