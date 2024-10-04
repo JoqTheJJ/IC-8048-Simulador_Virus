@@ -1,7 +1,7 @@
-
-
-
-
+// Simulacion
+boolean pause = false;
+AgentSystem sys;
+Scene scene;
 
 
 
@@ -9,10 +9,45 @@
 
 
 void setup() {
-  size(400, 400);
+  //size(800, 800);
+  fullScreen();
+  addColors();
+  sys = new AgentSystem();
+  scene = new Scene();
 }
 
 void draw(){
+  background(#CECECE);
   
-  background(0);
+  
+  
+  if (!pause){
+    sys.run();
+    scene.run();
+  } else {
+    sys.display();
+    scene.display();
+  }
+  
+  if (mousePressed && mouseButton == LEFT) {
+    sys.addAgent(mouseX, mouseY);
+  }
+}
+
+
+
+
+
+
+
+void keyPressed() {
+
+  if (key == ' ') {
+    pause = !pause;
+  }
+  
+  if (key == 'r' || key == 'R') {
+    sys.reset();
+  }
+  
 }

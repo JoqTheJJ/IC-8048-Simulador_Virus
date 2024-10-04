@@ -1,7 +1,62 @@
 class AgentSystem{
   
+  ArrayList<Agent> agents;
+  
+  
+  
+  
+  
   //Variables contagio
-  float tasaDeVentilacion;
+  float tasaDeVentilacion; // (ACH) Cantidad de cambios de aire por hora
+  float radioDeInfeccion;
+  
+  int numPersonasInfectadas;
+  
+  
+  
+  
+  
+  
+  // ############################  ############################
+  // ################## METODOS PRINCIPALES ###################
+  // ############################  ############################
+  
+  AgentSystem(){
+    agents = new ArrayList<Agent>();
+    
+    tasaDeVentilacion = 3.0;
+    radioDeInfeccion = 4.0;
+    
+    
+  }
+  
+  void run(){
+    for (Agent a : agents){
+      a.run();
+    }
+  }
+  
+  void display(){
+    for (Agent a : agents){
+      a.display();
+    }
+  }
+  
+  void addAgent(float x, float y){
+    agents.add(new Agent(x, y, false, 0.3, State.CONCERT));
+  }
+  
+  void reset(){
+    agents.clear();
+  }
+  
+
+  // ############################  ############################
+  // ################### METODOS MOVIMIENTO ###################
+  // ############################  ############################
+  
+  
+  
   
   
   
