@@ -22,23 +22,47 @@ class Scene{
   void display(){
     noStroke();
     fill(#A5A5A5);
-    rectMode(CORNERS);
+    rectMode(CORNER);
     //rect(height/2 +5, 0, height/2 -5, width/2);
     //Ancho puerta = 100
     
+    //Concierto
+    float concertX = 0;
+    float concertY = height/2 -210;
+    float concertW = 300;
+    float concertH = height/2 +210;
+    rect(concertX, concertY, concertW, concertH);
+    
+    
     //W1 Upper wall left
-    rect(0, height/2 -210, width/2, height/2 -200);
+    
+    float w1X = 0 + concertW;
+    float w1Y = height/2 - 210;
+    float w1W = width/2 - concertW;
+    float w1H = 10;
+    rect(w1X, w1Y, w1W, w1H);
     
     //W2 Upper wall right
-    rect(width/2 +100, height/2 -210, width, height/2 -200);
+    float w2X = width/2 +100;
+    float w2Y = height/2 -210;
+    float w2W = width/2 -100;
+    float w2H = 10;
+    rect(w2X, w2Y, w2W, w2H);
     
     //W3 Down wall up
-    rect(width*3/4, height/2 -210, width*3/4+10, height/2 +50);
+    float w3X = width*3/4;
+    float w3Y = height/2 -210;
+    float w3W = 10;
+    float w3H = 260;
+    rect(w3X, w3Y, w3W, w3H);
     
     //W4 Down wall down
-    rect(width*3/4, height/2 +150, width*3/4+10, height);
+    float w4X = width*3/4;
+    float w4Y = height/2 +150;
+    float w4W = 10;
+    float w4H = height/2 -150;
+    rect(w4X, w4Y, w4W, w4H);
     
-    //Concierto
-    rect(0, height/2 -210, +300, height);
+    
   }
 }

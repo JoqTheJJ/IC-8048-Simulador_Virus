@@ -37,6 +37,11 @@ void draw(){
 
 
 
+void mousePressed(){
+  if(mouseButton == RIGHT){
+    sys.addAgent(mouseX, mouseY);
+  }
+}
 
 
 

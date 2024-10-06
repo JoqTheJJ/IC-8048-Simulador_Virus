@@ -112,6 +112,10 @@ class Agent{
       vel.y *= -damp;
     }
     
+    
+    
+    
+    //Scenario
     if (pos.y+radio/2 > height/2-210 && pos.x -radio/2 < 300){ //Colision escenario lateral
     
       if (pos.x > 300){
@@ -130,34 +134,68 @@ class Agent{
       
       
 
-    float w1x = 0;
-    float w1y = height/2 -210;
-    float w1height = 10;
-    float w1width = width/2;
-    
-    if (pos.x + radio > w1x && pos.x - radio < w1x + w1width &&
-      pos.y + radio > w1y && pos.y - radio < w1y + w1width) {
-    
-        
-    // Verificar la dirección del movimiento
-    if (pos.x < w1x) { // Colisión por la izquierda
-      pos.x = w1x - radio; // Ajustar la posición
-      vel.x *= -damp; // Invertir la velocidad en x
-    } else if (pos.x > w1x + w1width) { // Colisión por la derecha
-      pos.x = w1x + w1width + radio; // Ajustar la posición
-      vel.x *= -damp; // Invertir la velocidad en x
+    float w1X = 0;
+    float w1Y = height/2 - 210;
+    float w1W = width/2;
+    float w1H = 10;
+    if (pos.x + radio > w1X && pos.x - radio < w1X + w1W) {
+      if (pos.y - radio < w1Y + w1H && pos.y + radio > w1Y) {
+        vel.y *= -1; //Vertical
+      }
     }
-
-    if (pos.y < w1y) { // Colisión por arriba
-      pos.y = w1y - radio; // Ajustar la posición
-      vel.y *= -damp; // Invertir la velocidad en y
-    } else if (pos.y > w1y + w1height) { // Colisión por abajo
-      pos.y = w1y + w1height + radio; // Ajustar la posición
-      vel.y *= -damp; // Invertir la velocidad en y
+    if (pos.y + radio > w1Y && pos.y - radio < w1Y + w1H) {
+      if (pos.x - radio < w1X + w1W && pos.x + radio > w1X) {
+        vel.x *= -1; //Horizontal
+      }
     }
-  }
-
-
+    
+    
+    float w2X = width/2 +100;
+    float w2Y = height/2 -210;
+    float w2W = width/2 -100;
+    float w2H = 10;
+    if (pos.x + radio > w2X && pos.x - radio < w2X + w2W) {
+      if (pos.y - radio < w2Y + w2H && pos.y + radio > w2Y) {
+        vel.y *= -1; //Vertical
+      }
+    }
+    if (pos.y + radio > w2Y && pos.y - radio < w2Y + w2H) {
+      if (pos.x - radio < w2X + w2W && pos.x + radio > w2X) {
+        vel.x *= -1; //Horizontal
+      }
+    }
+    
+    float w3X = width*3/4;
+    float w3Y = height/2 -210;
+    float w3W = 10;
+    float w3H = 260;
+    if (pos.x + radio > w3X && pos.x - radio < w3X + w3W) {
+      if (pos.y - radio < w3Y + w3H && pos.y + radio > w3Y) {
+        vel.y *= -1; //Vertical
+      }
+    }
+    if (pos.y + radio > w3Y && pos.y - radio < w3Y + w3H) {
+      if (pos.x - radio < w3X + w3W && pos.x + radio > w3X) {
+        vel.x *= -1; //Horizontal
+      }
+    }
+    
+    float w4X = width*3/4;
+    float w4Y = height/2 +150;
+    float w4W = 10;
+    float w4H = height/2 -150;
+    if (pos.x + radio > w4X && pos.x - radio < w4X + w4W) {
+      if (pos.y - radio < w4Y + w4H && pos.y + radio > w4Y) {
+        vel.y *= -1; //Vertical
+      }
+    }
+    if (pos.y + radio > w4Y && pos.y - radio < w4Y + w4H) {
+      if (pos.x - radio < w4X + w4W && pos.x + radio > w4X) {
+        vel.x *= -1; //Horizontal
+      }
+    }
+    
+    
   }
   
   
