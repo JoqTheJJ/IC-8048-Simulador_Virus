@@ -8,14 +8,14 @@ enum State {
 ArrayList<Integer> colors;
 
 void addColors(){
-  colors = new ArrayList<>();
-  colors.add(color(222, 38, 38));  //Rojo
-  colors.add(color(232, 83, 37));  //Naranja oscuro
-  colors.add(color(240, 159, 44)); //Naranja claro
-  colors.add(color(247, 230, 51)); //Amarillo
-  colors.add(color(168, 208, 57)); //Verde muy calro
-  colors.add(color(103, 186, 61)); //Verde claro
+  colors = new ArrayList();
   colors.add(color(10, 154, 67));  //Verde
+  colors.add(color(103, 186, 61)); //Verde claro
+  colors.add(color(168, 208, 57)); //Verde muy claro
+  colors.add(color(247, 230, 51)); //Amarillo
+  colors.add(color(240, 159, 44)); //Naranja claro
+  colors.add(color(232, 83, 37));  //Naranja oscuro
+  colors.add(color(222, 38, 38));  //Rojo
 }
 
 
@@ -29,7 +29,7 @@ class Agent{
   float radio;
   
   float damp;
-  //float mass;
+  float mass;
   
   
   
@@ -53,11 +53,12 @@ class Agent{
   
   Agent(float x, float y, boolean infectado, float eficienciaMascarilla, State estado){
     pos = new PVector(x, y);
-    vel = PVector.random2D().setMag(5);
+    vel = PVector.random2D().setMag(3);
     acc = new PVector(0, 0);
     
     radio = 10;
     damp = 1;
+    mass = 1;
     
     maxSpeed = 20;
     vel.limit(maxSpeed);
@@ -70,7 +71,7 @@ class Agent{
     if(infectado){
       quanta = quantaMaxima;
     } else {
-      quanta = random(0,3);
+      quanta = 0;
     }
   }
   
@@ -82,7 +83,8 @@ class Agent{
     
     strokeWeight(3);
     stroke(#000000);
-    int c = int(map(quanta, 0, 3, 0, 6));
+    int c = int(map(quanta, 0, 3, 0, 6.99));
+    c = min(c, 6);
     fill(colors.get(c));
     circle(pos.x, pos.y, radio);
   }
@@ -90,7 +92,7 @@ class Agent{
   void display(){
     strokeWeight(3);
     stroke(#000000);
-    int c = int(map(quanta, 0, 3, 0, 7));
+    int c = int(map(quanta, 0, 3, 0, 6.99));
     fill(colors.get(c));
     circle(pos.x, pos.y, radio);
   }
@@ -116,7 +118,8 @@ class Agent{
     
     
     //Scenario
-    if (pos.y+radio/2 > height/2-210 && pos.x -radio/2 < 300){ //Colision escenario lateral
+    if (pos.y+radio/2 > height/2-210 && pos.x -radio/2 < 300){
+      //Colision escenario lateral
     
       if (pos.x > 300){
         pos.x = 300 + radio/2;
@@ -128,27 +131,21 @@ class Agent{
         vel.y *= -damp;
       }
     }
-      
-      
-      
-      
-      
-
+    
     float w1X = 0;
     float w1Y = height/2 - 210;
     float w1W = width/2;
     float w1H = 10;
     if (pos.x + radio > w1X && pos.x - radio < w1X + w1W) {
       if (pos.y - radio < w1Y + w1H && pos.y + radio > w1Y) {
-        vel.y *= -1; //Vertical
+        vel.y *= -damp; //Vertical
       }
     }
     if (pos.y + radio > w1Y && pos.y - radio < w1Y + w1H) {
       if (pos.x - radio < w1X + w1W && pos.x + radio > w1X) {
-        vel.x *= -1; //Horizontal
+        vel.x *= -damp; //Horizontal
       }
     }
-    
     
     float w2X = width/2 +100;
     float w2Y = height/2 -210;
@@ -156,12 +153,12 @@ class Agent{
     float w2H = 10;
     if (pos.x + radio > w2X && pos.x - radio < w2X + w2W) {
       if (pos.y - radio < w2Y + w2H && pos.y + radio > w2Y) {
-        vel.y *= -1; //Vertical
+        vel.y *= -damp; //Vertical
       }
     }
     if (pos.y + radio > w2Y && pos.y - radio < w2Y + w2H) {
       if (pos.x - radio < w2X + w2W && pos.x + radio > w2X) {
-        vel.x *= -1; //Horizontal
+        vel.x *= -damp; //Horizontal
       }
     }
     
@@ -171,12 +168,12 @@ class Agent{
     float w3H = 260;
     if (pos.x + radio > w3X && pos.x - radio < w3X + w3W) {
       if (pos.y - radio < w3Y + w3H && pos.y + radio > w3Y) {
-        vel.y *= -1; //Vertical
+        vel.y *= -damp; //Vertical
       }
     }
     if (pos.y + radio > w3Y && pos.y - radio < w3Y + w3H) {
       if (pos.x - radio < w3X + w3W && pos.x + radio > w3X) {
-        vel.x *= -1; //Horizontal
+        vel.x *= -damp; //Horizontal
       }
     }
     
@@ -186,12 +183,12 @@ class Agent{
     float w4H = height/2 -150;
     if (pos.x + radio > w4X && pos.x - radio < w4X + w4W) {
       if (pos.y - radio < w4Y + w4H && pos.y + radio > w4Y) {
-        vel.y *= -1; //Vertical
+        vel.y *= -damp; //Vertical
       }
     }
     if (pos.y + radio > w4Y && pos.y - radio < w4Y + w4H) {
       if (pos.x - radio < w4X + w4W && pos.x + radio > w4X) {
-        vel.x *= -1; //Horizontal
+        vel.x *= -damp; //Horizontal
       }
     }
     
@@ -206,7 +203,11 @@ class Agent{
   // ################### METODOS MOVIMIENTO ###################
   // ############################  ############################
   
-  
+  void addForce(PVector f) {
+    PVector dif = f.copy();
+    dif.div(mass);
+    acc.add(dif);
+  }
   
   
   
@@ -215,27 +216,35 @@ class Agent{
   // #################### METODOS CONTAGIO ####################
   // ############################  ############################
   
+  boolean infectado(){
+    return quanta >= quantaMaxima;
+  }
+  
   float calcularTasaExhalacion(){
     float tasaExhalacion;
     switch (estado){
       case CONCERT:
       //Realizar ejercicio moderado
         tasaExhalacion = 170;
+        break;
         
       case WANDER:
       //Caminar lentamente + alteracion
         tasaExhalacion = 11.4;
+        break;
         
       case STILL:
       //Estar parado
         tasaExhalacion = 2.3;
+        break;
         
       case UNAVAILABLE:
       //Ausencia de presencia
         tasaExhalacion = 0;
+        break;
         
       default:
-        println("Estado del agente invalido");
+        println("Estado del agente invalido en exhalacion");
         tasaExhalacion = 0;
     }
     
@@ -248,21 +257,25 @@ class Agent{
       case CONCERT:
       //Realizar ejercicio moderado
         tasaInhalacion = 2.75;
+        break;
         
       case WANDER:
       //Caminar lentamente + alteracion
         tasaInhalacion = 0.92;
+        break;
         
       case STILL:
       //Estar parado
         tasaInhalacion = 0.54;
+        break;
         
       case UNAVAILABLE:
       //Ausencia de presencia
         tasaInhalacion = 0;
+        break;
         
       default:
-        println("Estado del agente invalido");
+        println("Estado del agente invalido en inhalacion");
         tasaInhalacion = 9999;
     }
     

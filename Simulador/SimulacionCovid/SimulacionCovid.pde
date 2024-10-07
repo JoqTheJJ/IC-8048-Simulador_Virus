@@ -30,7 +30,7 @@ void draw(){
   }
   
   if (mousePressed && mouseButton == LEFT) {
-    sys.addAgent(mouseX, mouseY);
+    sys.addAgent(mouseX, mouseY, false);
   }
 }
 
@@ -39,7 +39,7 @@ void draw(){
 
 void mousePressed(){
   if(mouseButton == RIGHT){
-    sys.addAgent(mouseX, mouseY);
+    sys.addAgent(mouseX, mouseY, true);
   }
 }
 

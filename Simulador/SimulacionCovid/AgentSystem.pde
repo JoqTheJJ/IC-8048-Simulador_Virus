@@ -24,15 +24,49 @@ class AgentSystem{
   AgentSystem(){
     agents = new ArrayList<Agent>();
     
-    tasaDeVentilacion = 3.0;
-    radioDeInfeccion = 4.0;
+    tasaDeVentilacion = 3;
+    radioDeInfeccion = 30;
     
     
   }
   
   void run(){
-    for (Agent a : agents){
-      a.run();
+    
+    int size = agents.size();
+    
+    for (int i = 0; i < size; i++) {
+      Agent a1 = agents.get(i);
+      a1.run();
+      
+      if(frameCount % 60 == 0){ //Infeccion 1 vez por segundo
+      
+      for (int j = i+1; j < size; j++) {
+        Agent a2 = agents.get(j);
+        boolean infeccion = false;
+        
+        
+        Agent infectado = a1;
+        Agent sano = a1;
+        if (a1.infectado() && !a2.infectado()){
+          infectado = a1;
+          sano = a2;
+          infeccion = true;
+        } else if (a2.infectado() && !a1.infectado()) {
+          infectado = a2;
+          sano = a1;
+          infeccion = true;
+        }
+        
+        if(infeccion){
+          float distancia = PVector.sub(a1.pos,a2.pos).mag();
+          
+          if (distancia < radioDeInfeccion && distancia > -radioDeInfeccion){
+            contagio(infectado, sano, distancia);
+          }
+        }
+        
+      }
+      }
     }
   }
   
@@ -42,8 +76,8 @@ class AgentSystem{
     }
   }
   
-  void addAgent(float x, float y){
-    agents.add(new Agent(x, y, false, 0.3, State.CONCERT));
+  void addAgent(float x, float y, boolean infectado){
+    agents.add(new Agent(x, y, infectado, 0.3, State.CONCERT));
   }
   
   void reset(){
@@ -76,14 +110,12 @@ class AgentSystem{
     return quantaEquilibradaPorHora / 60; //Por minuto
   }
   
-  void contagio(Agent contagiado, Agent sano){
+  void contagio(Agent contagiado, Agent sano, float distancia){
     float tasaExhalacion = contagiado.calcularTasaExhalacion();
     float tasaInhalacion = sano.calcularTasaInhalacion();
     
     float concentracionQuanta = calcularConcentracionQuanta(tasaExhalacion);
     
-    PVector d = PVector.sub(contagiado.pos, sano.pos);
-    float distancia = d.mag();
     float ajusteDistancia = ajusteDistancia(distancia);
     
     float quantaInhalada = concentracionQuanta * tasaInhalacion * ajusteDistancia;
