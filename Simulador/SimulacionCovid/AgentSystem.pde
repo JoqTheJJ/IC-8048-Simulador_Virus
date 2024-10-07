@@ -37,7 +37,9 @@ class AgentSystem{
     for (int i = 0; i < size; i++) {
       Agent a1 = agents.get(i);
       a1.run();
-      a1.wander();
+      //a1.wander();
+      //a1.seek(mouseX, mouseY);
+      a1.arrive(mouseX, mouseY);
       
       
       

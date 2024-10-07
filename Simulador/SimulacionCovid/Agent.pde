@@ -34,12 +34,12 @@ class Agent{
   float mass = 1;
   
   //Variables movimiento autonomo
-  float maxSteeringForce = 0.01;
+  float maxSteeringForce = 0.1;
   
   float arrivalRadius = 100;
   
-  float wanderLookAhead = 50;
-  float wanderRadius = 50;
+  float wanderLookAhead = 20;
+  float wanderRadius = 20;
   float wanderNoiseT;
   float wanderNoiseTInc = 0.005;
   
@@ -248,7 +248,7 @@ class Agent{
     }
     PVector target = vel.copy();
     target.setMag(wanderRadius);
-    target.rotate(map(noise(wanderNoiseT), 0, 1, -PI - HALF_PI, PI + HALF_PI));
+    target.rotate(map(noise(wanderNoiseT), 0, 1, -PI, PI));
     wanderNoiseT += wanderNoiseTInc;
     target.add(future);
     if (debug) {
