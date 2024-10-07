@@ -82,7 +82,6 @@ class Agent{
   void run(){
     pos.add(vel);
     vel.add(acc);
-    vel.limit(maxSpeed);
     
     borders();
     
