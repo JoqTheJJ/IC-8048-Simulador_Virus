@@ -1,14 +1,34 @@
 class Scene{
   
-  float wall1x1;
-  float wall1y1;
-  float wall1x2;
-  float wall1y2;
   
   float concertX = 0;
   float concertY = height/2 -200;
   float concertW = 300;
   float concertH = height/2 +210;
+  
+  //W1 Upper wall left
+  float w1X = 0;
+  float w1Y = height/2 - 210;
+  float w1W = width/2;
+  float w1H = 10;
+  
+  //W2 Upper wall right
+  float w2X = width/2 +100;
+  float w2Y = height/2 -210;
+  float w2W = width/2 -100;
+  float w2H = 10;
+  
+  //W3 Down wall up
+  float w3X = width*3/4;
+  float w3Y = height/2 -210;
+  float w3W = 10;
+  float w3H = 253;
+  
+  //W4 Down wall down
+  float w4X = width*3/4;
+  float w4Y = height/2 +158;
+  float w4W = 10;
+  float w4H = height/2 -150;
   
   float radio = 10;
   
@@ -28,68 +48,49 @@ class Scene{
     
     //Concierto
     fill(#242424);
-    
     rect(concertX, concertY, concertW, concertH);
     
+    //Walls
+    fill(#A5A5A5);
     
     //W1 Upper wall left
-    fill(#A5A5A5); 
-    float w1X = 0;
-    float w1Y = height/2 - 210;
-    float w1W = width/2;
-    float w1H = 10;
     rect(w1X, w1Y, w1W, w1H);
-    
     //W2 Upper wall right
-    float w2X = width/2 +100;
-    float w2Y = height/2 -210;
-    float w2W = width/2 -100;
-    float w2H = 10;
     rect(w2X, w2Y, w2W, w2H);
-    
     //W3 Down wall up
-    float w3X = width*3/4;
-    float w3Y = height/2 -210;
-    float w3W = 10;
-    float w3H = 253;
     rect(w3X, w3Y, w3W, w3H);
-    
     //W4 Down wall down
-    float w4X = width*3/4;
-    float w4Y = height/2 +158;
-    float w4W = 10;
-    float w4H = height/2 -150;
     rect(w4X, w4Y, w4W, w4H);
     
     
     
     //Personas
+    float radio = this.radio * 2;
     strokeWeight(3);
     stroke(#000000);
 
-    
-    
+
     //Artistas
     fill(#0BB7B5);
-    circle(concertW/2 +10, (concertY+concertH)/2 +90, radio);
-    circle(concertW/2 +18, (concertY+concertH)/2 +95, radio);
-    circle(concertW/2 +18, (concertY+concertH)/2 +105, radio);
-    circle(concertW/2 +10, (concertY+concertH)/2 +110, radio);
+    circle(concertW/2 +20, (2*concertY+concertH)/2 +120  -30, radio); // 1
+    circle(concertW/2 +30, (2*concertY+concertH)/2 +132  -30, radio); // 2
+    circle(concertW/2 +30, (2*concertY+concertH)/2 +148  -30, radio); // 3
+    circle(concertW/2 +20, (2*concertY+concertH)/2 +160  -30, radio); // 4
     
     fill(#00FFFD);
-    circle(concertW/2 +10, (concertY+concertH)/2 +100, radio);
+    circle(concertW/2 +10, (2*concertY+concertH)/2 +140  -30, radio);
     
     fill(#6203FF);
-    circle(concertW/2 +20, (concertY+concertH)/2 +50, radio);
+    circle(concertW/2 +20, (2*concertY+concertH)/2 +70  -30, radio);
     
     fill(#FFFFFF);
-    //circle(concertW/2 +30, (concertY+concertH)/2 +0, radio);
+    //circle(concertW/2 +30, (2*concertY+concertH)/2 +0, radio);
     
     fill(#FE00FF);
-    circle(concertW/2 +20, (concertY+concertH)/2 -50, radio);
+    circle(concertW/2 +20, (2*concertY+concertH)/2 -70  -30, radio);
     
     fill(#03FF11);
-    circle(concertW/2 +10, (concertY+concertH)/2 -100, radio);
+    circle(concertW/2 +10, (2*concertY+concertH)/2 -140  -30, radio);
     
     //Guardas
     fill(#0A39F0);

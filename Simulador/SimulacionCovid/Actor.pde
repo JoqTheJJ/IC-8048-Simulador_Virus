@@ -64,7 +64,7 @@ class Actor extends Agent{
     offsetX = map(noise(noiseXOffset), 0, 1, -35, 35);
     offsetY = map(noise(noiseYOffset), 0, 1, -35, 35);
     
-    noiseXOffset += 0.005;
+    noiseXOffset += 0.004;
     noiseYOffset += 0.005;
   }
   
@@ -72,7 +72,7 @@ class Actor extends Agent{
     offsetX = map(noise(noiseXOffset), 0, 1, -15, 15);
     offsetY = map(noise(noiseYOffset), 0, 1, -15, 15);
     
-    noiseXOffset += 0.01;
+    noiseXOffset += 0.02;
     noiseYOffset += 0.01;
   }
   

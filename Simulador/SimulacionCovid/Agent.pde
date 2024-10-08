@@ -22,7 +22,7 @@ void addColors(){
 
 class Agent{
   
-  boolean debug = true;
+  boolean debug = false;
   
   // Variables Movimiento
   PVector pos;
@@ -35,13 +35,13 @@ class Agent{
   float mass = 1;
   
   //Variables movimiento autonomo
-  float maxSteeringForce = 0.01;
+  float maxSteeringForce = 0.1;
   
   float arrivalRadius = 150;
   
   float wanderLookAhead = 30;
   float wanderRadius = 15;
-  float wanderNoiseT;
+  float wanderNoiseT = random(0,100);
   float wanderNoiseTInc = 0.005;
   
   

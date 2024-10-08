@@ -35,19 +35,34 @@ void setup() {
   scene = new Scene();
   
   actores = new ArrayList<Actor>();
+  
+  //////
+  actores.add(new Actor( //Guitarrista
+    scene.concertW/2 +20,
+    (2*scene.concertY+scene.concertH)/2-30 -70,
+    #FE00FF,
+    Rol.GUITARRISTA)
+    );
   actores.add(new Actor( //Cantante
     scene.concertW/2 +30,
-    (scene.concertY+scene.concertH)/2,
+    (2*scene.concertY+scene.concertH)/2 -30,
     #FFFFFF,
     Rol.CANTANTE)
     );
-    /*
-  actores.add(new Actor( //Guitarrista
-    scene.concertW/2 +30,
-    (scene.concertY+scene.concertH)/2,
-    #FFFFFF,
+  //////
+  actores.add(new Actor( //Baterista
+    scene.concertW/2 +20,
+    (2*scene.concertY+scene.concertH)/2-30 -70,
+    #FE00FF,
     Rol.GUITARRISTA)
-    );*/
+    );
+    
+  actores.add(new Actor( //Bateria
+    scene.concertW/2 +20,
+    (2*scene.concertY+scene.concertH)/2-30 -70,
+    #0BB7B5,
+    Rol.GUITARRISTA)
+    );
 }
 
 void draw(){
