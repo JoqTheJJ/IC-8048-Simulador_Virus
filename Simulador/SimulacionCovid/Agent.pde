@@ -19,6 +19,7 @@ void addColors(){
 }
 
 
+
 class Agent{
   
   boolean debug = true;
@@ -34,19 +35,19 @@ class Agent{
   float mass = 1;
   
   //Variables movimiento autonomo
-  
   float maxSteeringForce = 0.01;
   
   float arrivalRadius = 150;
   
   float wanderLookAhead = 30;
-  float wanderRadius = 10;
+  float wanderRadius = 15;
   float wanderNoiseT;
   float wanderNoiseTInc = 0.005;
   
   
   // Variables
   State estado;
+  
   
   
   // Variables Contagio
@@ -91,8 +92,12 @@ class Agent{
     
     strokeWeight(3);
     stroke(#000000);
-    int c = int(map(quanta, 0, 3, 0, 6.99));
-    c = min(c, 6);
+    
+    int c = int(map(quanta, 0, 3, 0, 5));
+    c = min(c, 5);
+    if (quanta >= quantaMaxima)
+      c = 6;
+    
     fill(colors.get(c));
     circle(pos.x, pos.y, radio*2);
   }
@@ -100,8 +105,11 @@ class Agent{
   void display(){
     strokeWeight(3);
     stroke(#000000);
-    int c = int(map(quanta, 0, 3, 0, 6.99));
-    c = min(c, 6);
+    
+    int c = int(map(quanta, 0, 3, 0, 5));
+    c = min(c, 5);
+    if (quanta >= quantaMaxima)
+      c = 6;
     fill(colors.get(c));
     circle(pos.x, pos.y, radio*2);
   }
@@ -151,7 +159,7 @@ class Agent{
     }
     PVector target = vel.copy();
     target.setMag(wanderRadius);
-    target.rotate(map(noise(wanderNoiseT), 0, 1, -PI, PI));
+    target.rotate(map(noise(wanderNoiseT), 0, 1, -PI -HALF_PI, PI + HALF_PI));
     wanderNoiseT += wanderNoiseTInc;
     target.add(future);
     

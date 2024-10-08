@@ -21,23 +21,8 @@ class Scene{
     */
   }
   
-  
-  void run(){
-    display();
-  }
-  
   void display(){
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    //rect(height/2 +5, 0, height/2 -5, width/2);
     //Ancho puerta = 100
     noStroke();
     

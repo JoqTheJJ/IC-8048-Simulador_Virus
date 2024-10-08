@@ -53,21 +53,19 @@ void setup() {
 void draw(){
   background(#CECECE);
   
-  
+  scene.display();
   
   if (!pause){
-    sys.run();
-    scene.run();
     for (Actor a: actores){
       a.run();
     }
+    sys.run();
     
   } else {
-    sys.display();
-    scene.display();
     for (Actor a: actores){
       a.display();
     }
+    sys.display();
   }
   
   estadisticas();
@@ -113,6 +111,10 @@ void keyPressed() {
     sys.numPersonas = 0;
     sys.numPersonasInfectadas = 0;
     sys.numPersonasMascarilla = 0;
+  }
+  
+  if (key == 'v' || key == 'V'){
+    sys.alterColorMode();
   }
   
 }

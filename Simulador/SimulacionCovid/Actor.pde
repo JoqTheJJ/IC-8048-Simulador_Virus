@@ -17,7 +17,7 @@ class Actor extends Agent{
   float noiseYOffset = random(100);
   
   Actor(float x, float y, color c, Rol rol){
-    super(x, y, false, 1, State.CONCERT);
+    super(x, y, false, 1, State.UNAVAILABLE);
     vel.setMag(0);
     this.c = c;
     this.rol = rol;
@@ -56,16 +56,16 @@ class Actor extends Agent{
     stroke(#000000);
 
     fill(c);
-    circle(pos.x + offsetX, pos.y + offsetY, radio);
+    circle(pos.x + offsetX, pos.y + offsetY, radio*2);
   }
   
   
   void cantante(){
-    offsetX = map(noise(noiseXOffset), 0, 1, -25, 25);
-    offsetY = map(noise(noiseYOffset), 0, 1, -25, 25);
+    offsetX = map(noise(noiseXOffset), 0, 1, -35, 35);
+    offsetY = map(noise(noiseYOffset), 0, 1, -35, 35);
     
-    noiseXOffset += 0.01;
-    noiseYOffset += 0.01;
+    noiseXOffset += 0.005;
+    noiseYOffset += 0.005;
   }
   
   void guitarrista(){

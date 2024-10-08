@@ -1,8 +1,15 @@
+enum ColorMode {
+  INFECTION,
+  MASK
+}
+
+
+
 class AgentSystem{
   
   ArrayList<Agent> agents;
   
-  
+  ColorMode colorMode;
   
   
   
@@ -14,6 +21,8 @@ class AgentSystem{
   int numPersonas;
   int numPersonasInfectadas;
   int numPersonasMascarilla;
+  
+  
   
   
   
@@ -33,6 +42,8 @@ class AgentSystem{
     numPersonas = 0;
     numPersonasInfectadas = 0;
     numPersonasMascarilla = 0;
+    
+    colorMode = ColorMode.INFECTION;
   }
   
   void run(){
@@ -42,7 +53,7 @@ class AgentSystem{
     for (int i = 0; i < size; i++) {
       Agent a1 = agents.get(i);
       a1.run();
-      //a1.wander();
+      a1.wander();
       //a1.seek(mouseX, mouseY);
       //a1.arrive(mouseX, mouseY);
       
@@ -103,6 +114,13 @@ class AgentSystem{
     agents.clear();
   }
   
+  void alterColorMode(){
+    if(colorMode == ColorMode.INFECTION){
+      colorMode = ColorMode.MASK;
+    } else if (colorMode == ColorMode.MASK) {
+      colorMode = ColorMode.INFECTION;
+    }
+  }
 
   // ############################  ############################
   // ################### METODOS MOVIMIENTO ###################
