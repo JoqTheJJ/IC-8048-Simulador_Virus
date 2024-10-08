@@ -36,7 +36,7 @@ class Agent{
   //Variables movimiento autonomo
   boolean justCollided;
   
-  float maxSteeringForce = 0.01;
+  float maxSteeringForce = 0.1;
   
   float arrivalRadius = 150;
   
