@@ -5,6 +5,13 @@ class Scene{
   float wall1x2;
   float wall1y2;
   
+  float concertX = 0;
+  float concertY = height/2 -200;
+  float concertW = 300;
+  float concertH = height/2 +210;
+  
+  float radio = 10;
+  
   Scene(){
     /*
     wall1x1 = 0;
@@ -20,25 +27,31 @@ class Scene{
   }
   
   void display(){
-    noStroke();
-    fill(#A5A5A5);
-    rectMode(CORNER);
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     //rect(height/2 +5, 0, height/2 -5, width/2);
     //Ancho puerta = 100
+    noStroke();
     
     //Concierto
-    float concertX = 0;
-    float concertY = height/2 -210;
-    float concertW = 300;
-    float concertH = height/2 +210;
+    fill(#242424);
+    
     rect(concertX, concertY, concertW, concertH);
     
     
     //W1 Upper wall left
-    
-    float w1X = 0 + concertW;
+    fill(#A5A5A5); 
+    float w1X = 0;
     float w1Y = height/2 - 210;
-    float w1W = width/2 - concertW;
+    float w1W = width/2;
     float w1H = 10;
     rect(w1X, w1Y, w1W, w1H);
     
@@ -53,16 +66,49 @@ class Scene{
     float w3X = width*3/4;
     float w3Y = height/2 -210;
     float w3W = 10;
-    float w3H = 260;
+    float w3H = 253;
     rect(w3X, w3Y, w3W, w3H);
     
     //W4 Down wall down
     float w4X = width*3/4;
-    float w4Y = height/2 +150;
+    float w4Y = height/2 +158;
     float w4W = 10;
     float w4H = height/2 -150;
     rect(w4X, w4Y, w4W, w4H);
     
     
+    
+    //Personas
+    strokeWeight(3);
+    stroke(#000000);
+
+    
+    
+    //Artistas
+    fill(#0BB7B5);
+    circle(concertW/2 +10, (concertY+concertH)/2 +90, radio);
+    circle(concertW/2 +18, (concertY+concertH)/2 +95, radio);
+    circle(concertW/2 +18, (concertY+concertH)/2 +105, radio);
+    circle(concertW/2 +10, (concertY+concertH)/2 +110, radio);
+    
+    fill(#00FFFD);
+    circle(concertW/2 +10, (concertY+concertH)/2 +100, radio);
+    
+    fill(#6203FF);
+    circle(concertW/2 +20, (concertY+concertH)/2 +50, radio);
+    
+    fill(#FFFFFF);
+    //circle(concertW/2 +30, (concertY+concertH)/2 +0, radio);
+    
+    fill(#FE00FF);
+    circle(concertW/2 +20, (concertY+concertH)/2 -50, radio);
+    
+    fill(#03FF11);
+    circle(concertW/2 +10, (concertY+concertH)/2 -100, radio);
+    
+    //Guardas
+    fill(#0A39F0);
+    circle(width*3/4+5, height/2 +50, radio);
+    circle(width*3/4+5, height/2 +150, radio);
   }
 }

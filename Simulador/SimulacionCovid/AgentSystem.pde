@@ -12,6 +12,7 @@ class AgentSystem{
   
   int numPersonas;
   int numPersonasInfectadas;
+  int numPersonasMascarilla;
   
   
   
@@ -28,7 +29,9 @@ class AgentSystem{
     tasaDeVentilacion = 3;
     radioDeInfeccion = 30;
     
-    
+    numPersonas = 0;
+    numPersonasInfectadas = 0;
+    numPersonasMascarilla = 0;
   }
   
   void run(){
@@ -91,8 +94,8 @@ class AgentSystem{
     }
   }
   
-  void addAgent(float x, float y, boolean infectado){
-    agents.add(new Agent(x, y, infectado, 0.3, State.CONCERT));
+  void addAgent(float x, float y, boolean infectado, float eficienciaMascarilla){
+    agents.add(new Agent(x, y, infectado, eficienciaMascarilla, State.CONCERT));
   }
   
   void reset(){
