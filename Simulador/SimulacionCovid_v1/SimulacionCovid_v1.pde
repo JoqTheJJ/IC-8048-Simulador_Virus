@@ -5,7 +5,6 @@ Scene scene;
 
 
 ArrayList<Float> mascarillas;
-ArrayList<Actor> actores;
 
 void addMascarillas(){
   mascarillas = new ArrayList();
@@ -34,20 +33,6 @@ void setup() {
   sys = new AgentSystem();
   scene = new Scene();
   
-  actores = new ArrayList<Actor>();
-  actores.add(new Actor( //Cantante
-    scene.concertW/2 +30,
-    (scene.concertY+scene.concertH)/2,
-    #FFFFFF,
-    Rol.CANTANTE)
-    );
-    /*
-  actores.add(new Actor( //Guitarrista
-    scene.concertW/2 +30,
-    (scene.concertY+scene.concertH)/2,
-    #FFFFFF,
-    Rol.GUITARRISTA)
-    );*/
 }
 
 void draw(){
@@ -58,16 +43,10 @@ void draw(){
   if (!pause){
     sys.run();
     scene.run();
-    for (Actor a: actores){
-      a.run();
-    }
-    
+
   } else {
     sys.display();
     scene.display();
-    for (Actor a: actores){
-      a.display();
-    }
   }
   
   estadisticas();
@@ -119,7 +98,7 @@ void keyPressed() {
 
 void estadisticas(){
   textSize(20);
-  fill(#FFFFFF);
+  fill(#0A0A0A);
   text("Personas Totales: "+sys.numPersonas, 15, height -100);
   
   text("Infectados: "+sys.numPersonasInfectadas, 15, height -80);
