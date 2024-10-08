@@ -40,10 +40,11 @@ class AgentSystem{
     
     for (int i = 0; i < size; i++) {
       Agent a1 = agents.get(i);
+      
       a1.run();
-      //a1.wander();
+      a1.wander();
       //a1.seek(mouseX, mouseY);
-      //a1.arrive(mouseX, mouseY);
+      a1.arrive(mouseX, mouseY);
       
       
       
@@ -125,7 +126,7 @@ class AgentSystem{
     float tasaEliminacionPorHora = tasaDeVentilacion + 0.24; // 0.24 = Tasa de deposición de los aerosoles en el ambiente
     float quantaEquilibradaPorHora = tasaExhalacion / tasaEliminacionPorHora;
     
-    return quantaEquilibradaPorHora * 18 / 60; //Por minuto
+    return quantaEquilibradaPorHora / 60; //Por minuto
   }
   
   void contagio(Agent contagiado, Agent sano, float distancia){

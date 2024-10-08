@@ -21,7 +21,7 @@ void addColors(){
 
 class Agent{
   
-  boolean debug = true;
+  boolean debug = false;
   
   // Variables Movimiento
   PVector pos;
@@ -36,12 +36,12 @@ class Agent{
   //Variables movimiento autonomo
   boolean justCollided;
   
-  float maxSteeringForce = 1;
+  float maxSteeringForce = 0.01;
   
   float arrivalRadius = 150;
   
-  float wanderLookAhead = 20;
-  float wanderRadius = 20;
+  float wanderLookAhead = 30;
+  float wanderRadius = 15;
   float wanderNoiseT;
   float wanderNoiseTInc = 0.005;
   
@@ -83,18 +83,20 @@ class Agent{
   }
   
   void run(){
-    pos.add(vel);
-    vel.add(acc);
-    vel.limit(maxSpeed);
     
     borders();
+    
+    vel.add(acc);
+    vel.limit(maxSpeed);
+    pos.add(vel);
+    acc.mult(0);
     
     strokeWeight(3);
     stroke(#000000);
     int c = int(map(quanta, 0, 3, 0, 6.99));
     c = min(c, 6);
     fill(colors.get(c));
-    circle(pos.x, pos.y, radio);
+    circle(pos.x, pos.y, radio*2);
   }
   
   void display(){
@@ -103,7 +105,7 @@ class Agent{
     int c = int(map(quanta, 0, 3, 0, 6.99));
     c = min(c, 6);
     fill(colors.get(c));
-    circle(pos.x, pos.y, radio);
+    circle(pos.x, pos.y, radio*2);
   }
   
   
@@ -132,7 +134,7 @@ class Agent{
     PVector steering = PVector.sub(desired, vel);
     float dist = pos.dist(target);
     if (dist <= arrivalRadius) {
-      vel.limit(max(0, map(dist, 0, arrivalRadius, 0, maxSpeed)));
+      vel.limit(map(dist, 0, arrivalRadius, 0, maxSpeed));
     }
     steering.limit(maxSteeringForce);
     addForce(steering);
@@ -154,12 +156,6 @@ class Agent{
     target.rotate(map(noise(wanderNoiseT), 0, 1, -PI -HALF_PI, PI + HALF_PI));
     wanderNoiseT += wanderNoiseTInc;
     target.add(future);
-    
-    if (justCollided){
-      PVector direction = vel.copy(); // Calcula la normal de colisión
-      target.add(direction.copy().mult(wanderRadius));
-      justCollided = false;
-    }
     
     if (debug) {
       strokeWeight(6);
@@ -251,13 +247,13 @@ class Agent{
   
   
   void borders() {
-    if (pos.x < radio/2 || pos.x > width - radio/2) {
-      pos.x = constrain(pos.x, radio/2, width - radio/2);
+    if (pos.x < radio || pos.x > width - radio) {
+      pos.x = constrain(pos.x, radio, width - radio);
       vel.x *= -damp;
       justCollided = true;
     }
-    if (pos.y < radio/2 || pos.y > height - radio/2) {
-      pos.y = constrain(pos.y, radio/2, height - radio/2);
+    if (pos.y < radio || pos.y > height - radio) {
+      pos.y = constrain(pos.y, radio, height - radio);
       vel.y *= -damp;
       justCollided = true;
     }
@@ -266,17 +262,17 @@ class Agent{
     
     
     //Scenario
-    if (pos.y+radio/2 > height/2-210 && pos.x -radio/2 < 300){
+    if (pos.y+radio > height/2-210 && pos.x -radio < 300){
       //Colision escenario lateral
     
       if (pos.x > 300){
-        pos.x = 300 + radio/2;
+        pos.x = 300 + radio;
         vel.x *= -damp;
         justCollided = true;
       }
       
       if(pos.y < height/2-210){
-        pos.y = height/2-210 - radio/2;
+        pos.y = height/2-210 - radio;
         vel.y *= -damp;
         justCollided = true;
       }
@@ -349,7 +345,6 @@ class Agent{
         justCollided = true;
       }
     }
-    
     
   }
   

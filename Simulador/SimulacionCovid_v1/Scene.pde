@@ -40,6 +40,7 @@ class Scene{
     //Ancho puerta = 100
     noStroke();
     
+    
     //Concierto
     fill(#A5A5A5); 
     
@@ -73,5 +74,6 @@ class Scene{
     float w4W = 10;
     float w4H = height/2 -150;
     rect(w4X, w4Y, w4W, w4H);
+    
   }
 }
