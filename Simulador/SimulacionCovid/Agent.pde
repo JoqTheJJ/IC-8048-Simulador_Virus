@@ -34,9 +34,11 @@ class Agent{
   float mass = 1;
   
   //Variables movimiento autonomo
-  float maxSteeringForce = 0.1;
+  boolean justCollided;
   
-  float arrivalRadius = 100;
+  float maxSteeringForce = 1;
+  
+  float arrivalRadius = 150;
   
   float wanderLookAhead = 20;
   float wanderRadius = 20;
@@ -67,6 +69,7 @@ class Agent{
     acc = new PVector(0, 0);
     
     vel.limit(maxSpeed);
+    justCollided = false;
     
     this.eficienciaMascarilla = eficienciaMascarilla;
     
@@ -105,106 +108,6 @@ class Agent{
   
   
   
-  
-  
-  
-  
-  
-  void borders() {
-    if (pos.x < radio/2 || pos.x > width - radio/2) {
-      pos.x = constrain(pos.x, radio/2, width - radio/2);
-      vel.x *= -damp;
-    }
-    if (pos.y < radio/2 || pos.y > height - radio/2) {
-      pos.y = constrain(pos.y, radio/2, height - radio/2);
-      vel.y *= -damp;
-    }
-    
-    
-    
-    
-    //Scenario
-    if (pos.y+radio/2 > height/2-210 && pos.x -radio/2 < 300){
-      //Colision escenario lateral
-    
-      if (pos.x > 300){
-        pos.x = 300 + radio/2;
-        vel.x *= -damp;
-      }
-      
-      if(pos.y < height/2-210){
-        pos.y = height/2-210 - radio/2;
-        vel.y *= -damp;
-      }
-    }
-    
-    float w1X = 0;
-    float w1Y = height/2 - 210;
-    float w1W = width/2;
-    float w1H = 10;
-    if (pos.x + radio > w1X && pos.x - radio < w1X + w1W) {
-      if (pos.y - radio < w1Y + w1H && pos.y + radio > w1Y) {
-        vel.y *= -damp; //Vertical
-      }
-    }
-    if (pos.y + radio > w1Y && pos.y - radio < w1Y + w1H) {
-      if (pos.x - radio < w1X + w1W && pos.x + radio > w1X) {
-        vel.x *= -damp; //Horizontal
-      }
-    }
-    
-    float w2X = width/2 +100;
-    float w2Y = height/2 -210;
-    float w2W = width/2 -100;
-    float w2H = 10;
-    if (pos.x + radio > w2X && pos.x - radio < w2X + w2W) {
-      if (pos.y - radio < w2Y + w2H && pos.y + radio > w2Y) {
-        vel.y *= -damp; //Vertical
-      }
-    }
-    if (pos.y + radio > w2Y && pos.y - radio < w2Y + w2H) {
-      if (pos.x - radio < w2X + w2W && pos.x + radio > w2X) {
-        vel.x *= -damp; //Horizontal
-      }
-    }
-    
-    float w3X = width*3/4;
-    float w3Y = height/2 -210;
-    float w3W = 10;
-    float w3H = 260;
-    if (pos.x + radio > w3X && pos.x - radio < w3X + w3W) {
-      if (pos.y - radio < w3Y + w3H && pos.y + radio > w3Y) {
-        vel.y *= -damp; //Vertical
-      }
-    }
-    if (pos.y + radio > w3Y && pos.y - radio < w3Y + w3H) {
-      if (pos.x - radio < w3X + w3W && pos.x + radio > w3X) {
-        vel.x *= -damp; //Horizontal
-      }
-    }
-    
-    float w4X = width*3/4;
-    float w4Y = height/2 +150;
-    float w4W = 10;
-    float w4H = height/2 -150;
-    if (pos.x + radio > w4X && pos.x - radio < w4X + w4W) {
-      if (pos.y - radio < w4Y + w4H && pos.y + radio > w4Y) {
-        vel.y *= -damp; //Vertical
-      }
-    }
-    if (pos.y + radio > w4Y && pos.y - radio < w4Y + w4H) {
-      if (pos.x - radio < w4X + w4W && pos.x + radio > w4X) {
-        vel.x *= -damp; //Horizontal
-      }
-    }
-    
-    
-  }
-  
-  
-  
-  
-  
   // ############################  ############################
   // ################### METODOS MOVIMIENTO ###################
   // ############################  ############################
@@ -229,7 +132,7 @@ class Agent{
     PVector steering = PVector.sub(desired, vel);
     float dist = pos.dist(target);
     if (dist <= arrivalRadius) {
-      vel.limit(map(dist, 0, arrivalRadius, 0, maxSpeed));
+      vel.limit(max(0, map(dist, 0, arrivalRadius, 0, maxSpeed)));
     }
     steering.limit(maxSteeringForce);
     addForce(steering);
@@ -248,9 +151,16 @@ class Agent{
     }
     PVector target = vel.copy();
     target.setMag(wanderRadius);
-    target.rotate(map(noise(wanderNoiseT), 0, 1, -PI, PI));
+    target.rotate(map(noise(wanderNoiseT), 0, 1, -PI -HALF_PI, PI + HALF_PI));
     wanderNoiseT += wanderNoiseTInc;
     target.add(future);
+    
+    if (justCollided){
+      PVector direction = vel.copy(); // Calcula la normal de colisión
+      target.add(direction.copy().mult(wanderRadius));
+      justCollided = false;
+    }
+    
     if (debug) {
       strokeWeight(6);
       point(target.x, target.y);
@@ -330,6 +240,117 @@ class Agent{
   
   void contagiar(float quantaInhalada){
     quanta += quantaInhalada;
+  }
+  
+  
+  
+  // ############################ #############################
+  // ######################## BORDERS #########################
+  // ############################ #############################
+  
+  
+  
+  void borders() {
+    if (pos.x < radio/2 || pos.x > width - radio/2) {
+      pos.x = constrain(pos.x, radio/2, width - radio/2);
+      vel.x *= -damp;
+      justCollided = true;
+    }
+    if (pos.y < radio/2 || pos.y > height - radio/2) {
+      pos.y = constrain(pos.y, radio/2, height - radio/2);
+      vel.y *= -damp;
+      justCollided = true;
+    }
+    
+    
+    
+    
+    //Scenario
+    if (pos.y+radio/2 > height/2-210 && pos.x -radio/2 < 300){
+      //Colision escenario lateral
+    
+      if (pos.x > 300){
+        pos.x = 300 + radio/2;
+        vel.x *= -damp;
+        justCollided = true;
+      }
+      
+      if(pos.y < height/2-210){
+        pos.y = height/2-210 - radio/2;
+        vel.y *= -damp;
+        justCollided = true;
+      }
+    }
+    
+    float w1X = 0;
+    float w1Y = height/2 - 210;
+    float w1W = width/2;
+    float w1H = 10;
+    if (pos.x + radio > w1X && pos.x - radio < w1X + w1W) {
+      if (pos.y - radio < w1Y + w1H && pos.y + radio > w1Y) {
+        vel.y *= -damp; //Vertical
+        justCollided = true;
+      }
+    }
+    if (pos.y + radio > w1Y && pos.y - radio < w1Y + w1H) {
+      if (pos.x - radio < w1X + w1W && pos.x + radio > w1X) {
+        vel.x *= -damp; //Horizontal
+        justCollided = true;
+      }
+    }
+    
+    float w2X = width/2 +100;
+    float w2Y = height/2 -210;
+    float w2W = width/2 -100;
+    float w2H = 10;
+    if (pos.x + radio > w2X && pos.x - radio < w2X + w2W) {
+      if (pos.y - radio < w2Y + w2H && pos.y + radio > w2Y) {
+        vel.y *= -damp; //Vertical
+        justCollided = true;
+      }
+    }
+    if (pos.y + radio > w2Y && pos.y - radio < w2Y + w2H) {
+      if (pos.x - radio < w2X + w2W && pos.x + radio > w2X) {
+        vel.x *= -damp; //Horizontal
+        justCollided = true;
+      }
+    }
+    
+    float w3X = width*3/4;
+    float w3Y = height/2 -210;
+    float w3W = 10;
+    float w3H = 260;
+    if (pos.x + radio > w3X && pos.x - radio < w3X + w3W) {
+      if (pos.y - radio < w3Y + w3H && pos.y + radio > w3Y) {
+        vel.y *= -damp; //Vertical
+        justCollided = true;
+      }
+    }
+    if (pos.y + radio > w3Y && pos.y - radio < w3Y + w3H) {
+      if (pos.x - radio < w3X + w3W && pos.x + radio > w3X) {
+        vel.x *= -damp; //Horizontal
+        justCollided = true;
+      }
+    }
+    
+    float w4X = width*3/4;
+    float w4Y = height/2 +150;
+    float w4W = 10;
+    float w4H = height/2 -150;
+    if (pos.x + radio > w4X && pos.x - radio < w4X + w4W) {
+      if (pos.y - radio < w4Y + w4H && pos.y + radio > w4Y) {
+        vel.y *= -damp; //Vertical
+        justCollided = true;
+      }
+    }
+    if (pos.y + radio > w4Y && pos.y - radio < w4Y + w4H) {
+      if (pos.x - radio < w4X + w4W && pos.x + radio > w4X) {
+        vel.x *= -damp; //Horizontal
+        justCollided = true;
+      }
+    }
+    
+    
   }
   
 }

@@ -10,6 +10,7 @@ class AgentSystem{
   float tasaDeVentilacion; // (ACH) Cantidad de cambios de aire por hora
   float radioDeInfeccion;
   
+  int numPersonas;
   int numPersonasInfectadas;
   
   
@@ -39,7 +40,7 @@ class AgentSystem{
       a1.run();
       //a1.wander();
       //a1.seek(mouseX, mouseY);
-      a1.arrive(mouseX, mouseY);
+      //a1.arrive(mouseX, mouseY);
       
       
       
@@ -72,6 +73,10 @@ class AgentSystem{
           
           if (distancia < radioDeInfeccion && distancia > -radioDeInfeccion){
             contagio(infectado, sano, distancia);
+            
+            if(sano.infectado()){
+              numPersonasInfectadas += 1;
+            }
           }
         }
         
