@@ -9,6 +9,7 @@ class AgentSystem{
   //Variables contagio
   float tasaDeVentilacion; // (ACH) Cantidad de cambios de aire por hora
   float radioDeInfeccion;
+  float tasaDeInfeccion = 5; //Cantidad de minutos por segundo de la simulacion
   
   int numPersonas;
   int numPersonasInfectadas;
@@ -125,7 +126,10 @@ class AgentSystem{
     float tasaEliminacionPorHora = tasaDeVentilacion + 0.24; // 0.24 = Tasa de deposición de los aerosoles en el ambiente
     float quantaEquilibradaPorHora = tasaExhalacion / tasaEliminacionPorHora;
     
-    return quantaEquilibradaPorHora / 60; //Por minuto
+    //Por minuto * tasaDeInfeccion
+    // tasaDeInfeccion controla la velocidad de la simulacion
+    // tasaDeInfeccion (Tiempo(m) / s)
+    return quantaEquilibradaPorHora * tasaDeInfeccion / 60; 
   }
   
   void contagio(Agent contagiado, Agent sano, float distancia){
