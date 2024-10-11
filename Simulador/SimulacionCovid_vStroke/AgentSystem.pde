@@ -1,4 +1,7 @@
-
+enum ColorMode {
+  INFECTION,
+  MASK
+}
 
 
 

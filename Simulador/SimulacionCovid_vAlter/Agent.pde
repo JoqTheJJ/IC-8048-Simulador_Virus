@@ -27,7 +27,7 @@ void addColorsMask(){
   colorsMask = new ArrayList();
   colorsMask.add(#0A3BD8); //Azul
   colorsMask.add(#337CFF); //Azul Claro
-  //colorsMask.add(#AFABAB); //Gris claro
+  colorsMask.add(#AFABAB); //Gris claro
   colorsMask.add(#FFFFFF); //Blanco
 }
 
@@ -104,49 +104,36 @@ class Agent{
     strokeWeight(3);
     stroke(#000000);
     
-
-    int c = int(map(quanta, 0, 3, 0, 5));
-    c = min(c, 5);
-    if (quanta >= quantaMaxima)
-      c = 6;
-    fill(colorsInfection.get(c));
+    if(colorMode == ColorMode.INFECTION){
+      int c = int(map(quanta, 0, 3, 0, 5));
+      c = min(c, 5);
+      if (quanta >= quantaMaxima)
+        c = 6;
+      fill(colorsInfection.get(c));
+    } else {
+      int c = int(map(eficienciaMascarilla, 0, 1, 0, 4));
+      fill(colorsMask.get(c));
+    }
+    
     
     circle(pos.x, pos.y, radio*2);
-    
-    if(colorMode == ColorMode.MASK){
-      int m = int(map(eficienciaMascarilla, 0, 1, 0, 4));
-      
-      if(m > 0){
-        fill(colorsMask.get(m-1));
-        
-        strokeWeight(1);
-        arc(pos.x, pos.y, radio*1.3, radio*1.3, 0, PI, CHORD);
-      }
-    }
   }
   
   void display(){
     strokeWeight(3);
     stroke(#000000);
     
-    int c = int(map(quanta, 0, 3, 0, 5));
-    c = min(c, 5);
-    if (quanta >= quantaMaxima)
-      c = 6;
-    fill(colorsInfection.get(c));
-    
-    circle(pos.x, pos.y, radio*2);
-    
-    if(colorMode == ColorMode.MASK){
-      int m = int(map(eficienciaMascarilla, 0, 1, 0, 4));
-      
-      if(m > 0){
-        fill(colorsMask.get(m-1));
-        
-        strokeWeight(1);
-        arc(pos.x, pos.y, radio*1.3, radio*1.3, 0, PI, CHORD);
-      }
+    if(colorMode == ColorMode.INFECTION){
+      int c = int(map(quanta, 0, 3, 0, 5));
+      c = min(c, 5);
+      if (quanta >= quantaMaxima)
+        c = 6;
+      fill(colorsInfection.get(c));
+    } else {
+      int c = int(map(eficienciaMascarilla, 0, 1, 0, 4));
+      fill(colorsMask.get(c));
     }
+    circle(pos.x, pos.y, radio*2);
   }
   
   

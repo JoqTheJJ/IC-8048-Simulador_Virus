@@ -27,8 +27,8 @@ void addMascarillas(){
 //
 
 void setup() {
-  size(800, 800);
-  //fullScreen();
+  //size(800, 800);
+  fullScreen();
   addColorsInfection();
   addColorsMask();
   addMascarillas();
@@ -132,7 +132,7 @@ void keyPressed() {
     sys.numPersonasMascarilla = 0;
   }
   
-  if (key == 'm' || key == 'M'){
+  if (key == 'c' || key == 'C'){
     sys.alterColorMode();
   }
   

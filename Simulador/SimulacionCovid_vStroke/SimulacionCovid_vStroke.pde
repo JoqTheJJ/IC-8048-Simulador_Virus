@@ -132,7 +132,7 @@ void keyPressed() {
     sys.numPersonasMascarilla = 0;
   }
   
-  if (key == 'm' || key == 'M'){
+  if (key == 'c' || key == 'C'){
     sys.alterColorMode();
   }
   
