@@ -4,6 +4,10 @@ boolean pause = false;
 AgentSystem sys;
 Scene scene;
 
+int startTime;
+int elapsedTime;
+
+int tasaDeTiempo = 1; //Minutos de simulacion por segundo real
 
 ArrayList<Float> mascarillas;
 ArrayList<Actor> actores;
@@ -42,6 +46,11 @@ void setup() {
   addColorsInfection();
   addColorsMask();
   addMascarillas();
+  
+  startTime = 0;
+  elapsedTime = 0;
+  
+  colorMode = ColorMode.INFECTION;
   
   sys = new AgentSystem();
   scene = new Scene();
@@ -89,6 +98,8 @@ void draw(){
   } else {
   
     if (!pause){
+      elapsedTime = millis() - startTime;
+      
       sys.run();
       scene.display();
       for (Actor a: actores){
@@ -124,7 +135,11 @@ void draw(){
 
 
 void mousePressed(){
-  start = false;
+  
+  if(start){
+    start = false;
+    startTime = millis();
+  }
   
   if(mouseButton == RIGHT){
     int mascarillaIndex = int(random(4));
@@ -147,6 +162,7 @@ void keyPressed() {
   }
   
   if (key == 'r' || key == 'R') {
+    startTime = millis();
     sys.reset();
     sys.numPersonas = 0;
     sys.numPersonasInfectadas = 0;
@@ -157,11 +173,33 @@ void keyPressed() {
     sys.alterColorMode();
   }
   
+  if (key == 's' || key == 'S'){
+    sys.simulacion1();
+  }
 }
 
 void estadisticas(){
+  int seconds = (elapsedTime / 1000) % 60;
+  int minutes = (elapsedTime / 60000) % 60;
+  
+  //Simulation time tasaDeTiempo
+  int ss = (elapsedTime * tasaDeTiempo * 6 / 100) % 60;
+  int sm = (elapsedTime * tasaDeTiempo / 1000) % 60;
+  int sh = (elapsedTime * tasaDeTiempo / 60000) % 24;
+  int sd = (elapsedTime * tasaDeTiempo / 1440000);
+  
+  String realTime = String.format("%02d:%02d", minutes, seconds);
+  String simulationTime = String.format("%02d:%02d:%02d", sh, sm, ss);
+  
   textSize(20);
   fill(#FFFFFF);
+  
+  text("Tiempo: "+realTime, 15, height -150);
+  text("Simulacion: "+sd+":"+simulationTime, 15, height -130);
+  
+  text("Personas Totales: "+sys.numPersonas, 15, height -100);
+  
+  
   text("Personas Totales: "+sys.numPersonas, 15, height -100);
   
   text("Infectados: "+sys.numPersonasInfectadas, 15, height -80);

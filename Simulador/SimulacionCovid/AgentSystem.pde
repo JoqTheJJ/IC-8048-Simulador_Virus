@@ -11,9 +11,9 @@ class AgentSystem{
   
   
   //Variables contagio
-  float tasaDeVentilacion; // (ACH) Cantidad de cambios de aire por hora
-  float radioDeInfeccion;
-  float tasaDeInfeccion = 1; //Cantidad de minutos por segundo de la simulacion
+  float tasaDeVentilacion = 3; // (ACH) Cantidad de cambios de aire por hora
+  float radioDeInfeccion = 30;
+  float tasaDeInfeccion = tasaDeTiempo; //Cantidad de minutos por segundo de la simulacion
   
   int numPersonas;
   int numPersonasInfectadas;
@@ -33,14 +33,9 @@ class AgentSystem{
   AgentSystem(){
     agents = new ArrayList<Agent>();
     
-    tasaDeVentilacion = 3;
-    radioDeInfeccion = 30;
-    
     numPersonas = 0;
     numPersonasInfectadas = 0;
     numPersonasMascarilla = 0;
-    
-    colorMode = ColorMode.INFECTION;
   }
   
   void run(){
@@ -50,7 +45,7 @@ class AgentSystem{
     for (int i = 0; i < size; i++) {
       Agent a1 = agents.get(i);
       a1.run();
-      a1.wander();
+      //a1.wander();
       //a1.seek(mouseX, mouseY);
       //a1.arrive(mouseX, mouseY);
       
@@ -158,5 +153,26 @@ class AgentSystem{
     float quantaInhalada = concentracionQuanta * tasaInhalacion * ajusteDistancia;
     
     sano.contagiar(quantaInhalada);
+  }
+  
+  void simulacion1(){
+    startTime = millis();
+    sys.reset();
+    
+    numPersonas = 1000;
+    numPersonasInfectadas = 500;
+    numPersonasMascarilla = (mascarillas.get(0) > 0) ? numPersonas : 0;
+    
+    for (int i = 0; i < numPersonas - numPersonasInfectadas; i++){
+      float x = random(scene.w3X - scene.concertW -50) + scene.concertW +25;
+      float y = random(height - scene.concertY -50) + scene.concertY +25;
+      agents.add(new Agent(x, y, false, mascarillas.get(0), State.CONCERT));
+    }
+    
+    for (int i = 0; i < numPersonasInfectadas; i++){
+      float x = random(scene.w3X - scene.concertW -50) + scene.concertW +25;
+      float y = random(height - scene.concertY -50) + scene.concertY +25;
+      agents.add(new Agent(x, y, true, mascarillas.get(0), State.CONCERT));
+    }
   }
 }
