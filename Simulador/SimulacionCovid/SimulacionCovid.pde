@@ -1,12 +1,14 @@
 // Simulacion
 boolean start = true;
+boolean finish = true;
 boolean pause = false;
 AgentSystem sys;
 Scene scene;
 
+int startFrame;
+int finishFrame;
 int startTime;
 int elapsedTime;
-
 int tasaDeTiempo = 1; //Minutos de simulacion por segundo real
 
 ArrayList<Float> mascarillas;
@@ -23,7 +25,7 @@ void addMascarillas(){
 }*/
 void addMascarillas(){
   mascarillas = new ArrayList();
-  mascarillas.add(0.9); //Sin mascarilla
+  mascarillas.add(0.0); //Sin mascarilla
   mascarillas.add(0.9); //Generica
   mascarillas.add(0.9); //Quirurgica
   mascarillas.add(0.9); //N95
@@ -47,6 +49,8 @@ void setup() {
   addColorsMask();
   addMascarillas();
   
+  startFrame = 0;
+  finishFrame = 0;
   startTime = 0;
   elapsedTime = 0;
   
@@ -75,19 +79,18 @@ void setup() {
     #FFFFFF,
     Rol.CANTANTE)
     );
+  actores.add(new Actor( //Cantante 2
+    scene.concertW/2 +20,
+    (2*scene.concertY+scene.concertH)/2 +70  -30,
+    #6203FF,
+    Rol.SECUNDARIO)
+    );
   actores.add(new Actor( //Baterista
     scene.concertW/2 +10,
     (2*scene.concertY+scene.concertH)/2 +140  -30,
     #00FFFD,
     Rol.BATERISTA)
     );
-    /*
-  actores.add(new Actor( //Bateria
-    scene.concertW/2 +20,
-    (2*scene.concertY+scene.concertH)/2-30 -70,
-    #0BB7B5,
-    Rol.GUITARRISTA)
-    );*/
 }
 
 void draw(){
@@ -96,9 +99,15 @@ void draw(){
   if(start){
     menuPrincipal();
   } else {
+    if (finish) {
+      if (sys.numPersonas > 1 && sys.numPersonas == sys.numPersonasInfectadas){
+        pause = true;
+        finish = false;
+      }
+    }
   
     if (!pause){
-      elapsedTime = millis() - startTime;
+      finishFrame += 1;
       
       sys.run();
       scene.display();
@@ -138,7 +147,7 @@ void mousePressed(){
   
   if(start){
     start = false;
-    startTime = millis();
+    resetTime();
   }
   
   if(mouseButton == RIGHT){
@@ -162,7 +171,8 @@ void keyPressed() {
   }
   
   if (key == 'r' || key == 'R') {
-    startTime = millis();
+    resetTime();
+    
     sys.reset();
     sys.numPersonas = 0;
     sys.numPersonasInfectadas = 0;
@@ -178,28 +188,46 @@ void keyPressed() {
   }
 }
 
+void resetTime(){
+  startFrame = frameCount;
+  finishFrame = startFrame;
+  startTime = millis();
+}
+
+
+
+
 void estadisticas(){
-  int seconds = (elapsedTime / 1000) % 60;
-  int minutes = (elapsedTime / 60000) % 60;
+  elapsedTime = millis() - startTime;
+  int realSeconds = (elapsedTime / 1000) % 60;
+  int realMinutes = (elapsedTime / 60000) % 60;
+  int realHours   = (elapsedTime / 3600000);
+  
+  int elapsedFrames = finishFrame - startFrame;
+  int elapsedTimeFrames = elapsedFrames * 1000 / 60; //frames to ms
+  int seconds = (elapsedTimeFrames / 1000) % 60;
+  int minutes = (elapsedTimeFrames / 60000) % 60;
   
   //Simulation time tasaDeTiempo
-  int ss = (elapsedTime * tasaDeTiempo * 6 / 100) % 60;
-  int sm = (elapsedTime * tasaDeTiempo / 1000) % 60;
-  int sh = (elapsedTime * tasaDeTiempo / 60000) % 24;
-  int sd = (elapsedTime * tasaDeTiempo / 1440000);
+  int ss = (elapsedTimeFrames * tasaDeTiempo * 6 / 100) % 60;
+  int sm = (elapsedTimeFrames * tasaDeTiempo / 1000) % 60;
+  int sh = (elapsedTimeFrames * tasaDeTiempo / 60000) % 24;
+  int sd = (elapsedTimeFrames * tasaDeTiempo / 1440000);
   
-  String realTime = String.format("%02d:%02d", minutes, seconds);
+  //Timer
+  String realTime = String.format("%02d:%02d:%02d", realHours, realMinutes, realSeconds);;
+  String time = String.format("%02d:%02d", minutes, seconds);
   String simulationTime = String.format("%02d:%02d:%02d", sh, sm, ss);
   
   textSize(20);
   fill(#FFFFFF);
   
-  text("Tiempo: "+realTime, 15, height -150);
+  text("Tiempo real: "+realTime, 15, height -170);
+  text("Tiempo: "+time, 15, height -150);
   text("Simulacion: "+sd+":"+simulationTime, 15, height -130);
   
+  
   text("Personas Totales: "+sys.numPersonas, 15, height -100);
-  
-  
   text("Personas Totales: "+sys.numPersonas, 15, height -100);
   
   text("Infectados: "+sys.numPersonasInfectadas, 15, height -80);

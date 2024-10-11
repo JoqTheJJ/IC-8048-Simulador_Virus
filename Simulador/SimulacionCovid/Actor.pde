@@ -1,5 +1,6 @@
 enum Rol {
   CANTANTE,
+  SECUNDARIO,
   BATERISTA,
   GUITARRISTA,
   TECLADISTA,
@@ -31,15 +32,23 @@ class Actor extends Agent{
   void run(){
     switch(rol){
       case CANTANTE:
-        cantante();
+        cantantePrincipal();
+        break;
+        
+      case SECUNDARIO:
+        cantanteSecundario();
         break;
         
       case BATERISTA:
-        noMovement();
+        baterista();
         break;
         
       case GUITARRISTA:
         guitarrista();
+        break;
+        
+      case TECLADISTA:
+        tecladista();
         break;
         
       case OTRO:
@@ -61,20 +70,43 @@ class Actor extends Agent{
   }
   
   
-  void cantante(){
-    offsetX = map(noise(noiseXOffset), 0, 1, -35, 35);
+  void cantantePrincipal(){
+    offsetX = map(noise(noiseXOffset), 0, 1, -15, 55);
     offsetY = map(noise(noiseYOffset), 0, 1, -35, 35);
     
     noiseXOffset += 0.004;
     noiseYOffset += 0.005;
   }
   
+  void cantanteSecundario(){
+    offsetX = map(noise(noiseXOffset), 0, 1, -10, 30);
+    offsetY = map(noise(noiseYOffset), 0, 1, -25, 25);
+    
+    noiseXOffset += 0.003;
+    noiseYOffset += 0.004;
+  }
+  
   void guitarrista(){
-    offsetX = map(noise(noiseXOffset), 0, 1, -15, 15);
+    offsetX = map(noise(noiseXOffset), 0, 1, -10, 20);
     offsetY = map(noise(noiseYOffset), 0, 1, -15, 15);
     
     noiseXOffset += 0.02;
     noiseYOffset += 0.01;
+  }
+  
+  void tecladista(){
+    offsetX = 0;
+    offsetY = map(noise(noiseYOffset), 0, 1, -10, 10);
+    
+    noiseYOffset += 0.02;
+  }
+  
+  void baterista(){
+    offsetX = map(noise(noiseXOffset), 0, 1, 0, 5);
+    offsetY = map(noise(noiseYOffset), 0, 1, -5, 5);
+    
+    noiseXOffset += 0.021;
+    noiseYOffset += 0.022;
   }
   
   void noMovement(){

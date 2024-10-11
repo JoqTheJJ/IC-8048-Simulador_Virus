@@ -156,8 +156,8 @@ class AgentSystem{
   }
   
   void simulacion1(){
-    startTime = millis();
     sys.reset();
+    
     
     numPersonas = 1000;
     numPersonasInfectadas = 500;
@@ -174,5 +174,8 @@ class AgentSystem{
       float y = random(height - scene.concertY -50) + scene.concertY +25;
       agents.add(new Agent(x, y, true, mascarillas.get(0), State.CONCERT));
     }
+    
+    //Reset time
+    resetTime();
   }
 }

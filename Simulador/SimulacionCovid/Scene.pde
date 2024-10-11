@@ -87,7 +87,7 @@ class Scene{
     
     
     fill(#6203FF);
-    circle(concertW/2 +20, (2*concertY+concertH)/2 +70  -30, radio);
+    //circle(concertW/2 +20, (2*concertY+concertH)/2 +70  -30, radio);
     
     fill(#FFFFFF);
     //circle(concertW/2 +30, (2*concertY+concertH)/2 +0, radio);
