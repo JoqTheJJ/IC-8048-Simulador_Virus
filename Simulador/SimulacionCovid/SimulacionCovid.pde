@@ -1,4 +1,5 @@
 // Simulacion
+boolean start = true;
 boolean pause = false;
 AgentSystem sys;
 Scene scene;
@@ -8,13 +9,22 @@ ArrayList<Float> mascarillas;
 ArrayList<Actor> actores;
 ColorMode colorMode;
 
+/*
 void addMascarillas(){
   mascarillas = new ArrayList();
   mascarillas.add(0.0); //Sin mascarilla
   mascarillas.add(0.3); //Generica
   mascarillas.add(0.6); //Quirurgica
   mascarillas.add(0.9); //N95
+}*/
+void addMascarillas(){
+  mascarillas = new ArrayList();
+  mascarillas.add(0.9); //Sin mascarilla
+  mascarillas.add(0.9); //Generica
+  mascarillas.add(0.9); //Quirurgica
+  mascarillas.add(0.9); //N95
 }
+
 
 //#83FF99
 //
@@ -27,8 +37,8 @@ void addMascarillas(){
 //
 
 void setup() {
-  size(800, 800);
-  //fullScreen();
+  //size(800, 800);
+  fullScreen();
   addColorsInfection();
   addColorsMask();
   addMascarillas();
@@ -38,6 +48,12 @@ void setup() {
   
   actores = new ArrayList<Actor>();
   
+  actores.add(new Actor( //Pianista
+    scene.concertW/2 +10,
+    (2*scene.concertY+scene.concertH)/2 -140  -30,
+    #03FF11,
+    Rol.TECLADISTA)
+    );
   actores.add(new Actor( //Guitarrista
     scene.concertW/2 +20,
     (2*scene.concertY+scene.concertH)/2-30 -70,
@@ -52,8 +68,8 @@ void setup() {
     );
   actores.add(new Actor( //Baterista
     scene.concertW/2 +10,
-    (2*scene.concertY+scene.concertH)/2 -140  -30,
-    #03FF11,
+    (2*scene.concertY+scene.concertH)/2 +140  -30,
+    #00FFFD,
     Rol.BATERISTA)
     );
     /*
@@ -68,36 +84,39 @@ void setup() {
 void draw(){
   background(#CECECE);
   
+  if(start){
+    menuPrincipal();
+  } else {
   
-  
-  if (!pause){
-    sys.run();
-    scene.display();
-    for (Actor a: actores){
-      a.run();
+    if (!pause){
+      sys.run();
+      scene.display();
+      for (Actor a: actores){
+        a.run();
+      }
+      
+    } else {
+      sys.display();
+      scene.display();
+      for (Actor a: actores){
+        a.display();
+      }
     }
     
-  } else {
-    sys.display();
-    scene.display();
-    for (Actor a: actores){
-      a.display();
+    
+    
+    estadisticas();
+    
+    
+    if (mousePressed && mouseButton == LEFT) {
+      int mascarillaIndex = int(random(4));
+      float eficienciaMascarilla = mascarillas.get(mascarillaIndex);
+      sys.addAgent(mouseX, mouseY, false, eficienciaMascarilla);
+      if(eficienciaMascarilla > 0){
+        sys.numPersonasMascarilla += 1;
+      }
+      sys.numPersonas += 1;
     }
-  }
-  
-  
-  
-  estadisticas();
-  
-  
-  if (mousePressed && mouseButton == LEFT) {
-    int mascarillaIndex = int(random(4));
-    float eficienciaMascarilla = mascarillas.get(mascarillaIndex);
-    sys.addAgent(mouseX, mouseY, false, eficienciaMascarilla);
-    if(eficienciaMascarilla > 0){
-      sys.numPersonasMascarilla += 1;
-    }
-    sys.numPersonas += 1;
   }
 }
 
@@ -105,6 +124,8 @@ void draw(){
 
 
 void mousePressed(){
+  start = false;
+  
   if(mouseButton == RIGHT){
     int mascarillaIndex = int(random(4));
     float eficienciaMascarilla = mascarillas.get(mascarillaIndex);
@@ -148,4 +169,8 @@ void estadisticas(){
   
   text("Personas con mascarilla: "+sys.numPersonasMascarilla, 15, height -40);
   text("Personas sin mascarilla: "+(sys.numPersonas-sys.numPersonasMascarilla), 15, height -20);
+}
+
+void menuPrincipal(){
+  
 }

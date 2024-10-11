@@ -2,6 +2,7 @@ enum Rol {
   CANTANTE,
   BATERISTA,
   GUITARRISTA,
+  TECLADISTA,
   OTRO
 }
 

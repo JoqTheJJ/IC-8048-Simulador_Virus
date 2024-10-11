@@ -25,10 +25,9 @@ void addColorsInfection(){
 ArrayList<Integer> colorsMask;
 void addColorsMask(){
   colorsMask = new ArrayList();
-  colorsMask.add(#0A3BD8); //Azul
-  colorsMask.add(#337CFF); //Azul Claro
-  //colorsMask.add(#AFABAB); //Gris claro
   colorsMask.add(#FFFFFF); //Blanco
+  colorsMask.add(#337CFF); //Azul Claro
+  colorsMask.add(#0A3BD8); //Azul
 }
 
 class Agent{
@@ -112,6 +111,8 @@ class Agent{
     fill(colorsInfection.get(c));
     
     circle(pos.x, pos.y, radio*2);
+    circle(pos.x-3, pos.y-3, 0.5);
+    circle(pos.x+3, pos.y-3, 0.5);
     
     if(colorMode == ColorMode.MASK){
       int m = int(map(eficienciaMascarilla, 0, 1, 0, 4));
@@ -136,6 +137,9 @@ class Agent{
     fill(colorsInfection.get(c));
     
     circle(pos.x, pos.y, radio*2);
+    
+    circle(pos.x-3, pos.y-3, 0.5);
+    circle(pos.x+3, pos.y-3, 0.5);
     
     if(colorMode == ColorMode.MASK){
       int m = int(map(eficienciaMascarilla, 0, 1, 0, 4));

@@ -71,14 +71,20 @@ class Scene{
 
 
     //Artistas
-    fill(#0BB7B5);
-    circle(concertW/2 +20, (2*concertY+concertH)/2 +120  -30, radio); // 1
-    circle(concertW/2 +30, (2*concertY+concertH)/2 +132  -30, radio); // 2
-    circle(concertW/2 +30, (2*concertY+concertH)/2 +148  -30, radio); // 3
-    circle(concertW/2 +20, (2*concertY+concertH)/2 +160  -30, radio); // 4
+    fill(#C1C1C1);
+    circle(concertW/2 +30, (2*concertY+concertH)/2 +131  -30, radio); // 2
+    circle(concertW/2 +30, (2*concertY+concertH)/2 +149  -30, radio); // 3
+    fill(#F2F2F2);
+    circle(concertW/2 +30, (2*concertY+concertH)/2 +131  -30, radio*0.5); // 2
+    circle(concertW/2 +30, (2*concertY+concertH)/2 +149  -30, radio*0.5); // 3
+    
+    fill(#FFC400);
+    circle(concertW/2 +20, (2*concertY+concertH)/2 +160  -30, radio*0.8); // 4
+    circle(concertW/2 +20, (2*concertY+concertH)/2 +120  -30, radio*0.8); // 1
     
     fill(#00FFFD);
-    circle(concertW/2 +10, (2*concertY+concertH)/2 +140  -30, radio);
+    //circle(concertW/2 +10, (2*concertY+concertH)/2 +140  -30, radio);
+    
     
     fill(#6203FF);
     circle(concertW/2 +20, (2*concertY+concertH)/2 +70  -30, radio);
@@ -90,9 +96,20 @@ class Scene{
     //circle(concertW/2 +20, (2*concertY+concertH)/2 -70  -30, radio);
     
     fill(#03FF11);
+    strokeWeight(2);
+    rect(concertW/2 +21, (2*concertY+concertH)/2 -140  -45, radio*0.7, radio*1.5);
+    fill(#FFFFFF);
+    strokeWeight(0);
+    rect(concertW/2 +23, (2*concertY+concertH)/2 -140  -42, radio*0.4, radio*1.2);
+    fill(#000000);
+    rect(concertW/2 +23, (2*concertY+concertH)/2 -140  -28, radio*0.25, 3);
+    rect(concertW/2 +23, (2*concertY+concertH)/2 -140  -23, radio*0.25, 3);
+    rect(concertW/2 +23, (2*concertY+concertH)/2 -140  -35, radio*0.25, 3);
+    rect(concertW/2 +23, (2*concertY+concertH)/2 -140  -40, radio*0.25, 3);
     //circle(concertW/2 +10, (2*concertY+concertH)/2 -140  -30, radio);
     
     //Guardas
+    strokeWeight(3);
     fill(#0A39F0);
     circle(width*3/4+5, height/2 +50, radio);
     circle(width*3/4+5, height/2 +150, radio);
