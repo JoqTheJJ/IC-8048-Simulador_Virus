@@ -300,6 +300,8 @@ class Agent{
   
   
   void borders() {
+    PVector dir = PVector.sub(lastPos, pos);
+    
     if (pos.x < radio || pos.x > width - radio) {
       pos.x = constrain(pos.x, radio, width - radio);
       vel.x *= -damp;
@@ -329,30 +331,42 @@ class Agent{
     float w1Y = height/2 - 210;  //CoordenadaY del muro 1
     float w1W = width/2;         //Ancho del muro 1
     float w1H = 10;              //Altura del muro 1
-    if (pos.x + radio > w1X && pos.x - radio < w1X + w1W) {
-      if (pos.y - radio < w1Y + w1H && pos.y + radio > w1Y) {
-        vel.y *= -damp; //Vertical
+    if (pos.x + radio > w1X && pos.x - radio < w1X + w1W &&
+      pos.y + radio > w1Y && pos.y - radio < w1Y + w1H) {//Hay colision
+      if (w1Y < lastPos.y+radio && w1Y+w1H > lastPos.y-radio && dir.x > 0){//Colison izquierda
+        pos.x = constrain(pos.x, w1X+radio, width);
+        vel.x *= -damp;
+      } //No hay colision derecha
+
+      if (dir.y > 0) {//Colision inferior
+        pos.y = constrain(pos.y, w1Y+w1H-radio-5, height);
+        vel.y *= -damp;
+      } else {//Colision superior
+        pos.y = constrain(pos.y, 0, w1Y+radio+5);
+        vel.y *= -damp;
       }
-    }
-    if (pos.y + radio > w1Y && pos.y - radio < w1Y + w1H) {
-      if (pos.x - radio < w1X + w1W && pos.x + radio > w1X) {
-        vel.x *= -damp; //Horizontal
-      }
+      
     }
     
     float w2X = width/2 +100;   //CoordenadaX del muro 2
     float w2Y = height/2 -210;  //CoordenadaY del muro 2
     float w2W = width/2 -100;   //Ancho del muro 2
     float w2H = 10;             //Altura del muro 2
-    if (pos.x + radio > w2X && pos.x - radio < w2X + w2W) {
-      if (pos.y - radio < w2Y + w2H && pos.y + radio > w2Y) {
-        vel.y *= -damp; //Vertical
+    if (pos.x + radio > w2X && pos.x - radio < w2X + w2W &&
+      pos.y + radio > w2Y && pos.y - radio < w2Y + w2H) {//Hay colision
+      if (w2Y < lastPos.y+radio && w2Y+w2H > lastPos.y-radio && dir.x < 0){//Colison izquierda
+        pos.x = constrain(pos.x, 0, w2X-radio);
+        vel.x *= -damp;
+      } //No hay colision derecha
+
+      if (dir.y > 0) {//Colision inferior
+        pos.y = constrain(pos.y, w2Y+w2H-radio-5, height);
+        vel.y *= -damp;
+      } else {//Colision superior
+        pos.y = constrain(pos.y, 0, w2Y+radio+5);
+        vel.y *= -damp;
       }
-    }
-    if (pos.y + radio > w2Y && pos.y - radio < w2Y + w2H) {
-      if (pos.x - radio < w2X + w2W && pos.x + radio > w2X) {
-        vel.x *= -damp; //Horizontal
-      }
+      
     }
     
     float w3X = width*3/4;       //CoordenadaX del muro 3
