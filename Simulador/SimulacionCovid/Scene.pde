@@ -47,6 +47,7 @@ class Scene{
     noStroke();
     
     //Concierto
+    
     fill(#242424);
     rect(concertX, concertY, concertW, concertH);
     

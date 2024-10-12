@@ -16,20 +16,13 @@ ArrayList<Float> mascarillas;
 ArrayList<Actor> actores;
 ColorMode colorMode;
 
-/*
+
 void addMascarillas(){
   mascarillas = new ArrayList();
-  mascarillas.add(0.0); //Sin mascarilla
+  mascarillas.add(0.9); //Sin mascarilla
   mascarillas.add(0.3); //Generica
   mascarillas.add(0.6); //Quirurgica
   mascarillas.add(0.9); //N95
-}*/
-void addMascarillas(){
-  mascarillas = new ArrayList();
-  mascarillas.add(0.0); //Sin mascarilla
-  mascarillas.add(0.0); //Generica
-  mascarillas.add(0.0); //Quirurgica
-  mascarillas.add(0.0); //N95
 }
 
 
@@ -110,15 +103,17 @@ void draw(){
     if (!pause){
       finishFrame += 1;
       
-      sys.run();
       scene.display();
+      sys.run();
+      //scene.display();
       for (Actor a: actores){
         a.run();
       }
       
     } else {
-      sys.display();
       scene.display();
+      sys.display();
+      //scene.display();
       for (Actor a: actores){
         a.display();
       }

@@ -36,6 +36,7 @@ class Agent{
   
   // Variables Movimiento
   PVector pos;
+  PVector lastPos;
   PVector vel;
   PVector acc;
   float maxSpeed = 3;
@@ -75,6 +76,7 @@ class Agent{
   
   Agent(float x, float y, boolean infectado, float eficienciaMascarilla, State estado){
     pos = new PVector(x, y);
+    lastPos = pos.copy();
     vel = PVector.random2D().setMag(3);
     acc = new PVector(0, 0);
     
@@ -95,6 +97,7 @@ class Agent{
     
     borders();
     
+    lastPos = pos.copy();
     vel.add(acc);
     vel.limit(maxSpeed);
     pos.add(vel);
@@ -109,10 +112,11 @@ class Agent{
     if (quanta >= quantaMaxima)
       c = 6;
     fill(colorsInfection.get(c));
-    
     circle(pos.x, pos.y, radio*2);
-    circle(pos.x-3, pos.y-3, 0.5);
-    circle(pos.x+3, pos.y-3, 0.5);
+    
+    fill(#000000);
+    square(pos.x-3, pos.y-3, 0.6); //Ojos
+    square(pos.x+3, pos.y-3, 0.6); //Ojos
     
     if(colorMode == ColorMode.MASK){
       int m = int(map(eficienciaMascarilla, 0, 1, 0, 4));
@@ -121,6 +125,8 @@ class Agent{
         fill(colorsMask.get(m-1));
         
         strokeWeight(1);
+        line(pos.x-radio, pos.y     , pos.x+radio, pos.y);
+        line(pos.x-radio, pos.y +2.5, pos.x+radio, pos.y +2.5);
         arc(pos.x, pos.y, radio*1.3, radio*1.3, 0, PI, CHORD);
       }
     }
@@ -135,11 +141,11 @@ class Agent{
     if (quanta >= quantaMaxima)
       c = 6;
     fill(colorsInfection.get(c));
-    
     circle(pos.x, pos.y, radio*2);
     
-    circle(pos.x-3, pos.y-3, 0.5);
-    circle(pos.x+3, pos.y-3, 0.5);
+    fill(#000000);
+    rect(pos.x-3, pos.y-4, 0.5, 0.7); //Ojos
+    rect(pos.x+3, pos.y-4, 0.5, 0.7); //Ojos
     
     if(colorMode == ColorMode.MASK){
       int m = int(map(eficienciaMascarilla, 0, 1, 0, 4));
@@ -148,6 +154,8 @@ class Agent{
         fill(colorsMask.get(m-1));
         
         strokeWeight(1);
+        line(pos.x-radio, pos.y     , pos.x+radio, pos.y);
+        line(pos.x-radio, pos.y +2.5, pos.x+radio, pos.y +2.5);
         arc(pos.x, pos.y, radio*1.3, radio*1.3, 0, PI, CHORD);
       }
     }
@@ -335,7 +343,7 @@ class Agent{
     float w2X = width/2 +100;   //CoordenadaX del muro 2
     float w2Y = height/2 -210;  //CoordenadaY del muro 2
     float w2W = width/2 -100;   //Ancho del muro 2
-    float w2H = 10;              //Altura del muro 2
+    float w2H = 10;             //Altura del muro 2
     if (pos.x + radio > w2X && pos.x - radio < w2X + w2W) {
       if (pos.y - radio < w2Y + w2H && pos.y + radio > w2Y) {
         vel.y *= -damp; //Vertical
@@ -348,7 +356,7 @@ class Agent{
     }
     
     float w3X = width*3/4;       //CoordenadaX del muro 3
-    float w3Y = height/2 -210;   //CoordenadaY del muro 3
+    float w3Y = height/2 -200 +radio;   //CoordenadaY del muro 3
     float w3W = 10;              //Ancho del muro 3
     float w3H = 260;             //Altura del muro 3
     if (pos.x + radio > w3X && pos.x - radio < w3X + w3W) {

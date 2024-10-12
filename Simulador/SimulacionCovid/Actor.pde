@@ -105,8 +105,8 @@ class Actor extends Agent{
     offsetX = map(noise(noiseXOffset), 0, 1, 0, 5);
     offsetY = map(noise(noiseYOffset), 0, 1, -5, 5);
     
-    noiseXOffset += 0.021;
-    noiseYOffset += 0.022;
+    noiseXOffset += 0.02;
+    noiseYOffset += 0.03;
   }
   
   void noMovement(){

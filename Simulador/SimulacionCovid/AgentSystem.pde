@@ -12,7 +12,7 @@ class AgentSystem{
   
   //Variables contagio
   float tasaDeVentilacion = 3; // (ACH) Cantidad de cambios de aire por hora
-  float radioDeInfeccion = 30;
+  float radioDeInfeccion = 50;
   float tasaDeInfeccion = tasaDeTiempo; //Cantidad de minutos por segundo de la simulacion
   
   int numPersonas;
