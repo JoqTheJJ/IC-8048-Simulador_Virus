@@ -1,6 +1,7 @@
 // Simulacion
 boolean start = true;
-boolean finish = true;
+boolean finish = false;
+boolean finishOg = finish;
 boolean pause = false;
 AgentSystem sys;
 Scene scene;
@@ -26,9 +27,9 @@ void addMascarillas(){
 void addMascarillas(){
   mascarillas = new ArrayList();
   mascarillas.add(0.0); //Sin mascarilla
-  mascarillas.add(0.9); //Generica
-  mascarillas.add(0.9); //Quirurgica
-  mascarillas.add(0.9); //N95
+  mascarillas.add(0.0); //Generica
+  mascarillas.add(0.0); //Quirurgica
+  mascarillas.add(0.0); //N95
 }
 
 
@@ -137,6 +138,17 @@ void draw(){
       }
       sys.numPersonas += 1;
     }
+    
+    if (mousePressed && mouseButton == RIGHT) {
+      int mascarillaIndex = int(random(4));
+      float eficienciaMascarilla = mascarillas.get(mascarillaIndex);
+      sys.addAgent(mouseX, mouseY, true, eficienciaMascarilla);
+      if(eficienciaMascarilla > 0){
+        sys.numPersonasMascarilla += 1;
+      }
+      sys.numPersonas += 1;
+      sys.numPersonasInfectadas += 1;
+    }
   }
 }
 
@@ -150,6 +162,7 @@ void mousePressed(){
     resetTime();
   }
   
+  /*
   if(mouseButton == RIGHT){
     int mascarillaIndex = int(random(4));
     float eficienciaMascarilla = mascarillas.get(mascarillaIndex);
@@ -159,7 +172,7 @@ void mousePressed(){
     }
     sys.numPersonas += 1;
     sys.numPersonasInfectadas += 1;
-  }
+  }*/
 }
 
 
@@ -189,6 +202,9 @@ void keyPressed() {
 }
 
 void resetTime(){
+  if(finishOg){
+    finish = true;
+  }
   startFrame = frameCount;
   finishFrame = startFrame;
   startTime = millis();
