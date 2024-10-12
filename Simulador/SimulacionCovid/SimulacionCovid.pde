@@ -103,17 +103,16 @@ void draw(){
     if (!pause){
       finishFrame += 1;
       
-      scene.display();
       sys.run();
-      //scene.display();
+      scene.display();
       for (Actor a: actores){
         a.run();
       }
       
     } else {
-      scene.display();
+
       sys.display();
-      //scene.display();
+      scene.display();
       for (Actor a: actores){
         a.display();
       }
@@ -176,6 +175,10 @@ void keyPressed() {
 
   if (key == ' ') {
     pause = !pause;
+  }
+  
+  if (key == 'e') {
+    println();
   }
   
   if (key == 'r' || key == 'R') {

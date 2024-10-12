@@ -315,16 +315,10 @@ class Agent{
     
     
     //Scenario
-    if (pos.y+radio > height/2-210 && pos.x -radio < 300){
-      if (pos.x > 300){ //Colision lateral
-        pos.x = 300 + radio;
-        vel.x *= -damp;
-      }
-      
-      if(pos.y < height/2-210){ //Colision Superior (Extendida)
-        pos.y = height/2-210 - radio;
-        vel.y *= -damp;
-      }
+    if (pos.y-radio > height/2-210 && pos.x -radio < 300){//Hay colision
+      //Colision lateral
+      pos.x = 300 + radio;
+      vel.x *= -damp;
     }
     
     float w1X = 0;               //CoordenadaX del muro 1
@@ -370,17 +364,22 @@ class Agent{
     }
     
     float w3X = width*3/4;       //CoordenadaX del muro 3
-    float w3Y = height/2 -200 +radio;   //CoordenadaY del muro 3
+    float w3Y = height/2 -200 +2*radio;   //CoordenadaY del muro 3
     float w3W = 10;              //Ancho del muro 3
     float w3H = 260;             //Altura del muro 3
-    if (pos.x + radio > w3X && pos.x - radio < w3X + w3W) {
-      if (pos.y - radio < w3Y + w3H && pos.y + radio > w3Y) {
-        vel.y *= -damp; //Vertical
+    if (pos.x + radio > w3X && pos.x - radio < w3X + w3W &&
+      pos.y + radio > w3Y && pos.y - radio < w3Y + w3H) {//Hay colision
+      if(dir.x > 0) {
+        pos.x = constrain(pos.x, w3X-radio-5, width);
+        vel.x *= -damp;
+      } else {
+        pos.x = constrain(pos.x, 0, w3X+radio+5);
+        vel.x *= -damp;
       }
-    }
-    if (pos.y + radio > w3Y && pos.y - radio < w3Y + w3H) {
-      if (pos.x - radio < w3X + w3W && pos.x + radio > w3X) {
-        vel.x *= -damp; //Horizontal
+      
+      if(lastPos.x+radio > w3X && lastPos.x-radio < w3X+w3W && dir.y > 0){
+        pos.y = constrain(pos.y, w3Y+radio+5, height);
+        vel.y *= -damp;
       }
     }
     
@@ -388,14 +387,19 @@ class Agent{
     float w4Y = height/2 +150;   //CoordenadaY del muro 4
     float w4W = 10;              //Ancho del muro 4
     float w4H = height/2 -150;   //Altura del muro 4
-    if (pos.x + radio > w4X && pos.x - radio < w4X + w4W) {
-      if (pos.y - radio < w4Y + w4H && pos.y + radio > w4Y) {
-        vel.y *= -damp; //Vertical
+    if (pos.x + radio > w4X && pos.x - radio < w4X + w4W &&
+      pos.y + radio > w4Y && pos.y - radio < w4Y + w4H) {//Hay colision
+      if(dir.x > 0) {
+        pos.x = constrain(pos.x, w4X-radio-5, width);
+        vel.x *= -damp;
+      } else {
+        pos.x = constrain(pos.x, 0, w4X+radio+5);
+        vel.x *= -damp;
       }
-    }
-    if (pos.y + radio > w4Y && pos.y - radio < w4Y + w4H) {
-      if (pos.x - radio < w4X + w4W && pos.x + radio > w4X) {
-        vel.x *= -damp; //Horizontal
+      
+      if(lastPos.x+radio > w4X && lastPos.x-radio < w4X+w4W && dir.y < 0){
+        pos.y = constrain(pos.y, 0, w4Y-radio-5);
+        vel.y *= -damp;
       }
     }
     
