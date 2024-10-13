@@ -64,7 +64,6 @@ class Scene{
     rect(w4X, w4Y, w4W, w4H);
     
     
-    
     //Personas
     float radio = this.radio * 2;
     strokeWeight(3);

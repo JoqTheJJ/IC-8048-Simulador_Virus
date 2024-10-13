@@ -19,7 +19,7 @@ ColorMode colorMode;
 
 void addMascarillas(){
   mascarillas = new ArrayList();
-  mascarillas.add(0.9); //Sin mascarilla
+  mascarillas.add(0.0); //Sin mascarilla
   mascarillas.add(0.3); //Generica
   mascarillas.add(0.6); //Quirurgica
   mascarillas.add(0.9); //N95
