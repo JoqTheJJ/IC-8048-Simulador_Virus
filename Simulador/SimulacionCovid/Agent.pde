@@ -300,7 +300,7 @@ class Agent{
   
   
   void borders() {
-    PVector dir = PVector.sub(lastPos, pos);
+    PVector dir = PVector.sub(lastPos, pos); //dir Inversa
     
     if (pos.x < radio || pos.x > width - radio) {
       pos.x = constrain(pos.x, radio, width - radio);
@@ -351,14 +351,17 @@ class Agent{
       if (w2Y < lastPos.y+radio && w2Y+w2H > lastPos.y-radio && dir.x < 0){//Colison izquierda
         pos.x = constrain(pos.x, 0, w2X-radio);
         vel.x *= -damp;
+        lastPos = pos.copy();
       } //No hay colision derecha
 
       if (dir.y > 0) {//Colision inferior
-        pos.y = constrain(pos.y, w2Y+w2H-radio+5, height);
+        pos.y = constrain(pos.y, w2Y+w2H-radio-5, height);
         vel.y *= -damp;
-      } else {//Colision superior
-        pos.y = constrain(pos.y, 0, w2Y+radio-5);
+        lastPos = pos.copy();
+      } else if (dir.y < 0) {//Colision superior
+        pos.y = constrain(pos.y, 0, w2Y+radio+5);
         vel.y *= -damp;
+        lastPos = pos.copy();
       }
       
     }

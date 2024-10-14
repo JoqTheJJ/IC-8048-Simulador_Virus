@@ -161,18 +161,18 @@ class AgentSystem{
     
     numPersonas = 1000;
     numPersonasInfectadas = 500;
-    numPersonasMascarilla = (mascarillas.get(0) > 0) ? numPersonas : 0;
+    numPersonasMascarilla = (mascarillas.get(3) > 0) ? numPersonas : 0;
     
     for (int i = 0; i < numPersonas - numPersonasInfectadas; i++){
       float x = random(scene.w3X - scene.concertW -50) + scene.concertW +25;
       float y = random(height - scene.concertY -50) + scene.concertY +25;
-      agents.add(new Agent(x, y, false, mascarillas.get(0), State.CONCERT));
+      agents.add(new Agent(x, y, false, mascarillas.get(3), State.CONCERT));
     }
     
     for (int i = 0; i < numPersonasInfectadas; i++){
       float x = random(scene.w3X - scene.concertW -50) + scene.concertW +25;
       float y = random(height - scene.concertY -50) + scene.concertY +25;
-      agents.add(new Agent(x, y, true, mascarillas.get(0), State.CONCERT));
+      agents.add(new Agent(x, y, true, mascarillas.get(3), State.CONCERT));
     }
     
     //Reset time

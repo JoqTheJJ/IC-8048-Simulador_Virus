@@ -177,10 +177,6 @@ void keyPressed() {
     pause = !pause;
   }
   
-  if (key == 'e') {
-    println();
-  }
-  
   if (key == 'r' || key == 'R') {
     resetTime();
     
