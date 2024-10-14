@@ -333,10 +333,10 @@ class Agent{
       } //No hay colision derecha
 
       if (dir.y > 0) {//Colision inferior
-        pos.y = constrain(pos.y, w1Y+w1H-radio-5, height);
+        pos.y = constrain(pos.y, w1Y+w1H-radio+5, height);
         vel.y *= -damp;
       } else {//Colision superior
-        pos.y = constrain(pos.y, 0, w1Y+radio+5);
+        pos.y = constrain(pos.y, 0, w1Y+radio-5);
         vel.y *= -damp;
       }
       
@@ -354,10 +354,10 @@ class Agent{
       } //No hay colision derecha
 
       if (dir.y > 0) {//Colision inferior
-        pos.y = constrain(pos.y, w2Y+w2H-radio-5, height);
+        pos.y = constrain(pos.y, w2Y+w2H-radio+5, height);
         vel.y *= -damp;
       } else {//Colision superior
-        pos.y = constrain(pos.y, 0, w2Y+radio+5);
+        pos.y = constrain(pos.y, 0, w2Y+radio-5);
         vel.y *= -damp;
       }
       
