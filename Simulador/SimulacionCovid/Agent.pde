@@ -366,7 +366,7 @@ class Agent{
     float w3X = width*3/4;       //CoordenadaX del muro 3
     float w3Y = height/2 -200 +2*radio;   //CoordenadaY del muro 3
     float w3W = 10;              //Ancho del muro 3
-    float w3H = 260;             //Altura del muro 3
+    float w3H = 260 -2*radio;             //Altura del muro 3
     if (pos.x + radio > w3X && pos.x - radio < w3X + w3W &&
       pos.y + radio > w3Y && pos.y - radio < w3Y + w3H) {//Hay colision
       if(dir.x > 0) {
