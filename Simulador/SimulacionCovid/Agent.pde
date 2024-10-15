@@ -39,7 +39,7 @@ class Agent{
   PVector lastPos;
   PVector vel;
   PVector acc;
-  float maxSpeed = 3;
+  float maxSpeed = 2;
   
   float radio = 10;
   float damp = 1;
