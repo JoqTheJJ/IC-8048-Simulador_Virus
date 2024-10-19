@@ -136,10 +136,10 @@ class AgentSystem{
     float tasaEliminacionPorHora = tasaDeVentilacion + 0.24; // 0.24 = Tasa de deposición de los aerosoles en el ambiente
     float quantaEquilibradaPorHora = tasaExhalacion / tasaEliminacionPorHora;
     
-    //Por minuto * tasaDeInfeccion
+    //Por segundo * tasaDeInfeccion
     // tasaDeInfeccion controla la velocidad de la simulacion
     // tasaDeInfeccion (Tiempo(m) / s)
-    return quantaEquilibradaPorHora * tasaDeInfeccion / 60; 
+    return quantaEquilibradaPorHora * tasaDeInfeccion / 3600; 
   }
   
   void contagio(Agent contagiado, Agent sano, float distancia){

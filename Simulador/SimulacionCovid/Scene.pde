@@ -20,7 +20,7 @@ class Scene{
   
   //W3 Down wall up
   float w3X = width*3/4;
-  float w3Y = height/2 -210;
+  float w3Y = height/2 -200;
   float w3W = 10;
   float w3H = 253;
   
