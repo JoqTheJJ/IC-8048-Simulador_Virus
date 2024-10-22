@@ -30,6 +30,13 @@ class Scene{
   float w4W = 10;
   float w4H = height/2 -150;
   
+  //Radio del reflector
+  float rRadius = 400;
+  
+  //r1 Reflector 1
+  float r1X = w3X/2;
+  float r1Y = concertY + concertH/2;
+  
   float radio = 10;
   
   Scene(){
@@ -113,5 +120,26 @@ class Scene{
     fill(#0A39F0);
     circle(width*3/4+5, height/2 +50, radio);
     circle(width*3/4+5, height/2 +150, radio);
+    
+    
+    
+    //Luces
+    noStroke();
+    
+    fill(color(255, 255, 255, 50));
+    circle(r1X, r1Y, rRadius);
+    
+    fill(color(0, 255, 255, 50));
+    circle(r1X + 300, r1Y - 300, rRadius);
+    
+    fill(color(255, 0, 192, 50));
+    circle(r1X + 600, r1Y - 600, rRadius);
+    
+    fill(color(0, 255, 40, 50));
+    circle(r1X - 300, r1Y - 600, rRadius);
+  }
+  
+  void reflector(){
+    
   }
 }

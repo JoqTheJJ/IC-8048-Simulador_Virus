@@ -46,12 +46,12 @@ class Agent {
   
   
   //Variables movimiento autonomo
-  float maxSteeringForce = 0.1;
+  float maxSteeringForce = 0.005;
   
-  float arrivalRadius = 150;
+  float arrivalRadius = 250;
 
   float wanderLookAhead = 30;
-  float wanderRadius = 15;
+  float wanderRadius = 4;
   float wanderNoiseT = random(0,100);
   float wanderNoiseTInc = 0.005;
   
@@ -74,6 +74,7 @@ class Agent {
   Agent(float x, float y, boolean infectado, float eficienciaMascarilla, State estado) {
     pos = new PVector(x, y);
     vel = PVector.random2D().setMag(3);
+    //vel = new PVector(0, 0);
     acc = new PVector(0, 0);
     vel.limit(maxSpeed);
     this.eficienciaMascarilla = eficienciaMascarilla;
@@ -355,7 +356,7 @@ class Agent {
     float w3Y = height/2 -200;            //CoordenadaY del muro 3
     float w3W = 10;                       //Ancho del muro 3
     float w3H = 253;                      //Altura del muro 3
-    if (pos.x + radio > w3X && pos.x - radio < w3X + w3W && pos.y - radio < w3Y + w3H) { 
+    if (pos.x + radio > w3X && pos.x - radio < w3X + w3W && pos.y - radio < w3Y + w3H && pos.y + radio > w3Y) { 
       if (dir.x < 0) { //Colision derecha
         pos.x = constrain(pos.x, w3X+w3W+radio+1, width);
         vel.x *= -damp;
@@ -364,11 +365,11 @@ class Agent {
         vel.x *= -damp;
       }
     }
-    if (pos.x + radio > w3X && pos.x - radio < w3X + w3W && pos.y - radio * 2 < w3Y + w3H) { 
-     if (dir.x < 0) { //Colision inferior
-       pos.y = constrain(pos.y, w3Y+w3H+radio*2+5, height);
+    if (pos.x + radio > w3X && pos.x - radio < w3X + w3W && pos.y - radio * 2 < w3Y + w3H && pos.y + radio > w3Y) { 
+      if (dir.y < 0) { //Colision inferior
+       pos.y = constrain(pos.y, w3Y+w3H+radio*2+1, height);
        vel.y *= -damp;
-     }
+      }
     }
     
     float w4X = width*3/4;       //CoordenadaX del muro 4

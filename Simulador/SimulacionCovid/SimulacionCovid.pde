@@ -43,6 +43,8 @@ void setup() {
   addColorsMask();
   addMascarillas();
   
+  //addMode();
+  
   startFrame = 0;
   finishFrame = 0;
   startTime = 0;

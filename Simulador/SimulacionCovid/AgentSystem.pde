@@ -42,12 +42,20 @@ class AgentSystem{
     
     int size = agents.size();
     
+    float seekX = scene.concertX + scene.concertW/2;
+    float seekY = scene.concertY + scene.concertH/2;
+    
     for (int i = 0; i < size; i++) {
       Agent a1 = agents.get(i);
       a1.run();
       a1.wander();
       //a1.seek(mouseX, mouseY);
       //a1.arrive(mouseX, mouseY);
+      
+      if(scene.concertX < a1.pos.x && a1.pos.x < scene.concertX+ scene.w3X
+      && scene.concertY < a1.pos.y && a1.pos.y < height){
+        a1.arrive(seekX, seekY);
+      }
       
       
       
