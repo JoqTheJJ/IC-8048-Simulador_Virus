@@ -4,13 +4,15 @@ boolean finish = false;
 boolean finishOg = finish;
 boolean pause = false;
 AgentSystem sys;
+ArrayList<Atractor> atractores;
+ArrayList<Repeledor> repeledores;
 Scene scene;
 
 int startFrame;
 int finishFrame;
 int startTime;
 int elapsedTime;
-float tasaDeTiempo = 1; //Segundos de simulacion por segundo real
+float tasaDeTiempo = 60; //Segundos de simulacion por segundo real
 
 ArrayList<Float> mascarillas;
 ArrayList<Actor> actores;
@@ -54,6 +56,11 @@ void setup() {
   
   sys = new AgentSystem();
   scene = new Scene();
+  
+  atractores = new ArrayList<Atractor>();
+  atractores.add(new Atractor(width/2-50, height/2-50, 1, 200, sys));
+  repeledores = new ArrayList<Repeledor>();
+  repeledores.add(new Repeledor(width/2+50, height/2+50, 1, 200, sys));
   
   actores = new ArrayList<Actor>();
   
@@ -105,16 +112,41 @@ void draw(){
     if (!pause){
       finishFrame += 1;
       
+      for (Atractor a: atractores){
+        a.update();
+        a.display();
+      }
+      for (Repeledor r: repeledores){
+        r.update();
+        r.display();
+      }
+      
+      
       sys.run();
       scene.display();
+      
+      
       for (Actor a: actores){
         a.run();
       }
       
-    } else {
+      
+      
+      
+    } else { //PAUSA
+      
+      for (Atractor a: atractores){
+        a.display();
+      }
+      for (Repeledor r: repeledores){
+        r.display();
+      }
+
 
       sys.display();
       scene.display();
+      
+      
       for (Actor a: actores){
         a.display();
       }
