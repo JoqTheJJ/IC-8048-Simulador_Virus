@@ -58,9 +58,9 @@ void setup() {
   scene = new Scene();
   
   atractores = new ArrayList<Atractor>();
-  atractores.add(new Atractor(width/2-50, height/2-50, 1, 200, sys));
+  //atractores.add(new Atractor(width/2-50, height/2-50, 1, 200, sys));
   repeledores = new ArrayList<Repeledor>();
-  repeledores.add(new Repeledor(width/2+50, height/2+50, 1, 200, sys));
+  //repeledores.add(new Repeledor(width/2+50, height/2+50, 1, 200, sys));
   
   actores = new ArrayList<Actor>();
   
@@ -123,6 +123,7 @@ void draw(){
       
       
       sys.run();
+      scene.update();
       scene.display();
       
       

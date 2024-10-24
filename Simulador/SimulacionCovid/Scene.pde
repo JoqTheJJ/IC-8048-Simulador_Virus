@@ -1,6 +1,7 @@
 class Scene{
   
   
+  
   float concertX = 0;
   float concertY = height/2 -200;
   float concertW = 300;
@@ -31,21 +32,59 @@ class Scene{
   float w4H = height/2 -150;
   
   //Radio del reflector
-  float rRadius = 400;
+  ArrayList<Reflector> reflectores;
+  float reflectorRadio = 200;
+  float reflectorVelocidadBase = 2;
   
   //r1 Reflector 1
-  float r1X = w3X/2;
-  float r1Y = concertY + concertH/2;
+  /*
+  float r1X = concertW/2 + 100;
+  float r1Y = concertY + concertH/2 - 300;
+  
+  float r2X = concertW/2 + 100;
+  float r2Y = concertY + concertH/2 - 150;
+  
+  float r3X = concertW/2 + 100;
+  float r3Y = concertY + concertH/2;
+  
+  float r4X = concertW/2 + 100;
+  float r4Y = concertY + concertH/2 + 150;
+  
+  float r5X = concertW/2 + 100;
+  float r5Y = concertY + concertH/2 + 300;
+  */
+  float r1X = width/2 + 0;
+  float r1Y = height/2 + 0;
+  
+  float r2X = width/2 + 150;
+  float r2Y = height/2 + 150;
+  
+  float r3X = width/2 + 150;
+  float r3Y = height/2 - 150;
+  
+  float r4X = width/2 - 150;
+  float r4Y = height/2 + 150;
+  
+  float r5X = width/2 - 150;
+  float r5Y = height/2 - 150;
+  
   
   float radio = 10;
   
   Scene(){
-    /*
-    wall1x1 = 0;
-    wall1y1 = height/2 +5;
-    wall1x2 = width/2;
-    wall1y2 = height/2 -5;
-    */
+    reflectores = new ArrayList<Reflector>();
+    
+    reflectores.add(new Reflector(r1X, r1Y, reflectorRadio, reflectorVelocidadBase, color(255, 255, 255, 50)));
+    reflectores.add(new Reflector(r2X, r2Y, reflectorRadio, reflectorVelocidadBase, color(0, 255, 255, 50)));
+    reflectores.add(new Reflector(r3X, r3Y, reflectorRadio, reflectorVelocidadBase, color(255, 0, 192, 50)));
+    reflectores.add(new Reflector(r4X, r4Y, reflectorRadio, reflectorVelocidadBase, color(0, 255, 40, 50)));
+    reflectores.add(new Reflector(r5X, r5Y, reflectorRadio, reflectorVelocidadBase, color(252, 240, 0, 50)));
+  }
+  
+  void update(){
+    for (Reflector r : reflectores){
+      r.update();
+    }
   }
   
   void display(){
@@ -124,22 +163,47 @@ class Scene{
     
     
     //Luces
-    noStroke();
+    for (Reflector r : reflectores){
+      r.display();
+    }
+
+  }
+}
+
+class Reflector {
+  PVector pos;
+  PVector vel;
+  float radio;
+  color c;
+  
+  
+  Reflector(float x, float y, float radio, float velocity, color c){
+    pos = new PVector(x,y);
+    float velX = random(1) > 0.5 ? 1 : -1;
+    float velY = random(1) > 0.5 ? 1 : -1;
+    vel = new PVector(velX, velY);
+    vel.setMag(velocity + random(velocity));
     
-    fill(color(255, 255, 255, 50));
-    circle(r1X, r1Y, rRadius);
-    
-    fill(color(0, 255, 255, 50));
-    circle(r1X + 300, r1Y - 300, rRadius);
-    
-    fill(color(255, 0, 192, 50));
-    circle(r1X + 600, r1Y - 600, rRadius);
-    
-    fill(color(0, 255, 40, 50));
-    circle(r1X - 300, r1Y - 600, rRadius);
+    this.radio = radio;
+    this.c = c;
   }
   
-  void reflector(){
-    
+  void update(){
+    pos.add(vel);
+     
+    if (pos.x < radio || pos.x > width - radio) {
+      pos.x = constrain(pos.x, radio, width - radio);
+      vel.x *= -1;
+    }
+    if (pos.y < radio || pos.y > height - radio) {
+      pos.y = constrain(pos.y, radio, height - radio);
+      vel.y *= -1;
+    }
+  }
+  
+  void display(){
+    noStroke();
+    fill(c);
+    circle(pos.x, pos.y, radio*2);
   }
 }
