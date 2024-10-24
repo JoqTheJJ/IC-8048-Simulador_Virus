@@ -6,6 +6,7 @@ boolean pause = false;
 AgentSystem sys;
 ArrayList<Atractor> atractores;
 ArrayList<Repeledor> repeledores;
+ArrayList<RepeledorMuroHorizontal> r2;
 Scene scene;
 
 int startFrame;
@@ -58,9 +59,11 @@ void setup() {
   scene = new Scene();
   
   atractores = new ArrayList<Atractor>();
-  //atractores.add(new Atractor(width/2-50, height/2-50, 1, 200, sys));
+  //atractores.add(new Atractor(width/2-50, height/2-50, 10, 200, sys));
   repeledores = new ArrayList<Repeledor>();
-  //repeledores.add(new Repeledor(width/2+50, height/2+50, 1, 200, sys));
+  //repeledores.add(new Repeledor(width/2+50, height/2+50, 10, 200, sys));
+  r2 = new ArrayList<RepeledorMuroHorizontal>();
+  r2.add(new RepeledorMuroHorizontal(width/2+50, height/2+50, 1, 200, 300, new PVector(0, -1), sys));
   
   actores = new ArrayList<Actor>();
   
@@ -120,6 +123,10 @@ void draw(){
         r.update();
         r.display();
       }
+      for (RepeledorMuroHorizontal r: r2){
+        r.update();
+        r.display();
+      }
       
       
       sys.run();
@@ -140,6 +147,9 @@ void draw(){
         a.display();
       }
       for (Repeledor r: repeledores){
+        r.display();
+      }
+      for (RepeledorMuroHorizontal r: r2){
         r.display();
       }
 

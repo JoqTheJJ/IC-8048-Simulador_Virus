@@ -48,36 +48,51 @@ class Repeledor extends Atractor {
   }
 }
 
-class RepeledorCuadrado {
+class RepeledorMuroHorizontal {
   AgentSystem system;
   PVector center;
+  PVector pos;
+  PVector force;
   float mass;
   float g;
   float ancho;
   float alto;
   
-  RepeledorCuadrado(float x, float y, float mass, float ancho, float alto, AgentSystem system){
-    center = new PVector(x, y);
+  
+  RepeledorMuroHorizontal(float x, float y, float mass, float ancho, float alto, PVector force, AgentSystem system){
+    pos = new PVector(x, y);
+    center = new PVector(x+(ancho/2), y+(alto/2));
     this.mass = mass;
     this.system = system;
-    g = 9.78;
+    g = 2;
     this.ancho = ancho;
     this.alto = alto;
+    this.force = force.mult(g);
   }
   
   private boolean isIn(Agent a){
-    return center.x < a.pos.x;
+    return pos.x < a.pos.x
+    && a.pos.x < pos.x + ancho
+    && pos.y < a.pos.y
+    && a.pos.y < pos.y + alto;
   }
   
   void update(){
     for (Agent a : system.agents) {
-      PVector r = PVector.sub(center, a.pos);
       if (isIn(a)) {
-        float d2 = constrain(r.magSq(), 1, 2000);
-        r.normalize();
-        r.mult(g * mass * a.mass / d2);
-        a.addForce(r);
+        PVector dVector = PVector.sub(center, a.pos);
+        float d2 = constrain(dVector.magSq(), 1, 2000);
+        PVector f = force.copy();
+        f.mult(g * mass * a.mass / d2);
+        a.addForce(f);
       }
     }
+  }
+  
+  void display(){
+    noStroke();
+    fill(color(255, 140, 137, 150));
+    rect(pos.x, pos.y, ancho, alto);
+    circle(center.x, center.y, 10);
   }
 }
