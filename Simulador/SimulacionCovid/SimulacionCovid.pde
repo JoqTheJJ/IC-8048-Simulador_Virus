@@ -1,12 +1,24 @@
+import controlP5.*;
+
+
 // Simulacion
 boolean start = true;
 boolean finish = false;
 boolean finishOg = finish;
 boolean pause = false;
+boolean debug = true;
+
+
+
+//Control P5
+ControlP5 cp5;
+float scrollValue = 0;
+
+Slider sEficiencia;
+
+
 AgentSystem sys;
-ArrayList<Atractor> atractores;
 ArrayList<Repeledor> repeledores;
-ArrayList<RepeledorMuroHorizontal> r2;
 Scene scene;
 
 int startFrame;
@@ -28,7 +40,7 @@ void addMascarillas(){
   mascarillas.add(0.9); //N95
 }
 
-
+float eficienciaMascarilla;
 //#83FF99
 //
 // Cambiar color fondo
@@ -42,11 +54,28 @@ void addMascarillas(){
 void setup() {
   //size(800, 800);
   fullScreen();
+  
+  cp5 = new ControlP5(this);
+  
+  PFont font = createFont("Arial", 1);
+  
+  sEficiencia = cp5.addSlider("setEficienciaMascarilla")
+    .setPosition(width/2 - 250, height/2 +150)
+    .setSize(200, 50)
+    .setRange(0, 0.99)
+    .setValue(eficienciaMascarilla)
+    .setCaptionLabel("")
+    .setFont(font);
+
+                  
+                  
+                  
+                  
+  
   addColorsInfection();
   addColorsMask();
-  addMascarillas();
+  //addMascarillas();
   
-  //addMode();
   
   startFrame = 0;
   finishFrame = 0;
@@ -58,12 +87,18 @@ void setup() {
   sys = new AgentSystem();
   scene = new Scene();
   
-  atractores = new ArrayList<Atractor>();
-  //atractores.add(new Atractor(width/2-50, height/2-50, 10, 200, sys));
   repeledores = new ArrayList<Repeledor>();
-  //repeledores.add(new Repeledor(width/2+50, height/2+50, 10, 200, sys));
-  r2 = new ArrayList<RepeledorMuroHorizontal>();
-  r2.add(new RepeledorMuroHorizontal(width/2+50, height/2+50, 1, 200, 300, new PVector(0, -1), sys));
+  repeledores.add(new Repeledor(width/2+50, height/2+50, 200, 300, 1, new PVector(0, -1), sys));
+  
+  repeledores.add(new Repeledor(0, scene.w1Y-50, scene.w1W-20, 50,
+  0.13, new PVector(0, -1), sys));
+  repeledores.add(new Repeledor(scene.w2X+20, scene.w2Y-50, width, 50,
+  0.13, new PVector(0, -1), sys));
+  
+  repeledores.add(new Repeledor(0, scene.w1Y +scene.w1H, scene.w1W-20, 50,
+  0.13, new PVector(0, 1), sys));
+  repeledores.add(new Repeledor(scene.w2X+20, scene.w2Y +scene.w2H, width, 50,
+  0.13, new PVector(0, 1), sys));
   
   actores = new ArrayList<Actor>();
   
@@ -102,8 +137,11 @@ void setup() {
 void draw(){
   background(#CECECE);
   
-  if(start){
+  if(start){ //Menu Inicial
     menuPrincipal();
+    
+    
+    
   } else {
     if (finish) {
       if (sys.numPersonas > 1 && sys.numPersonas == sys.numPersonasInfectadas){
@@ -114,18 +152,11 @@ void draw(){
   
     if (!pause){
       finishFrame += 1;
-      
-      for (Atractor a: atractores){
-        a.update();
-        a.display();
-      }
+
       for (Repeledor r: repeledores){
         r.update();
-        r.display();
-      }
-      for (RepeledorMuroHorizontal r: r2){
-        r.update();
-        r.display();
+        if (debug)
+          r.display();
       }
       
       
@@ -143,14 +174,9 @@ void draw(){
       
     } else { //PAUSA
       
-      for (Atractor a: atractores){
-        a.display();
-      }
       for (Repeledor r: repeledores){
-        r.display();
-      }
-      for (RepeledorMuroHorizontal r: r2){
-        r.display();
+        if (debug)
+          r.display();
       }
 
 
@@ -169,8 +195,6 @@ void draw(){
     
     
     if (mousePressed && mouseButton == LEFT) {
-      int mascarillaIndex = int(random(4));
-      float eficienciaMascarilla = mascarillas.get(mascarillaIndex);
       sys.addAgent(mouseX, mouseY, false, eficienciaMascarilla);
       if(eficienciaMascarilla > 0){
         sys.numPersonasMascarilla += 1;
@@ -179,8 +203,6 @@ void draw(){
     }
     
     if (mousePressed && mouseButton == RIGHT) {
-      int mascarillaIndex = int(random(4));
-      float eficienciaMascarilla = mascarillas.get(mascarillaIndex);
       sys.addAgent(mouseX, mouseY, true, eficienciaMascarilla);
       if(eficienciaMascarilla > 0){
         sys.numPersonasMascarilla += 1;
@@ -196,15 +218,9 @@ void draw(){
 
 void mousePressed(){
   
-  if(start){
-    start = false;
-    resetTime();
-  }
   
   /*
   if(mouseButton == RIGHT){
-    int mascarillaIndex = int(random(4));
-    float eficienciaMascarilla = mascarillas.get(mascarillaIndex);
     sys.addAgent(mouseX, mouseY, true, eficienciaMascarilla);
     if(eficienciaMascarilla > 0){
       sys.numPersonasMascarilla += 1;
@@ -217,6 +233,10 @@ void mousePressed(){
 
 
 void keyPressed() {
+  
+  if (start && key == '\n') {
+    cerrarMenuPrincipal();
+  }
 
   if (key == ' ') {
     pause = !pause;
@@ -254,31 +274,26 @@ void resetTime(){
 
 void estadisticas(){
   elapsedTime = millis() - startTime;
-  int realSeconds = (elapsedTime / 1000) % 60;
-  int realMinutes = (elapsedTime / 60000) % 60;
-  int realHours   = (elapsedTime / 3600000);
+  int realSeconds = elapsedTime / 1000;
+  int realMinutes = realSeconds / 60;
+  int realHours   = realMinutes / 60;
   
   int elapsedFrames = finishFrame - startFrame;
-  int elapsedTimeFrames = elapsedFrames * 1000 / 60; //frames to ms
-  int seconds = (elapsedTimeFrames / 1000) % 60;
-  int minutes = (elapsedTimeFrames / 60000) % 60;
+  int elapsedTimeFrames = elapsedFrames / 60; //frames to ms
+  int seconds = elapsedTimeFrames;
+  int minutes = seconds / 60;
   
   //Simulation time tasaDeTiempo
-  int ss = (int)(elapsedTimeFrames * tasaDeTiempo / 1000) % 60;
-  int sm = (int)(elapsedTimeFrames * tasaDeTiempo / 60000) % 60;
-  int sh = (int)(elapsedTimeFrames * tasaDeTiempo / 3600000) % 24;
-  int sd = (int)(elapsedTimeFrames * tasaDeTiempo / 86400000);
-  /*
-  int ss = (int)(elapsedTimeFrames * tasaDeTiempo * 6 / 100) % 60;
-  int sm = (int)(elapsedTimeFrames * tasaDeTiempo / 1000) % 60;
-  int sh = (int)(elapsedTimeFrames * tasaDeTiempo / 60000) % 24;
-  int sd = (int)(elapsedTimeFrames * tasaDeTiempo / 1440000);
-  */
+  elapsedTimeFrames = elapsedFrames *1000 /60;
+  int ss = (int)(elapsedTimeFrames * tasaDeTiempo /1000);
+  int sm = (int)(ss /60);
+  int sh = (int)(sm / 60);
+  int sd = (int)(sh / 24);
   
   //Timer
-  String realTime = String.format("%02d:%02d:%02d", realHours, realMinutes, realSeconds);;
-  String time = String.format("%02d:%02d", minutes, seconds);
-  String simulationTime = String.format("%02d:%02d:%02d", sh, sm, ss);
+  String realTime = String.format("%02d:%02d:%02d", realHours, realMinutes %60, realSeconds %60);;
+  String time = String.format("%02d:%02d", minutes, seconds %60);
+  String simulationTime = String.format("%02d:%02d:%02d", sh %24, sm %60, ss %60);
   
   textSize(20);
   fill(#FFFFFF);
@@ -298,6 +313,53 @@ void estadisticas(){
   text("Personas sin mascarilla: "+(sys.numPersonas-sys.numPersonasMascarilla), 15, height -20);
 }
 
+void setEficienciaMascarilla(float value){
+  eficienciaMascarilla = value;
+}
+
 void menuPrincipal(){
   
+  PVector pos = new PVector(width/2 - 150, height/2);
+  float radio = 100;
+  PFont menuFont = createFont("8bitOperatorPlus8-Regular.ttf", 50);
+  textFont(menuFont);
+  fill(#000000);
+  
+  
+  text("PRESIONA ENTER PARA INICIAR", width/2 - 350, pos.y + 450);
+  
+  
+  
+  
+  
+  text((int)(eficienciaMascarilla*100) + "%", pos.x - 50, pos.y + 250);
+  
+  strokeWeight(20);
+  stroke(#000000);
+  
+  fill(colorsInfection.get(0));
+  circle(pos.x, pos.y, radio*2);
+  
+  fill(#000000);
+  rect(pos.x-30, pos.y-40, 10, 14); //Ojos
+  rect(pos.x+30, pos.y-40, 10, 14); //Ojos
+  
+  int m = int(map(eficienciaMascarilla, 0, 1, 0, 4));
+    
+  if(m > 0){
+    fill(colorsMask.get(m-1));
+    
+    strokeWeight(15);
+    line(pos.x-radio, pos.y -5, pos.x+radio, pos.y -5);
+    line(pos.x-radio, pos.y +15, pos.x+radio, pos.y +15);
+    arc(pos.x, pos.y, radio*1.5, radio*1.5, 0, PI, CHORD);
+  }
+}
+
+void cerrarMenuPrincipal(){
+  
+  textFont(createFont("SansSerif", 12));
+  
+  sEficiencia.hide();
+  start = false;
 }
