@@ -191,12 +191,12 @@ class Reflector {
   void update(){
     pos.add(vel);
      
-    if (pos.x < radio || pos.x > width - radio) {
-      pos.x = constrain(pos.x, radio, width - radio);
+    if (pos.x < 0 || pos.x > width) {
+      pos.x = constrain(pos.x, 0, width);
       vel.x *= -1;
     }
-    if (pos.y < radio || pos.y > height - radio) {
-      pos.y = constrain(pos.y, radio, height - radio);
+    if (pos.y < 0 || pos.y > height) {
+      pos.y = constrain(pos.y, 0, height);
       vel.y *= -1;
     }
   }

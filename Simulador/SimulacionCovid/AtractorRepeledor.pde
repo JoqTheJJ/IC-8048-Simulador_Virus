@@ -93,6 +93,7 @@ class RepeledorMuroHorizontal {
     noStroke();
     fill(color(255, 140, 137, 150));
     rect(pos.x, pos.y, ancho, alto);
+    fill(color(255, 140, 137, 255));
     circle(center.x, center.y, 10);
   }
 }
