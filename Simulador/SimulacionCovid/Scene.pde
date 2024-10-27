@@ -1,7 +1,103 @@
+
+class Fila{
+  
+  PVector[] posiciones;
+  int numPosiciones = 187;
+  PVector max = new PVector(width*3/4+5 + 450, 370);
+  
+  //Center
+  PVector c = new PVector(width*3/4+5, height/2 +100);
+  
+  
+  Fila(){
+    posiciones = new PVector[numPosiciones];
+    
+    int i;
+    for (i = 0; i < 15; i++){//Pone 15
+      posiciones[i] = new PVector(c.x + 30, c.y + i*30);
+    }
+    
+    //Columna arriba
+    posiciones[i] = new PVector(c.x + 60, c.y + 420);// +1
+    i++;
+    for (int j = 0; j < 24; j++){//Pone 24
+      posiciones[i] = new PVector(c.x + 90, c.y + 420 - j*30);
+      i++;
+    }
+    
+    //Columna abajo
+    posiciones[i] = new PVector(c.x + 120, 370);// +1
+    i++;
+    for (int j = 0; j < 24; j++){//Pone 24
+      posiciones[i] = new PVector(c.x + 150, 370 + j*30);
+      i++;
+    }
+    
+    //Columna arriba
+    posiciones[i] = new PVector(c.x + 180, c.y + 420);// +1
+    i++;
+    for (int j = 0; j < 24; j++){//Pone 24
+      posiciones[i] = new PVector(c.x + 210, c.y + 420 - j*30);
+      i++;
+    }
+    
+    //Columna abajo
+    posiciones[i] = new PVector(c.x + 240, 370);// +1
+    i++;
+    for (int j = 0; j < 24; j++){//Pone 24
+      posiciones[i] = new PVector(c.x + 270, 370 + j*30);
+      i++;
+    }
+    
+    //Columna arriba
+    posiciones[i] = new PVector(c.x + 300, c.y + 420);// +1
+    i++;
+    for (int j = 0; j < 24; j++){//Pone 24
+      posiciones[i] = new PVector(c.x + 330, c.y + 420 - j*30);
+      i++;
+    }
+    
+    //Columna abajo
+    posiciones[i] = new PVector(c.x + 360, 370);// +1
+    i++;
+    for (int j = 0; j < 24; j++){//Pone 24
+      posiciones[i] = new PVector(c.x + 390, 370 + j*30);
+      i++;
+    }
+    
+    //Columna arriba
+    posiciones[i] = new PVector(c.x + 420, c.y + 420);// +1
+    i++;
+    for (int j = 0; j < 21; j++){//Pone 21
+      posiciones[i] = new PVector(c.x + 450, c.y + 420 - j*30);
+      i++;
+    }
+  }
+  
+  void display(){
+    
+    strokeWeight(3);
+    fill(#38E1FC);
+    circle(c.x, c.y, 25);
+    
+    for(int i = 0; i < numPosiciones; i++){
+      PVector pos = posiciones[i];
+      circle(pos.x, pos.y, 25);
+    }
+    
+  }
+  
+  void update(){
+    
+    
+  }
+}
+
+
+
 class Scene{
   
-  
-  
+
   float concertX = 0;
   float concertY = height/2 -200;
   float concertW = 300;

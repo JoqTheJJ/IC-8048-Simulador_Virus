@@ -6,7 +6,7 @@ boolean start = true;
 boolean finish = false;
 boolean finishOg = finish;
 boolean pause = false;
-boolean debug = false;
+boolean debug = true;
 
 
 float eficienciaMascarilla = 0;
@@ -43,6 +43,7 @@ float tasaDeTiempo = 60; //Segundos de simulacion por segundo real
 ArrayList<Float> mascarillas;
 ArrayList<Actor> actores;
 ColorMode colorMode;
+Fila fila;
 
 
 void addMascarillas(){
@@ -132,6 +133,7 @@ void setup() {
   
   sys = new AgentSystem();
   scene = new Scene();
+  fila = new Fila();
   
   repeledores = new ArrayList<Repeledor>();
   
@@ -142,7 +144,7 @@ void setup() {
   
   repeledores.add(new Repeledor(0, scene.w1Y +scene.w1H, scene.w1W-20, 50,
   0.13, new PVector(0, 1), sys));
-  repeledores.add(new Repeledor(scene.w2X+20, scene.w2Y +scene.w2H, width, 50,
+  repeledores.add(new Repeledor(scene.w2X+20, scene.w2Y +scene.w2H, scene.w3X - scene.w2X+20, 50,
   0.13, new PVector(0, 1), sys));
   
   actores = new ArrayList<Actor>();
@@ -189,6 +191,7 @@ void draw(){
     
     
     
+    
   } else {
     if (finish) {
       if (sys.numPersonas > 1 && sys.numPersonas == sys.numPersonasInfectadas){
@@ -229,6 +232,7 @@ void draw(){
 
       sys.display();
       scene.display();
+
       
       
       for (Actor a: actores){

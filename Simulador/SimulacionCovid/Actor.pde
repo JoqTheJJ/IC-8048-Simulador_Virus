@@ -19,7 +19,7 @@ class Actor extends Agent{
   float noiseYOffset = random(100);
   
   Actor(float x, float y, color c, Rol rol){
-    super(x, y, false, 1, State.UNAVAILABLE);
+    super(x, y, false, 1, State.UNAVAILABLE, 0);
     vel.setMag(0);
     this.c = c;
     this.rol = rol;

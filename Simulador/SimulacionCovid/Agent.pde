@@ -40,6 +40,8 @@ class Agent {
   PVector acc;
   float maxSpeed = 1;
   
+  int filaPos = 0;
+  
   float radio = 10;
   float damp = 1;
   float mass = 1;
@@ -48,7 +50,7 @@ class Agent {
   //Variables movimiento autonomo
   float maxSteeringForce = 0.005;
   
-  float arrivalRadius = 250;
+  float arrivalRadius = 50;
 
   float wanderLookAhead = 30;
   float wanderRadius = 4;
@@ -71,14 +73,15 @@ class Agent {
   // ################## METODOS PRINCIPALES ###################
   // ############################  ############################
   
-  Agent(float x, float y, boolean infectado, float eficienciaMascarilla, State estado) {
+  Agent(float x, float y, boolean infectado, float eficienciaMascarilla, State estado, int posFila) {
     pos = new PVector(x, y);
-    vel = PVector.random2D().setMag(3);
+    vel = PVector.random2D().setMag(1);
     //vel = new PVector(0, 0);
     acc = new PVector(0, 0);
     vel.limit(maxSpeed);
     this.eficienciaMascarilla = eficienciaMascarilla;
     this.estado = estado;
+    filaPos = posFila;
     
     if(infectado) {
       quanta = quantaMaxima;
@@ -178,6 +181,17 @@ class Agent {
       vel.limit(max(0, map(dist, 0, arrivalRadius, 0, maxSpeed)));
     }
     steering.limit(maxSteeringForce);
+    addForce(steering);
+  }
+  
+  void followLine(float x, float y) {
+    PVector target = new PVector(x, y);
+    PVector desired = PVector.sub(target, pos);
+    PVector steering = PVector.sub(desired, vel);
+    float dist = pos.dist(target);
+    if (dist <= arrivalRadius) {
+      vel.limit(max(0, map(dist, 0, arrivalRadius, 0, maxSpeed)));
+    }
     addForce(steering);
   }
   
