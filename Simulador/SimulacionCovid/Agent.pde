@@ -107,20 +107,18 @@ class Agent {
     circle(pos.x, pos.y, radio*2);
     
     fill(#000000);
-    square(pos.x-3, pos.y-3, 0.6); //Ojos
-    square(pos.x+3, pos.y-3, 0.6); //Ojos
+    rect(pos.x-3, pos.y-4, 0.5, 0.7); //Ojos
+    rect(pos.x+3, pos.y-4, 0.5, 0.7); //Ojos
     
-    if(colorMode == ColorMode.MASK){
-      int m = int(map(eficienciaMascarilla, 0, 1, 0, 4));
-      
-      if(m > 0){
-        fill(colorsMask.get(m-1));
+    if(colorMode == ColorMode.MASK && eficienciaMascarilla > 0){
+      int m = int(map(eficienciaMascarilla, 0, 1, 1, 4));
         
-        strokeWeight(1);
-        line(pos.x-radio, pos.y     , pos.x+radio, pos.y);
-        line(pos.x-radio, pos.y +2.5, pos.x+radio, pos.y +2.5);
-        arc(pos.x, pos.y, radio*1.3, radio*1.3, 0, PI, CHORD);
-      }
+      fill(colorsMask.get(m-1));
+        
+      strokeWeight(1);
+      line(pos.x-radio, pos.y     , pos.x+radio, pos.y);
+      line(pos.x-radio, pos.y +2.5, pos.x+radio, pos.y +2.5);
+      arc(pos.x, pos.y, radio*1.3, radio*1.3, 0, PI, CHORD);
     }
   }
   
@@ -139,17 +137,15 @@ class Agent {
     rect(pos.x-3, pos.y-4, 0.5, 0.7); //Ojos
     rect(pos.x+3, pos.y-4, 0.5, 0.7); //Ojos
     
-    if(colorMode == ColorMode.MASK){
-      int m = int(map(eficienciaMascarilla, 0, 1, 0, 4));
-      
-      if(m > 0){
-        fill(colorsMask.get(m-1));
+    if(colorMode == ColorMode.MASK && eficienciaMascarilla > 0){
+      int m = int(map(eficienciaMascarilla, 0, 1, 1, 4));
         
-        strokeWeight(1);
-        line(pos.x-radio, pos.y     , pos.x+radio, pos.y);
-        line(pos.x-radio, pos.y +2.5, pos.x+radio, pos.y +2.5);
-        arc(pos.x, pos.y, radio*1.3, radio*1.3, 0, PI, CHORD);
-      }
+      fill(colorsMask.get(m-1));
+        
+      strokeWeight(1);
+      line(pos.x-radio, pos.y     , pos.x+radio, pos.y);
+      line(pos.x-radio, pos.y +2.5, pos.x+radio, pos.y +2.5);
+      arc(pos.x, pos.y, radio*1.3, radio*1.3, 0, PI, CHORD);
     }
   }
   

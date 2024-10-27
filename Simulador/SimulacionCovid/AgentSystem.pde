@@ -11,7 +11,6 @@ class AgentSystem{
   
   
   //Variables contagio
-  float tasaDeVentilacion = 3; // (ACH) Cantidad de cambios de aire por hora
   float radioDeInfeccion = 50;
   float tasaDeInfeccion = tasaDeTiempo; //Cantidad de minutos por segundo de la simulacion
   
@@ -171,18 +170,60 @@ class AgentSystem{
     
     numPersonas = 1000;
     numPersonasInfectadas = 500;
-    numPersonasMascarilla = (mascarillas.get(3) > 0) ? numPersonas : 0;
+    numPersonasMascarilla = (eficienciaMascarilla > 0) ? numPersonas : 0;
     
     for (int i = 0; i < numPersonas - numPersonasInfectadas; i++){
       float x = random(scene.w3X - scene.concertW -50) + scene.concertW +25;
       float y = random(height - scene.concertY -50) + scene.concertY +25;
-      agents.add(new Agent(x, y, false, mascarillas.get(3), State.CONCERT));
+      agents.add(new Agent(x, y, false, eficienciaMascarilla, State.CONCERT));
     }
     
     for (int i = 0; i < numPersonasInfectadas; i++){
       float x = random(scene.w3X - scene.concertW -50) + scene.concertW +25;
       float y = random(height - scene.concertY -50) + scene.concertY +25;
-      agents.add(new Agent(x, y, true, mascarillas.get(3), State.CONCERT));
+      agents.add(new Agent(x, y, true, eficienciaMascarilla, State.CONCERT));
+    }
+    
+    //Reset time
+    resetTime();
+  }
+  
+  void simulacion(int sanos, int contagiados){
+    sys.reset();
+    
+    //porcentajeMascarilla
+    
+    
+    numPersonas = sanos + contagiados;
+    numPersonasInfectadas = contagiados;
+
+    int sanosMascarilla = (int)((numPersonas - numPersonasInfectadas)*porcentajeMascarilla);
+    int contagiadosMascarilla = (int)((numPersonasInfectadas)*porcentajeMascarilla);
+    
+    numPersonasMascarilla = sanosMascarilla + contagiadosMascarilla;
+    
+    for (int i = 0; i < numPersonas - numPersonasInfectadas; i++){
+      float x = random(scene.w3X - scene.concertW -50) + scene.concertW +25;
+      float y = random(height - scene.concertY -50) + scene.concertY +25;
+      
+      if (sanosMascarilla > 0){
+        sanosMascarilla--;
+        agents.add(new Agent(x, y, false, eficienciaMascarilla, State.CONCERT));
+      } else {
+        agents.add(new Agent(x, y, false, 0, State.CONCERT));
+      }
+    }
+    
+    for (int i = 0; i < numPersonasInfectadas; i++){
+      float x = random(scene.w3X - scene.concertW -50) + scene.concertW +25;
+      float y = random(height - scene.concertY -50) + scene.concertY +25;
+      
+      if (contagiadosMascarilla > 0){
+        contagiadosMascarilla--;
+        agents.add(new Agent(x, y, true, eficienciaMascarilla, State.CONCERT));
+      } else {
+        agents.add(new Agent(x, y, true, 0, State.CONCERT));
+      }
     }
     
     //Reset time

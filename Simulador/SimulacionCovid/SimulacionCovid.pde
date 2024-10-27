@@ -6,16 +6,29 @@ boolean start = true;
 boolean finish = false;
 boolean finishOg = finish;
 boolean pause = false;
-boolean debug = true;
+boolean debug = false;
 
 
+float eficienciaMascarilla = 0;
+float porcentajeMascarilla = 0;
+float tasaDeVentilacion = 1;// (ACH) Cantidad de cambios de aire por hora
+int totalSanos = 800;
+int totalContagiados = 50;
+
+PImage imagenProhibido;
+
+PImage imagenVentilacion;
+float rotacionVentilador = 0;
 
 //Control P5
 ControlP5 cp5;
 float scrollValue = 0;
 
 Slider sEficiencia;
-
+Slider sVentilacion;
+Slider sPersonas;
+Slider sContagiados;
+Slider sPorcentajeMascarilla;
 
 AgentSystem sys;
 ArrayList<Repeledor> repeledores;
@@ -40,7 +53,7 @@ void addMascarillas(){
   mascarillas.add(0.9); //N95
 }
 
-float eficienciaMascarilla;
+
 //#83FF99
 //
 // Cambiar color fondo
@@ -57,16 +70,49 @@ void setup() {
   
   cp5 = new ControlP5(this);
   
+  imagenVentilacion = loadImage("ventilacion.png");
+  imagenProhibido = loadImage("no.png");
   PFont font = createFont("Arial", 1);
   
   sEficiencia = cp5.addSlider("setEficienciaMascarilla")
-    .setPosition(width/2 - 250, height/2 +150)
+    .setPosition(width/2 - 450, height/2 +200)
     .setSize(200, 50)
     .setRange(0, 0.99)
     .setValue(eficienciaMascarilla)
     .setCaptionLabel("")
     .setFont(font);
+    
+  sVentilacion = cp5.addSlider("setTasaDeVentilacion")
+    .setPosition(width/2 + 300, height/2 +200)
+    .setSize(200, 50)
+    .setRange(1, 6.2)
+    .setValue(tasaDeVentilacion)
+    .setCaptionLabel("")
+    .setFont(font);
+    
+  sPersonas = cp5.addSlider("setTotalSanos")
+    .setPosition(width/2 - 250, height/2 -200)
+    .setSize(200, 50)
+    .setRange(100, 800)
+    .setValue(totalSanos)
+    .setCaptionLabel("")
+    .setFont(font);
 
+  sContagiados = cp5.addSlider("setTotalContagiados")
+    .setPosition(width/2 + 100, height/2 -200)
+    .setSize(200, 50)
+    .setRange(1, 200)
+    .setValue(totalContagiados)
+    .setCaptionLabel("")
+    .setFont(font);
+    
+  sPorcentajeMascarilla = cp5.addSlider("setPorcentajeMascarilla")
+    .setPosition(width/2 - 75, height/2 +200)
+    .setSize(200, 50)
+    .setRange(0, 1)
+    .setValue(porcentajeMascarilla)
+    .setCaptionLabel("")
+    .setFont(font);
                   
                   
                   
@@ -88,7 +134,6 @@ void setup() {
   scene = new Scene();
   
   repeledores = new ArrayList<Repeledor>();
-  repeledores.add(new Repeledor(width/2+50, height/2+50, 200, 300, 1, new PVector(0, -1), sys));
   
   repeledores.add(new Repeledor(0, scene.w1Y-50, scene.w1W-20, 50,
   0.13, new PVector(0, -1), sys));
@@ -132,6 +177,8 @@ void setup() {
     #00FFFD,
     Rol.BATERISTA)
     );
+    
+  print("\n\n\n\n\n\n\n\n");
 }
 
 void draw(){
@@ -256,7 +303,7 @@ void keyPressed() {
   }
   
   if (key == 's' || key == 'S'){
-    sys.simulacion1();
+    sys.simulacion(totalSanos, totalContagiados);
   }
 }
 
@@ -298,9 +345,11 @@ void estadisticas(){
   textSize(20);
   fill(#FFFFFF);
   
-  text("Tiempo real: "+realTime, 15, height -170);
-  text("Tiempo: "+time, 15, height -150);
-  text("Simulacion: "+sd+":"+simulationTime, 15, height -130);
+  text("Tiempo real: "+realTime, 15, height -200);
+  text("Tiempo: "+time, 15, height -180);
+  text("Simulacion: "+sd+":"+simulationTime, 15, height -160);
+  
+  text("Nivel de Ventilación: "+(int)tasaDeVentilacion, 15, height -130);
   
   
   text("Personas Totales: "+sys.numPersonas, 15, height -100);
@@ -317,9 +366,28 @@ void setEficienciaMascarilla(float value){
   eficienciaMascarilla = value;
 }
 
+void setTasaDeVentilacion(float value){
+  tasaDeVentilacion = value;
+}
+
+void setTotalSanos(float value){
+  totalSanos = (int)value;
+}
+
+void setTotalContagiados(float value){
+  totalContagiados = (int)value;
+}
+
+void setPorcentajeMascarilla(float value){
+  porcentajeMascarilla = value;
+}
+
 void menuPrincipal(){
   
-  PVector pos = new PVector(width/2 - 150, height/2);
+  //Center: (width/2 - 150, height/2 + 50)
+  PVector pos = new PVector(width/2 - 350, height/2 + 50);
+  PVector posS = new PVector(pos.x + 200      , pos.y - 400);
+  PVector posC = new PVector(pos.x + 200 + 350, pos.y - 400);
   float radio = 100;
   PFont menuFont = createFont("8bitOperatorPlus8-Regular.ttf", 50);
   textFont(menuFont);
@@ -330,29 +398,130 @@ void menuPrincipal(){
   
   
   
-  
-  
-  text((int)(eficienciaMascarilla*100) + "%", pos.x - 50, pos.y + 250);
-  
+  text((int)(totalSanos),    pos.x - 50 + 200, pos.y - 160);
   strokeWeight(20);
   stroke(#000000);
   
   fill(colorsInfection.get(0));
-  circle(pos.x, pos.y, radio*2);
+  circle(posS.x, posS.y, radio*2); //Cuerpo
   
   fill(#000000);
-  rect(pos.x-30, pos.y-40, 10, 14); //Ojos
-  rect(pos.x+30, pos.y-40, 10, 14); //Ojos
+  rect(posS.x-30, posS.y-40, 10, 14); //Ojos
+  rect(posS.x+30, posS.y-40, 10, 14); //Ojos
   
-  int m = int(map(eficienciaMascarilla, 0, 1, 0, 4));
+  text((int)(totalContagiados), pos.x + 300 + 200, pos.y - 160);
+  strokeWeight(20);
+  stroke(#000000);
+  
+  fill(colorsInfection.get(6));
+  circle(posC.x, posC.y, radio*2); //Cuerpo
+  
+  fill(#000000);
+  rect(posC.x-30, posC.y-40, 10, 14); //Ojos
+  rect(posC.x+30, posC.y-40, 10, 14); //Ojos
+  
+  
+  text((int)(tasaDeVentilacion), pos.x + 740, pos.y + 240);
+  pushMatrix();
+  translate(pos.x + 400 + 350, pos.y);
+  rotate(rotacionVentilador);
+  image(imagenVentilacion, -100, -100, 200, 200);
+  rotacionVentilador += 0.01 * 2 * tasaDeVentilacion;
+  popMatrix();
+  
+  
+  
+  text((int)(porcentajeMascarilla*100) + "%", pos.x + 325, pos.y + 240);
+  PVector center = new PVector(pos.x + 375, pos.y);
+  PVector p1 = new PVector(center.x, center.y + 90);
+  PVector p2 = new PVector(center.x - 100, center.y + 15);
+  PVector p3 = new PVector(center.x + 100, center.y + 15);
+  PVector p4 = new PVector(center.x - 62, center.y - 102);
+  PVector p5 = new PVector(center.x + 62, center.y - 102);
+  
+
+  strokeWeight(18);
+  stroke(#000000);
+  
+  
+  
+  fill(colorsInfection.get(0));
+  circle(p1.x, p1.y, radio); //Cuerpo
+  fill(#000000);
+  rect(p1.x-15, p1.y-15, 5, 7); //Ojos
+  rect(p1.x+15, p1.y-15, 5, 7); //Ojos
+  
+  fill(colorsInfection.get(0));
+  circle(p2.x, p2.y, radio); //Cuerpo
+  fill(#000000);
+  rect(p2.x-15, p2.y-15, 5, 7); //Ojos
+  rect(p2.x+15, p2.y-15, 5, 7); //Ojos
+  
+  fill(colorsInfection.get(0));
+  circle(p3.x, p3.y, radio); //Cuerpo
+  fill(#000000);
+  rect(p3.x-15, p3.y-15, 5, 7); //Ojos
+  rect(p3.x+15, p3.y-15, 5, 7); //Ojos
+  
+  fill(colorsInfection.get(0));
+  circle(p4.x, p4.y, radio); //Cuerpo
+  fill(#000000);
+  rect(p4.x-15, p4.y-15, 5, 7); //Ojos
+  rect(p4.x+15, p4.y-15, 5, 7); //Ojos
+  
+  fill(colorsInfection.get(0));
+  circle(p5.x, p5.y, radio); //Cuerpo
+  fill(#000000);
+  rect(p5.x-15, p5.y-15, 5, 7); //Ojos
+  rect(p5.x+15, p5.y-15, 5, 7); //Ojos
+  
+  int m = int(map(eficienciaMascarilla, 0, 1, 1, 4));
+  fill(colorsMask.get(m-1));
+  strokeWeight(5);
+  
+  if (porcentajeMascarilla > 0.20){
+    line(p2.x-50, p2.y,     p2.x+50, p2.y);
+    line(p2.x-50, p2.y +10, p2.x+50, p2.y +10);
+    arc(p2.x, p2.y, radio*0.7, radio*0.7, 0, PI, CHORD);
+  }
+  if (porcentajeMascarilla > 0.40){
+    line(p4.x-50, p4.y,     p4.x+50, p4.y);
+    line(p4.x-50, p4.y +10, p4.x+50, p4.y +10);
+    arc(p4.x, p4.y, radio*0.7, radio*0.7, 0, PI, CHORD);
+  }
+  if (porcentajeMascarilla > 0.60){
+    line(p5.x-50, p5.y,     p5.x+50, p5.y);
+    line(p5.x-50, p5.y +10, p5.x+50, p5.y +10);
+    arc(p5.x, p5.y, radio*0.7, radio*0.7, 0, PI, CHORD);
+  }
+  if (porcentajeMascarilla > 0.80){
+    line(p3.x-50, p3.y,     p3.x+50, p3.y);
+    line(p3.x-50, p3.y +10, p3.x+50, p3.y +10);
+    arc(p3.x, p3.y, radio*0.7, radio*0.7, 0, PI, CHORD);
+  }
+  if (porcentajeMascarilla > 0.99){
+    line(p1.x-50, p1.y,     p1.x+50, p1.y);
+    line(p1.x-50, p1.y +10, p1.x+50, p1.y +10);
+    arc(p1.x, p1.y, radio*0.7, radio*0.7, 0, PI, CHORD);
+  }
+  
+  
+  
+  
+  
+  
+  fill(#000000);
+  text((int)(eficienciaMascarilla*100) + "%", pos.x - 50, pos.y + 240);
     
-  if(m > 0){
-    fill(colorsMask.get(m-1));
-    
-    strokeWeight(15);
-    line(pos.x-radio, pos.y -5, pos.x+radio, pos.y -5);
-    line(pos.x-radio, pos.y +15, pos.x+radio, pos.y +15);
-    arc(pos.x, pos.y, radio*1.5, radio*1.5, 0, PI, CHORD);
+  fill(colorsMask.get(m-1));
+  
+  strokeWeight(15);
+  line(pos.x-radio+20, pos.y -5, pos.x+radio-20, pos.y -5);
+  line(pos.x-radio+20, pos.y +15, pos.x+radio-20, pos.y +15);
+  arc(pos.x, pos.y, radio*1.3, radio*1.3, 0, PI, CHORD);
+  
+  if (eficienciaMascarilla < 0.005){
+    image(imagenProhibido, pos.x - 125, pos.y - 125, 250, 250);
   }
 }
 
@@ -361,5 +530,15 @@ void cerrarMenuPrincipal(){
   textFont(createFont("SansSerif", 12));
   
   sEficiencia.hide();
+  sVentilacion.hide();
+  sPersonas.hide();
+  sContagiados.hide();
+  sPorcentajeMascarilla.hide();
+  
+  sys.simulacion(totalSanos, totalContagiados);
+  
   start = false;
+  pause = false;
+  
+  resetTime();
 }
