@@ -11,7 +11,7 @@ class AgentSystem{
   
   
   //Variables contagio
-  float radioDeInfeccion = 50;
+  float radioDeInfeccion = 70;
   float tasaDeInfeccion = tasaDeTiempo; //Cantidad de minutos por segundo de la simulacion
   
   int numPersonas;
@@ -198,6 +198,8 @@ class AgentSystem{
     
     numPersonas = sanos + contagiados;
     numPersonasInfectadas = contagiados;
+    
+    int posFila = 1;
 
     int sanosMascarilla = (int)((numPersonas - numPersonasInfectadas)*porcentajeMascarilla);
     int contagiadosMascarilla = (int)((numPersonasInfectadas)*porcentajeMascarilla);
@@ -205,31 +207,53 @@ class AgentSystem{
     numPersonasMascarilla = sanosMascarilla + contagiadosMascarilla;
     
     for (int i = 0; i < numPersonas - numPersonasInfectadas; i++){
-      float x = random(scene.w3X - scene.concertW -50) + scene.concertW +25;
-      float y = random(height - scene.concertY -50) + scene.concertY +25;
+      float x = fila.max.x;
+      float y = fila.max.y;
+      
+      State estado = State.STILL;
+      if (posFila > fila.numPosiciones)
+        estado = State.UNAVAILABLE;
+      
       
       if (sanosMascarilla > 0){
         sanosMascarilla--;
-        agents.add(new Agent(x, y, false, eficienciaMascarilla, State.CONCERT, 0));
+        agents.add(new Agent(x, y, false, eficienciaMascarilla, estado, posFila));
       } else {
-        agents.add(new Agent(x, y, false, 0, State.CONCERT, 0));
+        agents.add(new Agent(x, y, false, 0, estado, posFila));
       }
+      posFila++;
     }
     
     for (int i = 0; i < numPersonasInfectadas; i++){
-      float x = random(scene.w3X - scene.concertW -50) + scene.concertW +25;
-      float y = random(height - scene.concertY -50) + scene.concertY +25;
+      float x = fila.max.x;
+      float y = fila.max.y;
+      
+      State estado = State.STILL;
+      if (posFila > fila.numPosiciones)
+        estado = State.UNAVAILABLE;
       
       if (contagiadosMascarilla > 0){
         contagiadosMascarilla--;
-        agents.add(new Agent(x, y, true, eficienciaMascarilla, State.CONCERT, 0));
+        agents.add(new Agent(x, y, true, eficienciaMascarilla, estado, posFila));
       } else {
-        agents.add(new Agent(x, y, true, 0, State.CONCERT, 0));
+        agents.add(new Agent(x, y, true, 0, estado, posFila));
       }
+      posFila++;
     }
     
     //Reset time
     resetTime();
+  }
+  
+  void spawn(boolean infectado, int posFila){
+    float x = fila.max.x;
+    float y = fila.max.y;
+    
+    State estado = State.STILL;
+    if (posFila > fila.numPosiciones)
+      estado = State.UNAVAILABLE;
+    
+    agents.add(new Agent(x, y, false, eficienciaMascarilla, estado, posFila));
   }
   
   void simulacion(int sanos, int contagiados){
@@ -247,8 +271,8 @@ class AgentSystem{
     numPersonasMascarilla = sanosMascarilla + contagiadosMascarilla;
     
     for (int i = 0; i < numPersonas - numPersonasInfectadas; i++){
-      float x = random(0, 300) + scene.w3X + 50;
-      float y = random(0, 700) + scene.w3Y + 50;
+      float x = fila.max.x;
+      float y = fila.max.y;
       
       State estado = State.STILL;
       if (posFila > fila.numPosiciones)
@@ -265,8 +289,8 @@ class AgentSystem{
     }
     
     for (int i = 0; i < numPersonasInfectadas; i++){
-      float x = random(0, 300) + scene.w3X + 50;
-      float y = random(0, 650) + scene.w3Y + 50;
+      float x = fila.max.x;
+      float y = fila.max.y;
       
       State estado = State.STILL;
       if (posFila > fila.numPosiciones)
