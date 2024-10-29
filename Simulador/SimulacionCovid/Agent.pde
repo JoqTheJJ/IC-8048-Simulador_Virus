@@ -5,11 +5,6 @@ enum State {
   UNAVAILABLE //Bathroom state where no activity is shown
 }
 
-enum ColorMode {
-  INFECTION,
-  MASK
-}
-
 ArrayList<Integer> colorsInfection;
 void addColorsInfection(){
   colorsInfection = new ArrayList();
@@ -29,6 +24,11 @@ void addColorsMask(){
   colorsMask.add(#337CFF); //Azul Claro
   colorsMask.add(#0A3BD8); //Azul
 }
+
+
+
+
+
 
 class Agent {
   boolean debug = false;

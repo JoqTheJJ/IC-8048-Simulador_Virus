@@ -4,6 +4,7 @@ enum Rol {
   BATERISTA,
   GUITARRISTA,
   TECLADISTA,
+  GUARDA,
   OTRO
 }
 
@@ -28,6 +29,27 @@ class Actor extends Agent{
     offsetY = 0;
   }
   
+  void display(){
+    strokeWeight(3);
+    stroke(#000000);
+
+    fill(c);
+    circle(pos.x + offsetX, pos.y + offsetY, radio*2);
+    
+    fill(#000000);
+    if (rol == Rol.GUARDA){
+      rect(pos.x-9   + offsetX, pos.y-4 + offsetY, 18, 0.5);
+      rect(pos.x-4.5   + offsetX, pos.y-4 + offsetY, 3, 4);
+      rect(pos.x+2.5 + offsetX, pos.y-4 + offsetY, 3, 4);
+      strokeWeight(0);
+      fill(#FFFFFF);
+      rect(pos.x-4.5   + offsetX, pos.y-4 + offsetY, 2, 2);//Brillo
+      rect(pos.x+2.5   + offsetX, pos.y-4 + offsetY, 2, 2);//Brillo
+    } else {
+      rect(pos.x-3 + offsetX, pos.y-4 + offsetY, 0.5, 0.7); //Ojos
+      rect(pos.x+3 + offsetX, pos.y-4 + offsetY, 0.5, 0.7); //Ojos
+    }
+  }  
   
   void run(){
     switch(rol){
@@ -61,14 +83,6 @@ class Actor extends Agent{
     display();
   }
   
-  void display(){
-    strokeWeight(3);
-    stroke(#000000);
-
-    fill(c);
-    circle(pos.x + offsetX, pos.y + offsetY, radio*2);
-  }
-  
   
   void cantantePrincipal(){
     offsetX = map(noise(noiseXOffset), 0, 1, -15, 55);
@@ -95,7 +109,6 @@ class Actor extends Agent{
   }
   
   void tecladista(){
-    offsetX = 0;
     offsetY = map(noise(noiseYOffset), 0, 1, -10, 10);
     
     noiseYOffset += 0.02;
@@ -110,7 +123,6 @@ class Actor extends Agent{
   }
   
   void noMovement(){
-    offsetX = 0;
-    offsetY = 0;
+    
   }
 }

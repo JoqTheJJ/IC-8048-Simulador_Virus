@@ -75,7 +75,6 @@ class Fila{
   }
   
   void display(){
-    
     strokeWeight(3);
     fill(#38E1FC);
     circle(c.x, c.y, 25);
@@ -84,20 +83,18 @@ class Fila{
       PVector pos = posiciones[i];
       circle(pos.x, pos.y, 25);
     }
-    
-  }
-  
-  void update(){
-    
-    
   }
 }
+
+
+
 
 
 
 class Scene{
   
 
+  //Concert coordinates
   float concertX = 0;
   float concertY = height/2 -200;
   float concertW = 300;
@@ -133,39 +130,30 @@ class Scene{
   float reflectorVelocidadBase = 2;
   
   //r1 Reflector 1
-  /*
-  float r1X = concertW/2 + 100;
-  float r1Y = concertY + concertH/2 - 300;
-  
-  float r2X = concertW/2 + 100;
-  float r2Y = concertY + concertH/2 - 150;
-  
-  float r3X = concertW/2 + 100;
-  float r3Y = concertY + concertH/2;
-  
-  float r4X = concertW/2 + 100;
-  float r4Y = concertY + concertH/2 + 150;
-  
-  float r5X = concertW/2 + 100;
-  float r5Y = concertY + concertH/2 + 300;
-  */
   float r1X = width/2 + 0;
   float r1Y = height/2 + 0;
   
+  //r2 Reflector 2
   float r2X = width/2 + 150;
   float r2Y = height/2 + 150;
   
+  //r3 Reflector 3
   float r3X = width/2 + 150;
   float r3Y = height/2 - 150;
   
+  //r4 Reflector 4
   float r4X = width/2 - 150;
   float r4Y = height/2 + 150;
   
+  //r5 Reflector 5
   float r5X = width/2 - 150;
   float r5Y = height/2 - 150;
   
-  
+  //Radio persona
   float radio = 10;
+  float diametro = radio*2;
+  
+  //Ancho puerta = 100
   
   Scene(){
     reflectores = new ArrayList<Reflector>();
@@ -185,15 +173,14 @@ class Scene{
   
   void display(){
     
-    //Ancho puerta = 100
+
     noStroke();
     
-    //Concierto
-    
+    //Area del Concierto
     fill(#242424);
     rect(concertX, concertY, concertW, concertH);
     
-    //Walls
+    //Walls color
     fill(#A5A5A5);
     
     //W1 Upper wall left
@@ -206,65 +193,57 @@ class Scene{
     rect(w4X, w4Y, w4W, w4H);
     
     
-    //Personas
-    float radio = this.radio * 2;
+    
+    
+    
+    // ################################### //
+    // ########## Instrumentos ########### //
+    // ################################### //
+    
     strokeWeight(3);
     stroke(#000000);
 
 
-    //Artistas
+    //Bateria
+    //Externa
     fill(#C1C1C1);
+    circle(concertW/2 +30, (2*concertY+concertH)/2 +131  -30, diametro); // 2
+    circle(concertW/2 +30, (2*concertY+concertH)/2 +149  -30, diametro); // 3
+    //Interna
+    fill(#F2F2F2);
     circle(concertW/2 +30, (2*concertY+concertH)/2 +131  -30, radio); // 2
     circle(concertW/2 +30, (2*concertY+concertH)/2 +149  -30, radio); // 3
-    fill(#F2F2F2);
-    circle(concertW/2 +30, (2*concertY+concertH)/2 +131  -30, radio*0.5); // 2
-    circle(concertW/2 +30, (2*concertY+concertH)/2 +149  -30, radio*0.5); // 3
-    
+    //Platillos
     fill(#FFC400);
-    circle(concertW/2 +20, (2*concertY+concertH)/2 +160  -30, radio*0.8); // 4
-    circle(concertW/2 +20, (2*concertY+concertH)/2 +120  -30, radio*0.8); // 1
+    circle(concertW/2 +20, (2*concertY+concertH)/2 +160  -30, diametro*0.8); // 4
+    circle(concertW/2 +20, (2*concertY+concertH)/2 +120  -30, diametro*0.8); // 1
     
-    fill(#00FFFD);
-    //circle(concertW/2 +10, (2*concertY+concertH)/2 +140  -30, radio);
-    
-    
-    fill(#6203FF);
-    //circle(concertW/2 +20, (2*concertY+concertH)/2 +70  -30, radio);
-    
-    fill(#FFFFFF);
-    //circle(concertW/2 +30, (2*concertY+concertH)/2 +0, radio);
-    
-    fill(#FE00FF);
-    //circle(concertW/2 +20, (2*concertY+concertH)/2 -70  -30, radio);
-    
+
+    //Piano
     fill(#03FF11);
     strokeWeight(2);
-    rect(concertW/2 +21, (2*concertY+concertH)/2 -140  -45, radio*0.7, radio*1.5);
+    rect(concertW/2 +21, (2*concertY+concertH)/2 -140  -45, diametro*0.7, diametro*1.5);
+    //Superficie
     fill(#FFFFFF);
     strokeWeight(0);
-    rect(concertW/2 +23, (2*concertY+concertH)/2 -140  -42, radio*0.4, radio*1.2);
+    rect(concertW/2 +23, (2*concertY+concertH)/2 -140  -42, diametro*0.4, diametro*1.2);
+    //Teclas
     fill(#000000);
-    rect(concertW/2 +23, (2*concertY+concertH)/2 -140  -28, radio*0.25, 3);
-    rect(concertW/2 +23, (2*concertY+concertH)/2 -140  -23, radio*0.25, 3);
-    rect(concertW/2 +23, (2*concertY+concertH)/2 -140  -35, radio*0.25, 3);
-    rect(concertW/2 +23, (2*concertY+concertH)/2 -140  -40, radio*0.25, 3);
-    //circle(concertW/2 +10, (2*concertY+concertH)/2 -140  -30, radio);
-    
-    //Guardas
-    strokeWeight(3);
-    fill(#0A39F0);
-    circle(width*3/4+5, height/2 +50, radio);
-    circle(width*3/4+5, height/2 +150, radio);
-    
-    
+    rect(concertW/2 +23, (2*concertY+concertH)/2 -140  -28, radio*0.5, 3);
+    rect(concertW/2 +23, (2*concertY+concertH)/2 -140  -23, radio*0.5, 3);
+    rect(concertW/2 +23, (2*concertY+concertH)/2 -140  -35, radio*0.5, 3);
+    rect(concertW/2 +23, (2*concertY+concertH)/2 -140  -40, radio*0.5, 3);
     
     //Luces
     for (Reflector r : reflectores){
       r.display();
     }
-
   }
 }
+
+
+
+
 
 class Reflector {
   PVector pos;

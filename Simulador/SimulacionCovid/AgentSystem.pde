@@ -1,14 +1,13 @@
-
-
-
+enum ColorMode {
+  INFECTION,
+  MASK
+}
 
 class AgentSystem{
   
   ArrayList<Agent> agents;
   
   boolean advanceLine;
-  
-  
   
   //Variables contagio
   float radioDeInfeccion = 70;
@@ -90,38 +89,38 @@ class AgentSystem{
       
       if(frameCount % 60 == 0){ //Infeccion 1 vez por segundo
       
-      advanceLine = true;
+        advanceLine = true;
       
-      for (int j = i+1; j < size; j++) {
-        Agent a2 = agents.get(j);
-        boolean infeccion = false;
-        
-        
-        Agent infectado = a1;
-        Agent sano = a1;
-        if (a1.infectado() && !a2.infectado()){
-          infectado = a1;
-          sano = a2;
-          infeccion = true;
-        } else if (a2.infectado() && !a1.infectado()) {
-          infectado = a2;
-          sano = a1;
-          infeccion = true;
-        }
-        
-        if(infeccion){
-          float distancia = PVector.sub(a1.pos,a2.pos).mag();
+        for (int j = i+1; j < size; j++) {
+          Agent a2 = agents.get(j);
+          boolean infeccion = false;
           
-          if (distancia < radioDeInfeccion && distancia > -radioDeInfeccion){
-            contagio(infectado, sano, distancia);
+          
+          Agent infectado = a1;
+          Agent sano = a1;
+          if (a1.infectado() && !a2.infectado()){
+            infectado = a1;
+            sano = a2;
+            infeccion = true;
+          } else if (a2.infectado() && !a1.infectado()) {
+            infectado = a2;
+            sano = a1;
+            infeccion = true;
+          }
+          
+          if(infeccion){
+            float distancia = PVector.sub(a1.pos,a2.pos).mag();
             
-            if(sano.infectado()){
-              numPersonasInfectadas += 1;
+            if (distancia < radioDeInfeccion && distancia > -radioDeInfeccion){
+              contagio(infectado, sano, distancia);
+              
+              if(sano.infectado()){
+                numPersonasInfectadas += 1;
+              }
             }
           }
+          
         }
-        
-      }
       }
     }
     
@@ -139,6 +138,9 @@ class AgentSystem{
   
   void reset(){
     agents.clear();
+    numPersonas = 0;
+    numPersonasInfectadas = 0;
+    numPersonasMascarilla = 0;
   }
   
   void alterColorMode(){
@@ -148,17 +150,6 @@ class AgentSystem{
       colorMode = ColorMode.INFECTION;
     }
   }
-
-  // ############################  ############################
-  // ################### METODOS MOVIMIENTO ###################
-  // ############################  ############################
-  
-  void advanceLine(){
-    advanceLine = true;
-  }
-  
-  
-  
   
   
   // ############################  ############################
@@ -190,6 +181,26 @@ class AgentSystem{
     float quantaInhalada = concentracionQuanta * tasaInhalacion * ajusteDistancia;
     
     sano.contagiar(quantaInhalada);
+  }
+  
+
+  // ############################  ############################
+  // ##################### METODOS SISTEMA ####################
+  // ############################  ############################
+  
+  void advanceLine(){
+    advanceLine = true;
+  }
+  
+  void spawn(boolean infectado, int posFila){
+    float x = fila.max.x;
+    float y = fila.max.y;
+    
+    State estado = State.STILL;
+    if (posFila > fila.numPosiciones)
+      estado = State.UNAVAILABLE;
+    
+    agents.add(new Agent(x, y, false, eficienciaMascarilla, estado, posFila));
   }
   
   void simulacion1(int sanos, int contagiados){
@@ -245,16 +256,8 @@ class AgentSystem{
     resetTime();
   }
   
-  void spawn(boolean infectado, int posFila){
-    float x = fila.max.x;
-    float y = fila.max.y;
-    
-    State estado = State.STILL;
-    if (posFila > fila.numPosiciones)
-      estado = State.UNAVAILABLE;
-    
-    agents.add(new Agent(x, y, false, eficienciaMascarilla, estado, posFila));
-  }
+  
+  
   
   void simulacion(int sanos, int contagiados){
     sys.reset();
@@ -308,4 +311,9 @@ class AgentSystem{
     //Reset time
     resetTime();
   }
+  
+  
+  
+  
+  
 }
