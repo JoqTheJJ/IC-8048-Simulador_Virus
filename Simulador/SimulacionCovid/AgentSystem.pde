@@ -3,6 +3,8 @@ enum ColorMode {
   MASK
 }
 
+
+
 class AgentSystem{
   
   ArrayList<Agent> agents;

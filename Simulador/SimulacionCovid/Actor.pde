@@ -8,7 +8,11 @@ enum Rol {
   OTRO
 }
 
-class Actor extends Agent{
+
+
+class Actor{
+  PVector pos;
+  float radio = 10;
   
   color c;
   Rol rol;
@@ -20,8 +24,7 @@ class Actor extends Agent{
   float noiseYOffset = random(100);
   
   Actor(float x, float y, color c, Rol rol){
-    super(x, y, false, 1, State.UNAVAILABLE, 0);
-    vel.setMag(0);
+    pos = new PVector(x, y);
     this.c = c;
     this.rol = rol;
     

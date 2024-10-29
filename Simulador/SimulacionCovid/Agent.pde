@@ -5,29 +5,6 @@ enum State {
   UNAVAILABLE //Bathroom state where no activity is shown
 }
 
-ArrayList<Integer> colorsInfection;
-void addColorsInfection(){
-  colorsInfection = new ArrayList();
-  colorsInfection.add(color(10, 154, 67));  //Verde
-  colorsInfection.add(color(103, 186, 61)); //Verde claro
-  colorsInfection.add(color(168, 208, 57)); //Verde muy claro
-  colorsInfection.add(color(247, 230, 51)); //Amarillo
-  colorsInfection.add(color(240, 159, 44)); //Naranja claro
-  colorsInfection.add(color(232, 83, 37));  //Naranja oscuro
-  colorsInfection.add(color(222, 38, 38));  //Rojo
-}
-
-ArrayList<Integer> colorsMask;
-void addColorsMask(){
-  colorsMask = new ArrayList();
-  colorsMask.add(#FFFFFF); //Blanco
-  colorsMask.add(#337CFF); //Azul Claro
-  colorsMask.add(#0A3BD8); //Azul
-}
-
-
-
-
 
 
 class Agent {

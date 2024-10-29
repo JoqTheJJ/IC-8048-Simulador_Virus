@@ -46,13 +46,6 @@ ColorMode colorMode;
 Fila fila;
 
 
-void addMascarillas(){
-  mascarillas = new ArrayList();
-  mascarillas.add(0.0); //Sin mascarilla
-  mascarillas.add(0.3); //Generica
-  mascarillas.add(0.6); //Quirurgica
-  mascarillas.add(0.9); //N95
-}
 
 
 //#83FF99
@@ -68,6 +61,7 @@ void addMascarillas(){
 void setup() {
   //size(800, 800);
   fullScreen();
+  print("\n\n\n\n\n\n\n\n");
   
   cp5 = new ControlP5(this);
   
@@ -117,7 +111,8 @@ void setup() {
                   
                   
                   
-                  
+  
+  
   
   addColorsInfection();
   addColorsMask();
@@ -135,73 +130,16 @@ void setup() {
   scene = new Scene();
   fila = new Fila();
   
-  repeledores = new ArrayList<Repeledor>();
   
-  repeledores.add(new Repeledor(0, scene.w1Y-50, scene.w1W-20, 50,
-  0.13, new PVector(0, -1), sys));
-  repeledores.add(new Repeledor(scene.w2X+20, scene.w2Y-50, width, 50,
-  0.13, new PVector(0, -1), sys));
-  
-  repeledores.add(new Repeledor(0, scene.w1Y +scene.w1H, scene.w1W-20, 50,
-  0.13, new PVector(0, 1), sys));
-  repeledores.add(new Repeledor(scene.w2X+20, scene.w2Y +scene.w2H, scene.w3X - scene.w2X+20, 50,
-  0.13, new PVector(0, 1), sys));
-  
-  actores = new ArrayList<Actor>();
-  
-  actores.add(new Actor( //Pianista
-    scene.concertW/2 +10,
-    (2*scene.concertY+scene.concertH)/2 -140  -30,
-    #03FF11,
-    Rol.TECLADISTA)
-    );
-  actores.add(new Actor( //Guitarrista
-    scene.concertW/2 +20,
-    (2*scene.concertY+scene.concertH)/2-30 -70,
-    #FE00FF,
-    Rol.GUITARRISTA)
-    );
-  actores.add(new Actor( //Cantante
-    scene.concertW/2 +30,
-    (2*scene.concertY+scene.concertH)/2 -30,
-    #FFFFFF,
-    Rol.CANTANTE)
-    );
-  actores.add(new Actor( //Cantante 2
-    scene.concertW/2 +20,
-    (2*scene.concertY+scene.concertH)/2 +70  -30,
-    #6203FF,
-    Rol.SECUNDARIO)
-    );
-  actores.add(new Actor( //Baterista
-    scene.concertW/2 +10,
-    (2*scene.concertY+scene.concertH)/2 +140  -30,
-    #00FFFD,
-    Rol.BATERISTA)
-    );
-    
-  actores.add(new Actor( //Guarda
-    width*3/4+5,
-    height/2 +50,
-    #2382FA,
-    Rol.GUARDA)
-    );
-  actores.add(new Actor( //Guarda
-    width*3/4+5,
-    height/2 +150,
-    #2382FA,
-    Rol.GUARDA)
-    );
-  
-    
-  /*
-  fill(#0A39F0);
-    circle(width*3/4+5, height/2 +50, diametro);
-    circle(width*3/4+5, height/2 +150, diametro);
-  */
-    
-  print("\n\n\n\n\n\n\n\n");
+  addActores();
+  addRepeledores();
 }
+
+
+
+
+
+
 
 void draw(){
   background(#CECECE);

@@ -1,4 +1,131 @@
 
+ArrayList<Integer> colorsInfection;
+void addColorsInfection(){
+  colorsInfection = new ArrayList();
+  colorsInfection.add(color(10, 154, 67));  //Verde
+  colorsInfection.add(color(103, 186, 61)); //Verde claro
+  colorsInfection.add(color(168, 208, 57)); //Verde muy claro
+  colorsInfection.add(color(247, 230, 51)); //Amarillo
+  colorsInfection.add(color(240, 159, 44)); //Naranja claro
+  colorsInfection.add(color(232, 83, 37));  //Naranja oscuro
+  colorsInfection.add(color(222, 38, 38));  //Rojo
+}
+
+ArrayList<Integer> colorsMask;
+void addColorsMask(){
+  colorsMask = new ArrayList();
+  colorsMask.add(#FFFFFF); //Blanco
+  colorsMask.add(#337CFF); //Azul Claro
+  colorsMask.add(#0A3BD8); //Azul
+}
+
+
+void addMascarillas(){
+  mascarillas = new ArrayList();
+  mascarillas.add(0.0); //Sin mascarilla
+  mascarillas.add(0.3); //Generica
+  mascarillas.add(0.6); //Quirurgica
+  mascarillas.add(0.9); //N95
+}
+
+
+
+
+
+void addActores(){
+  actores = new ArrayList<Actor>();
+  
+  actores.add(new Actor( //Pianista
+    scene.concertW/2 +10,
+    (2*scene.concertY+scene.concertH)/2 -140  -30,
+    #03FF11,
+    Rol.TECLADISTA)
+    );
+  actores.add(new Actor( //Guitarrista
+    scene.concertW/2 +20,
+    (2*scene.concertY+scene.concertH)/2-30 -70,
+    #FE00FF,
+    Rol.GUITARRISTA)
+    );
+  actores.add(new Actor( //Cantante
+    scene.concertW/2 +30,
+    (2*scene.concertY+scene.concertH)/2 -30,
+    #FFFFFF,
+    Rol.CANTANTE)
+    );
+  actores.add(new Actor( //Cantante secundario
+    scene.concertW/2 +20,
+    (2*scene.concertY+scene.concertH)/2 +70  -30,
+    #6203FF,
+    Rol.SECUNDARIO)
+    );
+  actores.add(new Actor( //Baterista
+    scene.concertW/2 +10,
+    (2*scene.concertY+scene.concertH)/2 +140  -30,
+    #00FFFD,
+    Rol.BATERISTA)
+    );
+  
+  
+  actores.add(new Actor( //Guarda
+    width*3/4+5,
+    height/2 +50,
+    #2382FA,
+    Rol.GUARDA)
+    );
+  actores.add(new Actor( //Guarda
+    width*3/4+5,
+    height/2 +150,
+    #2382FA,
+    Rol.GUARDA)
+    );
+}
+
+
+
+void addRepeledores(){
+  repeledores = new ArrayList<Repeledor>();
+  
+  //Muro 1 superior
+  repeledores.add(new Repeledor(0, scene.w1Y-50, scene.w1W-20, 50,
+  0.13, new PVector(0, -1), sys));
+  //Muro 1 Inferior
+  repeledores.add(new Repeledor(0, scene.w1Y +scene.w1H, scene.w1W-20, 50,
+  0.13, new PVector(0, 1), sys));
+  
+  
+  //Muro 2 superior
+  repeledores.add(new Repeledor(scene.w2X+20, scene.w2Y-50, width, 50,
+  0.13, new PVector(0, -1), sys));
+  //Muro 2 Inferior
+  repeledores.add(new Repeledor(scene.w2X+20, scene.w2Y +scene.w2H, scene.w3X - scene.w2X+20, 50,
+  0.13, new PVector(0, 1), sys));
+  
+  
+  //Muro 3 y 4 Izquierda
+  repeledores.add(new Repeledor(scene.w3X-50, scene.w3Y, 50, height - scene.w3Y,
+  0.11, new PVector(-1, 0), sys));  
+  
+  //Entrada
+  repeledores.add(new Repeledor(scene.w4X-50, scene.w4Y - 100, 200, 100,
+  0.15, new PVector(-1, 0), sys));  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ############################  ############################ //
+// ###################### MENU PRINCIPAL #################### //
+// ############################  ############################ //
 
 
 
