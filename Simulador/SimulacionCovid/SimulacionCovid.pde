@@ -86,7 +86,7 @@ void setup() {
   sVentilacion = cp5.addSlider("setTasaDeVentilacion")
     .setPosition(width/2 + 300, height/2 +200)
     .setSize(200, 50)
-    .setRange(1, 6.2)
+    .setRange(1, 12)
     .setValue(tasaDeVentilacion)
     .setCaptionLabel("")
     .setFont(font);

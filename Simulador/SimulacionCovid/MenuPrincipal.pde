@@ -62,12 +62,12 @@ void menuPrincipal(){
   rect(posC.x+30, posC.y-40, 10, 14); //Ojos
   
   
-  text((int)(tasaDeVentilacion), pos.x + 740, pos.y + 240);
+  text((int)(tasaDeVentilacion), pos.x + 730, pos.y + 240);
   pushMatrix();
   translate(pos.x + 400 + 350, pos.y);
   rotate(rotacionVentilador);
   image(imagenVentilacion, -100, -100, 200, 200);
-  rotacionVentilador += 0.01 * 2 * tasaDeVentilacion;
+  rotacionVentilador += 0.01 * 1.5 * tasaDeVentilacion;
   popMatrix();
   
   
