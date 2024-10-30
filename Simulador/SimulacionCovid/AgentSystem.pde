@@ -74,7 +74,7 @@ class AgentSystem{
         if (advanceLine){
           a1.filaPos -= 1;
           if (a1.filaPos == 0){
-            a1.followLine(fila.posiciones[0].x - 100, fila.posiciones[0].y);
+            a1.followLine(fila.posiciones[0].x - 4, fila.posiciones[0].y);
             a1.estado = State.CONCERT;
           }
         }

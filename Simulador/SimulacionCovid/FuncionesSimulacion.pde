@@ -107,7 +107,7 @@ void addRepeledores(){
   0.11, new PVector(-1, 0), sys));  
   
   //Entrada
-  repeledores.add(new Repeledor(scene.w4X-50, scene.w4Y - 100, 200, 100,
+  repeledores.add(new Repeledor(scene.w4X, scene.w4Y - 100, 200, 100,
   0.15, new PVector(-1, 0), sys));  
 }
 

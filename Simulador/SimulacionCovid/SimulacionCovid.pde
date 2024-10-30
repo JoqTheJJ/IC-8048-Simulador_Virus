@@ -165,6 +165,7 @@ void draw(){
         r.update();
         if (debug)
           r.display();
+          fila.display();
       }
       
       
