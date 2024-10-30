@@ -2,8 +2,9 @@
 class Fila{
   
   PVector[] posiciones;
-  int numPosiciones = 187;
+  int numPosiciones = 188;
   PVector max = new PVector(width*3/4+5 + 450, 370);
+  int col = 0;
   
   //Center
   PVector c = new PVector(width*3/4+5, height/2 +100);
@@ -13,8 +14,10 @@ class Fila{
     posiciones = new PVector[numPosiciones];
     
     int i;
-    for (i = 0; i < 15; i++){//Pone 15
-      posiciones[i] = new PVector(c.x + 30, c.y + i*30);
+    posiciones[0] = new PVector(c.x, c.y);
+    
+    for (i = 1; i < 16; i++){//Pone 15
+      posiciones[i] = new PVector(c.x + 30, c.y + (i-1)*30);
     }
     
     //Columna arriba
@@ -75,14 +78,36 @@ class Fila{
   }
   
   void display(){
-    strokeWeight(3);
-    fill(#38E1FC);
-    circle(c.x, c.y, 25);
+    noStroke();
+    col = (frameCount/60) % 8;
+    nextColor();
     
-    for(int i = 0; i < numPosiciones; i++){
+    for(int i = 1; i < numPosiciones; i++){
       PVector pos = posiciones[i];
       circle(pos.x, pos.y, 25);
+      nextColor();
     }
+  }
+  
+  void nextColor(){
+    if (col == 0){
+      fill(#FAEA56);//Amarillo
+    } else if (col == 1){
+      fill(#58FA56);//Verde
+    } else if (col == 2){
+      fill(#56F6FA);//Celeste
+    } else if (col == 3){
+      fill(#5884FA);//Azul
+    } else if (col == 4){
+      fill(#7B56FA);//Morado
+    } else if (col == 5){
+      fill(#FA56E7);//Rosado
+    } else if (col == 6){
+      fill(#FA5656);//Rojo
+    } else if (col == 7){
+      fill(#FAB056);//Naranja
+    }
+    col = (col - 1 + 8) % 8;
   }
 }
 
@@ -98,7 +123,7 @@ class Scene{
   float concertX = 0;
   float concertY = height/2 -200;
   float concertW = 300;
-  float concertH = height/2 +210;
+  float concertH = height - concertY;
   
   //W1 Upper wall left
   float w1X = 0;

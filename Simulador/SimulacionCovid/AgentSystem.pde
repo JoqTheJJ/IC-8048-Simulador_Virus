@@ -10,6 +10,8 @@ class AgentSystem{
   ArrayList<Agent> agents;
   
   boolean advanceLine;
+  int initialWaitingTime = 600;
+  int waitingTime = initialWaitingTime;
   
   //Variables contagio
   float radioDeInfeccion = 70;
@@ -45,6 +47,7 @@ class AgentSystem{
     float seekX = scene.concertX + scene.concertW/2;
     float seekY = scene.concertY + scene.concertH/2;
     
+    waitingTime--;
     for (int i = 0; i < size; i++) {
       Agent a1 = agents.get(i);
       
@@ -71,20 +74,20 @@ class AgentSystem{
           a1.followLine(fila.max.x, fila.max.y);
         }
         
-        if (advanceLine){
+        if (waitingTime <= 0 && advanceLine){
           a1.filaPos -= 1;
           if (a1.filaPos == 0){
             a1.followLine(fila.posiciones[0].x - 4, fila.posiciones[0].y);
             a1.estado = State.CONCERT;
           }
+          advanceLine = false;
         }
         
       } else {
         a1.wander();
       }
-      
       a1.run();
-      advanceLine = false;
+      
       
       
       //Infeccion

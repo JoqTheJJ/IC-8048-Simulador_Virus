@@ -19,6 +19,7 @@ class Agent {
   
   int filaPos = 0;
   
+  
   float radio = 10;
   float damp = 1;
   float mass = 1;

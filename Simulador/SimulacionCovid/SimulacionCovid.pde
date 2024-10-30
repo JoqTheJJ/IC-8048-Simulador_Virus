@@ -12,8 +12,8 @@ boolean debug = true;
 float eficienciaMascarilla = 0;
 float porcentajeMascarilla = 0;
 float tasaDeVentilacion = 1;// (ACH) Cantidad de cambios de aire por hora
-int totalSanos = 800;
-int totalContagiados = 50;
+int totalSanos = 100;
+int totalContagiados = 1;
 
 PImage imagenProhibido;
 
@@ -61,9 +61,9 @@ Fila fila;
 void setup() {
   //size(800, 800);
   fullScreen();
-  print("\n\n\n\n\n\n\n\n");
   
   cp5 = new ControlP5(this);
+  print("\n\n\n\n\n\n\n\n");
   
   imagenVentilacion = loadImage("ventilacion.png");
   imagenProhibido = loadImage("no.png");
@@ -163,12 +163,12 @@ void draw(){
 
       for (Repeledor r: repeledores){
         r.update();
-        if (debug)
+        if (debug){
           r.display();
-          fila.display();
+        }
       }
       
-      
+      fila.display();
       sys.run();
       scene.update();
       scene.display();
@@ -183,10 +183,12 @@ void draw(){
       
     } else { //PAUSA
       
-      for (Repeledor r: repeledores){
-        if (debug)
+      if (debug){
+        for (Repeledor r: repeledores){
           r.display();
+        }
       }
+      
 
 
       sys.display();
@@ -285,6 +287,7 @@ void resetTime(){
   startFrame = frameCount;
   finishFrame = startFrame;
   startTime = millis();
+  sys.waitingTime = sys.initialWaitingTime;
 }
 
 void estadisticas(){

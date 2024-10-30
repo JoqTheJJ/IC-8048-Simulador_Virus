@@ -1,3 +1,4 @@
+/*
 class Atractor {
   AgentSystem system;
   PVector center;
@@ -31,6 +32,7 @@ class Atractor {
     circle(center.x, center.y, radius*2);
   }
 }
+*/
 /*
 class Repeledor extends Atractor {
   
@@ -45,25 +47,46 @@ class Repeledor extends Atractor {
     circle(center.x, center.y, radius*2);
   }
 }*/
+class Atractor extends Repeledor{  
+  
+  Atractor(float x, float y, float ancho, float alto, float force, PVector dir, AgentSystem system){
+    super(x, y, ancho, alto, force, dir, system);
+    c = color(136, 255, 139, 150);
+  }
+  
+  void update(){
+    for (Agent a : system.agents) {
+      if (super.isIn(a)) {
+        PVector f = dir.copy();
+        f.mult(force * a.mass);
+        f.limit(a.maxSteeringForce);
+        a.addForce(f);
+      }
+    }
+  }
+}
+
 
 class Repeledor {
   AgentSystem system;
   PVector center;
   PVector pos;
-  PVector force;
-  float g;
+  PVector dir;
+  float force;
   float ancho;
   float alto;
+  color c;
   
   
-  Repeledor(float x, float y, float ancho, float alto, float g, PVector force, AgentSystem system){
+  Repeledor(float x, float y, float ancho, float alto, float force, PVector dir, AgentSystem system){
     pos = new PVector(x, y);
     center = new PVector(x+(ancho/2), y+(alto/2));
-    this.g = g;
+    this.force = force;
     this.system = system;
     this.ancho = ancho;
     this.alto = alto;
-    this.force = force.mult(g);
+    this.dir = dir.mult(force);
+    c = color(255, 140, 137, 150);
   }
   
   private boolean isIn(Agent a){
@@ -76,8 +99,8 @@ class Repeledor {
   void update(){
     for (Agent a : system.agents) {
       if (isIn(a)) {
-        PVector f = force.copy();
-        f.mult(g * a.mass);
+        PVector f = dir.copy();
+        f.mult(force * a.mass);
         a.addForce(f);
       }
     }
@@ -85,9 +108,7 @@ class Repeledor {
   
   void display(){
     noStroke();
-    fill(color(255, 140, 137, 150));
+    fill(c);
     rect(pos.x, pos.y, ancho, alto);
-    fill(color(255, 140, 137, 255));
-    circle(center.x, center.y, 10);
   }
 }

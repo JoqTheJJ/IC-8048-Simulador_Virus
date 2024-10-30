@@ -86,6 +86,14 @@ void addActores(){
 void addRepeledores(){
   repeledores = new ArrayList<Repeledor>();
   
+  //Concierto
+  repeledores.add(new Atractor(scene.concertW, scene.concertY, scene.w1W - scene.concertW, scene.concertH,
+  0.05, new PVector(-1, 0), sys));
+  repeledores.add(new Atractor(scene.concertW, scene.concertY, scene.w1W - scene.concertW - 300, scene.concertH,
+  0.05, new PVector(-1, 0), sys));
+  repeledores.add(new Repeledor(scene.concertW, scene.concertY, 15, scene.concertH,
+  0.19, new PVector(1, 0), sys));
+  
   //Muro 1 superior
   repeledores.add(new Repeledor(0, scene.w1Y-50, scene.w1W-20, 50,
   0.13, new PVector(0, -1), sys));
@@ -102,12 +110,17 @@ void addRepeledores(){
   0.13, new PVector(0, 1), sys));
   
   
+  //Abajo
+  repeledores.add(new Repeledor(scene.w2X+20, scene.w2Y-50, width, 50,
+  0.13, new PVector(0, -1), sys));
+  
+  
   //Muro 3 y 4 Izquierda
   repeledores.add(new Repeledor(scene.w3X-50, scene.w3Y, 50, height - scene.w3Y,
-  0.11, new PVector(-1, 0), sys));  
+  0.13, new PVector(-1, 0), sys));  
   
   //Entrada
-  repeledores.add(new Repeledor(scene.w4X, scene.w4Y - 100, 200, 100,
+  repeledores.add(new Repeledor(scene.w3X-25, scene.w4Y - 100, 200, 100,
   0.15, new PVector(-1, 0), sys));  
 }
 
@@ -194,7 +207,7 @@ void menuPrincipal(){
   translate(pos.x + 400 + 350, pos.y);
   rotate(rotacionVentilador);
   image(imagenVentilacion, -100, -100, 200, 200);
-  rotacionVentilador += 0.01 * 1.5 * tasaDeVentilacion;
+  rotacionVentilador += 0.01 * 1.3 * tasaDeVentilacion;
   popMatrix();
   
   

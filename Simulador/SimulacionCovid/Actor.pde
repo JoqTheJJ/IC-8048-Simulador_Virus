@@ -48,6 +48,8 @@ class Actor{
       fill(#FFFFFF);
       rect(pos.x-4.5   + offsetX, pos.y-4 + offsetY, 2, 2);//Brillo
       rect(pos.x+2.5   + offsetX, pos.y-4 + offsetY, 2, 2);//Brillo
+      fill(#000000);
+      arc(pos.x+ offsetX, pos.y+ offsetY +3, radio*1.8, radio*1.8, 0, PI, CHORD); //Traje
     } else {
       rect(pos.x-3 + offsetX, pos.y-4 + offsetY, 0.5, 0.7); //Ojos
       rect(pos.x+3 + offsetX, pos.y-4 + offsetY, 0.5, 0.7); //Ojos
