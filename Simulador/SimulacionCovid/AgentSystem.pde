@@ -14,7 +14,7 @@ class AgentSystem{
   int waitingTime = initialWaitingTime;
   
   //Variables contagio
-  float radioDeInfeccion = 70;
+  float radioDeInfeccion = 50;
   float tasaDeInfeccion = tasaDeTiempo; //Cantidad de minutos por segundo de la simulacion
   
   int numPersonas;
@@ -77,7 +77,7 @@ class AgentSystem{
         if (waitingTime <= 0 && advanceLine){
           a1.filaPos -= 1;
           if (a1.filaPos == 0){
-            a1.followLine(fila.posiciones[0].x - 4, fila.posiciones[0].y);
+            a1.followLine(fila.posiciones[0].x - 2, fila.posiciones[0].y);
             a1.estado = State.CONCERT;
           }
           advanceLine = false;

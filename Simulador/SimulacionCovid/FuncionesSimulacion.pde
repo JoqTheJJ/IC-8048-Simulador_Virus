@@ -109,12 +109,7 @@ void addRepeledores(){
   repeledores.add(new Repeledor(scene.w2X+20, scene.w2Y +scene.w2H, scene.w3X - scene.w2X+20, 50,
   0.13, new PVector(0, 1), sys));
   
-  
-  //Abajo
-  repeledores.add(new Repeledor(scene.w2X+20, scene.w2Y-50, width, 50,
-  0.13, new PVector(0, -1), sys));
-  
-  
+
   //Muro 3 y 4 Izquierda
   repeledores.add(new Repeledor(scene.w3X-50, scene.w3Y, 50, height - scene.w3Y,
   0.13, new PVector(-1, 0), sys));  
@@ -122,6 +117,25 @@ void addRepeledores(){
   //Entrada
   repeledores.add(new Repeledor(scene.w3X-25, scene.w4Y - 100, 200, 100,
   0.15, new PVector(-1, 0), sys));  
+  
+  
+  
+  
+  //Abajo
+  repeledores.add(new Repeledor(scene.concertX, height-50, scene.w4X - scene.concertX, 50,
+  0.13, new PVector(0, -1), sys));
+  
+  //Arriba
+  repeledores.add(new Repeledor(0, 0, width, 50,
+  0.13, new PVector(0, 1), sys));
+  
+  //Izquierda
+  repeledores.add(new Repeledor(0, 0, 50, scene.w1Y,
+  0.13, new PVector(1, 0), sys));
+  
+  //Derecha
+  repeledores.add(new Repeledor(width-50, 0, 50, scene.w2Y,
+  0.13, new PVector(-1, 0), sys));
 }
 
 
