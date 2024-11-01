@@ -7,7 +7,7 @@ void addColorsInfection(){
   colorsInfection.add(color(168, 208, 57)); //Verde muy claro
   colorsInfection.add(color(247, 230, 51)); //Amarillo
   colorsInfection.add(color(240, 159, 44)); //Naranja claro
-  colorsInfection.add(color(232, 83, 37));  //Naranja oscuro
+  colorsInfection.add(color(240, 159, 44)); //Naranja claro
   colorsInfection.add(color(222, 38, 38));  //Rojo
 }
 

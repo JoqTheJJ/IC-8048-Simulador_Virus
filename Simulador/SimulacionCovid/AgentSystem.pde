@@ -80,6 +80,7 @@ class AgentSystem{
           if (a1.filaPos == 0){
             a1.followLine(fila.posiciones[0].x - 2, fila.posiciones[0].y);
             a1.estado = State.CONCERT;
+            a1.humor = Humor.NOTTIRED;
           }
           advanceLine = false;
         }
@@ -124,9 +125,7 @@ class AgentSystem{
         } else if (a1.eHambre == Hambre.HAMBRIENTO){
           a1.humor = Humor.TIRED;
           if (a1.humor == Humor.RESTING){
-            a1.eHambre = Hambre.COMPRANDO;
-            a1.numTienda = 7;
-            a1.tiempoCompra = 600;
+            a1.followLine(a1.pos.x, 55);
           }
         }
         

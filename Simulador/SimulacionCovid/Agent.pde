@@ -130,7 +130,7 @@ class Agent {
     stroke(#000000);
     
     if (humor == Humor.NOTTIRED){
-      energia -= random(0.03);
+      //energia -= random(0.03);
       if (energia < 0){
         humor = Humor.TIRED;
       }
@@ -155,7 +155,7 @@ class Agent {
       }
     }
     
-    if (hambre < 0){
+    if (hambre < 0 && eHambre != Hambre.COMPRANDO){
       eHambre = Hambre.HAMBRIENTO;
     }
     
@@ -177,6 +177,17 @@ class Agent {
     fill(colorsInfection.get(c));
     circle(pos.x, pos.y, radio*2);
     
+    
+    
+    //Hambre IZQ
+    fill(zHambreColor());
+    rect(pos.x-10, pos.y+radio, 10, 10); //MEDIDOR BORRAR
+    
+    //Humor DER
+    fill(zHumorColor());
+    rect(pos.x, pos.y+radio, 10, 10); //MEDIDOR BORRAR
+    
+    
     fill(#000000);
     rect(pos.x-3, pos.y-4, 0.5, 0.7); //Ojos
     rect(pos.x+3, pos.y-4, 0.5, 0.7); //Ojos
@@ -191,6 +202,8 @@ class Agent {
       rect(pos.x + radio - 4, pos.y, 7, 2.5); //Tapa
       fill(#FFFFFF);
       rect(pos.x + radio - 1, pos.y - 4, 2, 4); //Pajilla
+    } else if (bebida == 0){
+      eHambre = Hambre.SATISFECHO;
     }
     
     if (hamburguesa > 0){
@@ -201,7 +214,8 @@ class Agent {
       rect(pos.x - radio - 3, pos.y + 5, 7, 2); //Pan
       fill(#5D0909);
       rect(pos.x - radio - 3, pos.y + 3, 7, 2); //Carne
-      
+    } else if (hamburguesa == 0){
+      eHambre = Hambre.SATISFECHO;
     }
     
     if(colorMode == ColorMode.MASK && eficienciaMascarilla > 0){
@@ -312,6 +326,10 @@ class Agent {
     float dist = pos.dist(target);
     if (dist <= arrivalRadius) {
       vel.limit(max(0, map(dist, 0, arrivalRadius, 0, maxSpeed*3)));
+    }
+    if (true){
+      fill(#0000FF);
+      circle(x, y, 5);
     }
     addForce(steering);
   }
@@ -594,5 +612,52 @@ class Agent {
         vel.y *= -damp;
       }
     }
+  }
+  
+  
+  
+  
+  
+  
+  
+  color zHambreColor(){
+    color c = #FFFFFF;
+    switch(eHambre) {
+      case HAMBRIENTO:
+        c = #FF0000;
+        break;
+      case COMPRANDO:
+        c = #FFC400;
+        break;
+      case COMIENDO:
+        c = #76FF00;
+        break;
+      case SATISFECHO:
+        c = #00FFDF;
+        break;
+    }
+    return c;
+  }
+  
+  color zHumorColor(){
+    color c = #FFFFFF;
+    switch(humor) {
+      case NOTTIRED:
+        c = #00FF1F;
+        break;
+      case TIRED:
+        c = #FFD900;
+        break;
+      case RESTING:
+        c = #00FFEC;
+        break;
+      case REFRESHED:
+        c = #0017FF;
+        break;
+      case UNAVAILABLE:
+        c = #000000;
+        break;
+    }
+    return c;
   }
 }
