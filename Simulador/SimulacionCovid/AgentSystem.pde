@@ -14,7 +14,7 @@ class AgentSystem{
   int waitingTime = initialWaitingTime;
   
   //Variables contagio
-  float radioDeInfeccion = 50;
+  float radioDeInfeccion = 40;
   float tasaDeInfeccion = tasaDeTiempo; //Cantidad de minutos por segundo de la simulacion
   
   int numPersonas;
@@ -64,8 +64,9 @@ class AgentSystem{
       
       
       int posicionFila = a1.filaPos;
-      if (posicionFila > 0){
+      if (posicionFila > 0){ //Estan haciendo fila
         
+        a1.humor = Humor.UNAVAILABLE;
         if (posicionFila < fila.numPosiciones){
           PVector coordenadaFila = fila.posiciones[posicionFila - 1];
           a1.estado = State.STILL;
@@ -83,13 +84,60 @@ class AgentSystem{
           advanceLine = false;
         }
         
-      } else {
+      } else { //Estan en el concierto
         a1.wander();
+        a1.separate(agents);
+        
+        
+        if (a1.pos.y > scene.w1Y){
+          a1.estado = State.CONCERT;
+        } else {
+          a1.estado = State.WANDER;
+        }
+        
+        if (a1.estado == State.CONCERT){
+          float friction = map(a1.pos.x, scene.concertX, scene.w3X, 0.01, 0);
+          a1.applyFriction(friction);
+        }
+        
+        
+        
+        if (a1.humor == Humor.TIRED){
+          a1.seek(scene.w1W + 50, scene.w1Y - 20);
+          if (a1.pos.y < scene.w1Y){
+            a1.humor = Humor.RESTING;
+          }
+        } else if (a1.humor == Humor.REFRESHED){
+          a1.seek(scene.w1W + 50, scene.w1Y + 20);
+          if (a1.pos.y > scene.w1Y){
+            a1.humor = Humor.NOTTIRED;
+          }
+        }
+        
+        
+        
+        if (a1.eHambre == Hambre.COMPRANDO){
+          Tienda tienda = tiendas.get(a1.numTienda);
+          a1.followLine(tienda.centerX, tienda.centerY);
+          
+          
+        } else if (a1.eHambre == Hambre.HAMBRIENTO){
+          a1.humor = Humor.TIRED;
+          if (a1.humor == Humor.RESTING){
+            a1.eHambre = Hambre.COMPRANDO;
+            a1.numTienda = 7;
+            a1.tiempoCompra = 600;
+          }
+        }
+        
+        
+        
+        
       }
+      
+      
       a1.run();
-      
-      
-      
+
       //Infeccion
       
       if(frameCount % 60 == 0){ //Infeccion 1 vez por segundo

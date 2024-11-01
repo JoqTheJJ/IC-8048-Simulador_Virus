@@ -28,8 +28,44 @@ void addMascarillas(){
   mascarillas.add(0.9); //N95
 }
 
-
-
+void addTiendas(){
+  tiendas = new ArrayList();
+  foodAttractors = new ArrayList();
+  
+  Tienda t1 = new Tienda(50, 0, Comida.HAMBURGUESA, 0);
+  tiendas.add(t1);
+  foodAttractors.add(new FoodAttractor(t1, sys));
+  
+  Tienda t2 = new Tienda(250, 0, Comida.BEBIDA, 1);
+  tiendas.add(t2);
+  foodAttractors.add(new FoodAttractor(t2, sys));
+  
+  Tienda t3 = new Tienda(450, 0, Comida.HAMBURGUESA, 2);
+  tiendas.add(t3);
+  foodAttractors.add(new FoodAttractor(t3, sys));
+  
+  Tienda t4 = new Tienda(650, 0, Comida.BEBIDA, 3);
+  tiendas.add(t4);
+  foodAttractors.add(new FoodAttractor(t4, sys));
+  
+  
+  
+  Tienda t5 = new Tienda(width - 750, 0, Comida.HAMBURGUESA, 4);
+  tiendas.add(t5);
+  foodAttractors.add(new FoodAttractor(t5, sys));
+  
+  Tienda t6 = new Tienda(width - 550, 0, Comida.BEBIDA, 5);
+  tiendas.add(t6);
+  foodAttractors.add(new FoodAttractor(t6, sys));
+  
+  Tienda t7 = new Tienda(width - 350, 0, Comida.HAMBURGUESA, 6);
+  tiendas.add(t7);
+  foodAttractors.add(new FoodAttractor(t7, sys));
+  
+  Tienda t8 = new Tienda(width - 150, 0, Comida.BEBIDA, 7);
+  tiendas.add(t8);
+  foodAttractors.add(new FoodAttractor(t8, sys));
+}
 
 
 void addActores(){
@@ -88,11 +124,19 @@ void addRepeledores(){
   
   //Concierto
   repeledores.add(new Atractor(scene.concertW, scene.concertY, scene.w1W - scene.concertW, scene.concertH,
-  0.05, new PVector(-1, 0), sys));
-  repeledores.add(new Atractor(scene.concertW, scene.concertY, scene.w1W - scene.concertW - 300, scene.concertH,
-  0.05, new PVector(-1, 0), sys));
+  0.04, new PVector(-1, 0), sys));
+  /*repeledores.add(new Atractor(scene.concertW, scene.concertY, scene.w1W - scene.concertW - 300, scene.concertH,
+  0.06, new PVector(-1, 0), sys));*/
   repeledores.add(new Repeledor(scene.concertW, scene.concertY, 15, scene.concertH,
   0.19, new PVector(1, 0), sys));
+  
+  //Entrada Superior
+  repeledores.add(new Atractor(scene.w1W - 100, scene.w1Y - 75, 100, 160,
+  0.06, new PVector(1, 0), sys));
+  repeledores.add(new Atractor(scene.w2X, scene.w2Y - 75, 100, 160,
+  0.06, new PVector(-1, 0), sys));
+  repeledores.add(new Atractor(scene.w2X - 80, scene.w2Y - 50, 60, 160,
+  0.04, new PVector(0, -1), sys));
   
   //Muro 1 superior
   repeledores.add(new Repeledor(0, scene.w1Y-50, scene.w1W-20, 50,
@@ -126,15 +170,15 @@ void addRepeledores(){
   0.13, new PVector(0, -1), sys));
   
   //Arriba
-  repeledores.add(new Repeledor(0, 0, width, 50,
+  repeledores.add(new Repeledor(0, 50, width, 50,
   0.13, new PVector(0, 1), sys));
   
   //Izquierda
-  repeledores.add(new Repeledor(0, 0, 50, scene.w1Y,
+  repeledores.add(new Repeledor(0, 50, 50, scene.w1Y,
   0.13, new PVector(1, 0), sys));
   
   //Derecha
-  repeledores.add(new Repeledor(width-50, 0, 50, scene.w2Y,
+  repeledores.add(new Repeledor(width-50, 50, 50, scene.w2Y,
   0.13, new PVector(-1, 0), sys));
 }
 

@@ -5,10 +5,42 @@ enum State {
   UNAVAILABLE //Bathroom state where no activity is shown
 }
 
+enum Humor {
+  NOTTIRED,
+  TIRED,
+  RESTING,
+  REFRESHED,
+  UNAVAILABLE
+}
+
+enum Hambre {
+  HAMBRIENTO,
+  COMPRANDO,
+  COMIENDO,
+  SATISFECHO
+}
+
 
 
 class Agent {
   boolean debug = false;
+  
+  
+  
+  //Variables estado
+  State estado;
+  Humor humor;
+  Hambre eHambre;
+  //Medidores estado (0-100)
+  float energia;
+  float hambre;
+  float necesidades;
+  int bebida;
+  int hamburguesa;
+  
+  //Tienda
+  int numTienda = 0;
+  int tiempoCompra;
   
   
   // Variables Movimiento
@@ -35,9 +67,16 @@ class Agent {
   float wanderNoiseT = random(0,100);
   float wanderNoiseTInc = 0.005;
   
+  float alignmentRadio = 60;
+  float alignmentRatio = 1;
+
+  float separationRadio = 50;
+  float separationRatio = 11;
+
+  float cohesionRadio = 80;
+  float cohesionRatio = 1;
   
-  // Variables
-  State estado;
+  
   
   
   // Variables Contagio
@@ -61,6 +100,16 @@ class Agent {
     this.estado = estado;
     filaPos = posFila;
     
+    energia = random(100, 200);
+    hambre = random(40, 100);
+    necesidades = random(80, 100);
+    tiempoCompra = 0;
+    bebida = 0;
+    hamburguesa = 0;
+    
+    humor = Humor.REFRESHED;
+    eHambre = Hambre.SATISFECHO;
+    
     if(infectado) {
       quanta = quantaMaxima;
     } else {
@@ -80,6 +129,47 @@ class Agent {
     strokeWeight(3);
     stroke(#000000);
     
+    if (humor == Humor.NOTTIRED){
+      energia -= random(0.03);
+      if (energia < 0){
+        humor = Humor.TIRED;
+      }
+      
+    } else if (humor == Humor.RESTING){
+      energia += random(0.02, 0.03);
+      if (energia > 80){
+        humor = Humor.REFRESHED;
+      }
+    }
+    
+    if (eHambre == Hambre.COMPRANDO){
+      tiempoCompra--;
+      if (tiempoCompra < 0){
+        hambre = random(50, 100);
+        eHambre = Hambre.COMIENDO;
+        if (numTienda % 2 == 0){
+          hamburguesa = (int)random(1800, 7200);
+        } else {
+          bebida = (int)random(1800, 7200);
+        }
+      }
+    }
+    
+    if (hambre < 0){
+      eHambre = Hambre.HAMBRIENTO;
+    }
+    
+    bebida      -= 1;
+    hamburguesa -= 1;
+    hambre      -= random(0.025);
+    necesidades -= random(0.01);
+    
+    
+    
+    
+    
+    
+    
     int c = int(map(quanta, 0, 3, 0, 5));
     c = min(c, 5);
     if (quanta >= quantaMaxima)
@@ -90,6 +180,29 @@ class Agent {
     fill(#000000);
     rect(pos.x-3, pos.y-4, 0.5, 0.7); //Ojos
     rect(pos.x+3, pos.y-4, 0.5, 0.7); //Ojos
+    
+    if (bebida > 0){
+      strokeWeight(2);
+      stroke(#000000);
+      fill(#FF0000);
+      rect(pos.x + radio - 4, pos.y, 7, 10); //Vaso
+      strokeWeight(1);
+      fill(#D8D8D8);
+      rect(pos.x + radio - 4, pos.y, 7, 2.5); //Tapa
+      fill(#FFFFFF);
+      rect(pos.x + radio - 1, pos.y - 4, 2, 4); //Pajilla
+    }
+    
+    if (hamburguesa > 0){
+      strokeWeight(1);
+      stroke(#000000);
+      fill(#FFD089);
+      rect(pos.x - radio - 3, pos.y    , 7, 3); //Pan
+      rect(pos.x - radio - 3, pos.y + 5, 7, 2); //Pan
+      fill(#5D0909);
+      rect(pos.x - radio - 3, pos.y + 3, 7, 2); //Carne
+      
+    }
     
     if(colorMode == ColorMode.MASK && eficienciaMascarilla > 0){
       int m = int(map(eficienciaMascarilla, 0, 1, 1, 4));
@@ -118,6 +231,29 @@ class Agent {
     rect(pos.x-3, pos.y-4, 0.5, 0.7); //Ojos
     rect(pos.x+3, pos.y-4, 0.5, 0.7); //Ojos
     
+    if (bebida > 0){
+      strokeWeight(2);
+      stroke(#000000);
+      fill(#FF0000);
+      rect(pos.x + radio - 4, pos.y, 7, 10); //Vaso
+      strokeWeight(1);
+      fill(#D8D8D8);
+      rect(pos.x + radio - 4, pos.y, 7, 2.5); //Tapa
+      fill(#FFFFFF);
+      rect(pos.x + radio - 1, pos.y - 4, 2, 4); //Pajilla
+    }
+    
+    if (hamburguesa > 0){
+      strokeWeight(1);
+      stroke(#000000);
+      fill(#FFD089);
+      rect(pos.x - radio - 3, pos.y    , 7, 3); //Pan
+      rect(pos.x - radio - 3, pos.y + 5, 7, 2); //Pan
+      fill(#5D0909);
+      rect(pos.x - radio - 3, pos.y + 3, 7, 2); //Carne
+      
+    }
+    
     if(colorMode == ColorMode.MASK && eficienciaMascarilla > 0){
       int m = int(map(eficienciaMascarilla, 0, 1, 1, 4));
         
@@ -138,8 +274,15 @@ class Agent {
   
   void addForce(PVector f) {
     PVector dif = f.copy();
-    dif.div(mass);
+    //dif.div(mass);
     acc.add(dif);
+  }
+  
+  void applyFriction(float c) {
+    PVector fric = vel.copy();
+    fric.normalize();
+    fric.mult(-c);
+    addForce(fric);
   }
   
   void seek(float x, float y) {
@@ -168,7 +311,7 @@ class Agent {
     PVector steering = PVector.sub(desired, vel);
     float dist = pos.dist(target);
     if (dist <= arrivalRadius) {
-      vel.limit(max(0, map(dist, 0, arrivalRadius, 0, maxSpeed)));
+      vel.limit(max(0, map(dist, 0, arrivalRadius, 0, maxSpeed*3)));
     }
     addForce(steering);
   }
@@ -195,6 +338,78 @@ class Agent {
       point(target.x, target.y);
     }
     seek(target.x, target.y);
+  }
+  
+  void flocking(ArrayList<Agent> agents){
+    PVector align = new PVector(0, 0);
+    PVector separate = new PVector(0, 0);
+    PVector cohere = new PVector(0, 0);
+    
+    int nA = 0;
+    int nS = 0;
+    int nC = 0;
+    
+    for (Agent a : agents) {
+      if (this != a && pos.dist(a.pos) < alignmentRadio) {
+        align.add(a.vel);
+        nA++;
+      }
+      
+      if (this != a && pos.dist(a.pos) < separationRadio) {
+        PVector dif = PVector.sub(pos, a.pos);
+        dif.normalize();
+        dif.div(pos.dist(a.pos));
+        separate.add(dif);
+        nS++;
+      }
+      
+      if (this != a && pos.dist(a.pos) < cohesionRadio) {
+        cohere.add(a.pos);
+        nC++;
+      }
+    }
+    
+    if (nA > 0) {
+      align.div(nA);
+      align.setMag(alignmentRatio);
+      align.limit(maxSteeringForce);
+      addForce(align);
+    }
+    
+    if (nS > 0) {
+      separate.div(nS);
+      separate.setMag(separationRatio);
+      separate.limit(maxSteeringForce);
+      addForce(separate);
+    }
+    
+    if (nC > 0) {
+      cohere.div(nC);
+      PVector dif = PVector.sub(cohere, pos);
+      dif.setMag(cohesionRatio);
+      dif.limit(maxSteeringForce);
+      addForce(dif);
+    }
+  }
+  
+  void separate(ArrayList<Agent> agents) {
+    PVector result = new PVector(0, 0);
+    int n = 0;
+    for (Agent a : agents) {
+      if (this != a && pos.dist(a.pos) < separationRadio) {
+        PVector dif = PVector.sub(pos, a.pos);
+        dif.normalize();
+        dif.div(pos.dist(a.pos));
+        result.add(dif);
+        n++;
+      }
+    }
+    if (n > 0) {
+      result.div(n);
+      result.setMag(separationRatio);
+      result.limit(maxSteeringForce);
+      addForce(result);
+    }
   }
   
   // ############################  ############################
@@ -286,8 +501,8 @@ class Agent {
       pos.x = constrain(pos.x, radio, width - radio);
       vel.x *= -damp;
     }
-    if (pos.y < radio || pos.y > height - radio) {
-      pos.y = constrain(pos.y, radio, height - radio);
+    if (pos.y < radio + 50 || pos.y > height - radio) {
+      pos.y = constrain(pos.y, radio + 50, height - radio);
       vel.y *= -damp;
     }
     

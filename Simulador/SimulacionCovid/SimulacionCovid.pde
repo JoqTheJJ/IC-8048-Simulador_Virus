@@ -32,6 +32,8 @@ Slider sPorcentajeMascarilla;
 
 AgentSystem sys;
 ArrayList<Repeledor> repeledores;
+ArrayList<FoodAttractor> foodAttractors;
+ArrayList<Tienda> tiendas;
 Scene scene;
 
 int startFrame;
@@ -130,7 +132,7 @@ void setup() {
   scene = new Scene();
   fila = new Fila();
   
-  
+  addTiendas();
   addActores();
   addRepeledores();
 }
@@ -167,6 +169,17 @@ void draw(){
           r.display();
         }
       }
+      for (FoodAttractor a: foodAttractors){
+        a.update();
+        if (debug){
+          a.display();
+        }
+      }
+      
+      scene.upperWall();
+      for (Tienda t: tiendas){
+        t.display();
+      }
       
       fila.display();
       sys.run();
@@ -187,10 +200,18 @@ void draw(){
         for (Repeledor r: repeledores){
           r.display();
         }
+        for (FoodAttractor a: foodAttractors){
+          a.display();
+        }
+      }
+      
+      scene.upperWall();
+      for (Tienda t: tiendas){
+        t.display();
       }
       
 
-
+      fila.display();
       sys.display();
       scene.display();
 

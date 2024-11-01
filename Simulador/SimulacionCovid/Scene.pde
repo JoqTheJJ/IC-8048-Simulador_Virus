@@ -1,3 +1,67 @@
+enum Comida {
+  HAMBURGUESA,
+  BEBIDA
+}
+
+class Tienda{
+  float centerX;
+  float centerY;
+  float alto  = 50;
+  float ancho = 100;
+  float x;
+  float y;
+  int n;
+  Comida c;
+  
+  Tienda(float x, float y, Comida c, int n){
+    this.n = n;
+    this.x = x;
+    this.y = y;
+    this.c = c;
+    centerX = x + ancho/2;
+    centerY = y + alto;
+  }
+  
+  
+  void display(){
+    strokeWeight(3);
+    stroke(#000000);
+    
+    //Tienda
+    if (c == Comida.HAMBURGUESA){
+      fill(#F0A22E);
+    } else {
+      fill(#2EF0EB);
+    }
+    rect(x, y, ancho, alto);
+    
+    //Ventana
+    fill(#000000);
+    rect(x + 15, y + 10, ancho - 30, alto - 30);
+      
+    //Chef
+    float cY = 27;
+    fill(#79F211);
+    circle(centerX, cY, 20);
+    fill(#000000);
+    rect(centerX-3, cY-4, 0.5, 0.7);//Ojos
+    rect(centerX+3, cY-4, 0.5, 0.7);//Ojos
+    fill(#FFFFFF);
+    rect(centerX-4, cY-18, 8, 10);
+    
+    
+    //Mostrador
+    noStroke();
+    if (c == Comida.HAMBURGUESA){
+      fill(#F0A22E);
+    } else {
+      fill(#2EF0EB);
+    }
+    rect(x+5, cY + 5, ancho-10, alto/2 - 9);
+  }
+}
+
+
 
 class Fila{
   
@@ -263,6 +327,14 @@ class Scene{
     for (Reflector r : reflectores){
       r.display();
     }
+  }
+  
+  void upperWall(){
+    strokeWeight(3);
+    stroke(#A5A5A5);
+    noStroke();
+    fill(#A5A5A5);
+    rect(0, 0, width, 50);
   }
 }
 

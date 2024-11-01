@@ -1,52 +1,38 @@
-/*
-class Atractor {
+
+class FoodAttractor{
   AgentSystem system;
-  PVector center;
-  float mass;
-  float g;
-  float radius;
-
-  Atractor(float x, float y, float mass, float radius, AgentSystem system) {
-    center = new PVector(x, y);
-    this.mass = mass;
+  PVector pos;
+  float radio;
+  Tienda t;
+  
+  FoodAttractor(Tienda t, AgentSystem system){
+    this.t = t;
+    pos = new PVector(t.centerX, t.centerY);
     this.system = system;
-    this.radius = radius;
-    g = 9.78;
+    radio = 50;
   }
-
-  void update() {
+  
+  void display(){
+    noStroke();
+    fill(0, 5, 242, 50);
+    circle(pos.x, pos.y, radio*2);
+  }
+  
+  private boolean isIn(Agent a){
+    return radio + a.radio > dist(pos.x, pos.y, a.pos.x, a.pos.y);
+  }
+  
+  void update(){
     for (Agent a : system.agents) {
-      PVector r = PVector.sub(center, a.pos);
-      if (r.mag() < radius) {
-        float d2 = constrain(r.magSq(), 1, 2000);
-        r.normalize();
-        r.mult(g * mass * a.mass / d2);
-        a.addForce(r);
+      if (a.eHambre != Hambre.COMIENDO && a.eHambre != Hambre.COMPRANDO && isIn(a)) {
+        a.eHambre = Hambre.COMPRANDO;
+        a.numTienda = t.n;
+        a.tiempoCompra = (int)random(120, 300);
       }
     }
   }
-  
-  void display() {
-    noStroke();
-    fill(color(136, 255, 139, 150));
-    circle(center.x, center.y, radius*2);
-  }
 }
-*/
-/*
-class Repeledor extends Atractor {
-  
-  
-  Repeledor(float x, float y, float mass, float radius, AgentSystem system) {
-    super(x, y, mass, radius, system);
-    g *= -1;
-  }
-  void display() {
-    noStroke();
-    fill(color(255, 140, 137, 150));
-    circle(center.x, center.y, radius*2);
-  }
-}*/
+
 class Atractor extends Repeledor{  
   
   Atractor(float x, float y, float ancho, float alto, float force, PVector dir, AgentSystem system){
