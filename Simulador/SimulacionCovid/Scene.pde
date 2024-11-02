@@ -26,6 +26,7 @@ class Tienda{
   void display(){
     strokeWeight(3);
     stroke(#000000);
+
     
     //Tienda
     if (c == Comida.HAMBURGUESA){
@@ -181,7 +182,6 @@ class Fila{
 
 
 class Scene{
-  
 
   //Concert coordinates
   float concertX = 0;
@@ -260,13 +260,62 @@ class Scene{
     }
   }
   
-  void display(){
+  void colorStats(){
+    //Color stadistics
+    strokeWeight(3);
+    stroke(#000000);
     
+    
+    fill(#FF0000); //HAMBRIENTO
+    rect(10, concertY + 40, 50, 20);
+    text("HAMBRIENTO", 65, concertY + 60);
+    
+    fill(#FFC400); //COMPRANDO
+    rect(10, concertY + 70, 50, 20);
+    text("COMPRANDO", 65, concertY + 90);
+    
+    fill(#76FF00); //COMIENDO
+    rect(10, concertY + 100, 50, 20);
+    text("COMIENDO", 65, concertY + 120);
+    
+    fill(#00FFDF); //SATISFECHO
+    rect(10, concertY + 130, 50, 20);
+    text("SATISFECHO", 65, concertY + 150);
+    
+    fill(#000000); //UNAVAILABLE
+    rect(10, concertY + 160, 50, 20);
+    text("UNAVAILABLE", 65, concertY + 180);
+    
+    
+    
+    
+    fill(#76FF00); //NOTTIRED
+    rect(10, concertY + 200, 50, 20);
+    text("NOTTIRED", 65, concertY + 220);
+    
+    fill(#FF0000); //TIRED
+    rect(10, concertY + 230, 50, 20);
+    text("TIRED", 65, concertY + 250);
+    
+    fill(#00FFEC); //RESTING
+    rect(10, concertY + 260, 50, 20);
+    text("RESTING", 65, concertY + 280);
+    
+    fill(#0017FF); //REFRESHED
+    rect(10, concertY + 290, 50, 20);
+    text("REFRESHED", 65, concertY + 310);
+    
+    fill(#000000); //UNAVAILABLE
+    rect(10, concertY + 320, 50, 20);
+    text("UNAVAILABLE", 65, concertY + 340);
+  }
+  
+  void display(){
 
     noStroke();
     
     //Area del Concierto
-    fill(#242424);
+    fill(#343434);
     rect(concertX, concertY, concertW, concertH);
     
     //Walls color

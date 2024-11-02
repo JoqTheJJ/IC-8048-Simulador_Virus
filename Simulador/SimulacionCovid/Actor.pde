@@ -19,6 +19,9 @@ class Actor{
   float offsetX;
   float offsetY;
   
+  int bebida;
+  int cooldown;
+  
   //noise
   float noiseXOffset = random(100);
   float noiseYOffset = random(100);
@@ -30,6 +33,9 @@ class Actor{
     
     offsetX = 0;
     offsetY = 0;
+    
+    bebida = 0;
+    cooldown = (int)random(300, 900);
   }
   
   void display(){
@@ -50,6 +56,25 @@ class Actor{
       rect(pos.x+2.5   + offsetX, pos.y-4 + offsetY, 2, 2);//Brillo
       fill(#000000);
       arc(pos.x+ offsetX, pos.y+ offsetY +3, radio*1.8, radio*1.8, 0, PI, CHORD); //Traje
+      
+      if (bebida > 0){
+        bebida--;
+        cooldown = (int)random(600, 1800);
+        strokeWeight(2);
+        stroke(#000000);
+        fill(#FF0000);
+        rect(pos.x + radio - 4, pos.y +1, 7, 10); //Vaso
+        strokeWeight(1);
+        fill(#D8D8D8);
+        rect(pos.x + radio - 4, pos.y +1, 7, 2.5); //Tapa
+        fill(#FFFFFF);
+        rect(pos.x + radio - 1, pos.y -3, 2, 4); //Pajilla
+      } else {
+        cooldown--;
+        if (cooldown < 0){
+          bebida = (int)random(600, 900);
+        }
+      }
     } else {
       rect(pos.x-3 + offsetX, pos.y-4 + offsetY, 0.5, 0.7); //Ojos
       rect(pos.x+3 + offsetX, pos.y-4 + offsetY, 0.5, 0.7); //Ojos

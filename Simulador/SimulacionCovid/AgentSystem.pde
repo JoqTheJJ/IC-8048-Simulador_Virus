@@ -67,34 +67,42 @@ class AgentSystem{
       if (posicionFila > 0){ //Estan haciendo fila
         
         a1.humor = Humor.UNAVAILABLE;
+        a1.eHambre = Hambre.UNAVAILABLE;
+        a1.hambre = 100;
+        a1.energia = 100;
         if (posicionFila < fila.numPosiciones){
           PVector coordenadaFila = fila.posiciones[posicionFila - 1];
           a1.estado = State.STILL;
           a1.followLine(coordenadaFila.x, coordenadaFila.y);
         } else {
-          a1.followLine(fila.max.x, fila.max.y);
+          a1.follow(fila.max.x, fila.max.y);
         }
         
         if (waitingTime <= 0 && advanceLine){
           a1.filaPos -= 1;
           if (a1.filaPos == 0){
-            a1.followLine(fila.posiciones[0].x - 2, fila.posiciones[0].y);
+            a1.follow(fila.posiciones[0].x - 2, fila.posiciones[0].y);
             a1.estado = State.CONCERT;
             a1.humor = Humor.NOTTIRED;
+            a1.eHambre = Hambre.SATISFECHO;
+            a1.hambre = random(40, 100);
+            a1.energia = random(80, 120);
           }
           advanceLine = false;
         }
         
-      } else { //Estan en el concierto
+        // *********************************************** //
+      } else { //Estan en la simulacion
         a1.wander();
         a1.separate(agents);
         
         
-        if (a1.pos.y > scene.w1Y){
+        if (a1.pos.y > scene.w1Y){ //Is in concert area
           a1.estado = State.CONCERT;
-        } else {
+        } else { //Is in resting area
           a1.estado = State.WANDER;
         }
+        
         
         if (a1.estado == State.CONCERT){
           float friction = map(a1.pos.x, scene.concertX, scene.w3X, 0.01, 0);
@@ -103,14 +111,15 @@ class AgentSystem{
         
         
         
+        if (a1.pos.y < scene.w1Y - 25){ //Is in resting area
+          a1.humor = Humor.RESTING;
+        }
+        
         if (a1.humor == Humor.TIRED){
           a1.seek(scene.w1W + 50, scene.w1Y - 20);
-          if (a1.pos.y < scene.w1Y){
-            a1.humor = Humor.RESTING;
-          }
         } else if (a1.humor == Humor.REFRESHED){
-          a1.seek(scene.w1W + 50, scene.w1Y + 20);
-          if (a1.pos.y > scene.w1Y){
+          a1.seek(scene.w1W + 50, scene.w1Y + 40);
+          if (a1.pos.y > scene.w1Y + 20){
             a1.humor = Humor.NOTTIRED;
           }
         }
@@ -119,13 +128,25 @@ class AgentSystem{
         
         if (a1.eHambre == Hambre.COMPRANDO){
           Tienda tienda = tiendas.get(a1.numTienda);
-          a1.followLine(tienda.centerX, tienda.centerY);
+          a1.follow(tienda.centerX, tienda.centerY);
           
           
         } else if (a1.eHambre == Hambre.HAMBRIENTO){
-          a1.humor = Humor.TIRED;
+          a1.seek(scene.w1W + 50, scene.w1Y - 20);
           if (a1.humor == Humor.RESTING){
-            a1.followLine(a1.pos.x, 55);
+            if(a1.pos.x < scene.w1W + 50){
+              if (a1.pos.x > 150){
+                a1.follow(a1.pos.x - 70, 65);
+              } else {
+                a1.follow(150, 55);
+              }
+            } else {
+              if (a1.pos.x < width - 150){
+                a1.follow(a1.pos.x + 70, 65);
+              } else {
+                a1.follow(width - 150, 55);
+              }
+            }
           }
         }
         

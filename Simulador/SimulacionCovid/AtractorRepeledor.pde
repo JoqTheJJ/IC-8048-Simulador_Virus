@@ -4,12 +4,14 @@ class FoodAttractor{
   PVector pos;
   float radio;
   Tienda t;
+  boolean hamburguesa; //Vende hamburguesas
   
   FoodAttractor(Tienda t, AgentSystem system){
     this.t = t;
     pos = new PVector(t.centerX, t.centerY);
     this.system = system;
-    radio = 50;
+    radio = 55;
+    hamburguesa = t.n % 2 == 0;
   }
   
   void display(){
@@ -21,13 +23,19 @@ class FoodAttractor{
   private boolean isIn(Agent a){
     return radio + a.radio > dist(pos.x, pos.y, a.pos.x, a.pos.y);
   }
-  
+
   void update(){
     for (Agent a : system.agents) {
-      if (a.eHambre != Hambre.COMIENDO && a.eHambre != Hambre.COMPRANDO && isIn(a)) {
-        a.eHambre = Hambre.COMPRANDO;
-        a.numTienda = t.n;
-        a.tiempoCompra = (int)random(120, 300);
+      if (isIn(a) && a.eHambre != Hambre.COMIENDO && a.eHambre != Hambre.COMPRANDO) {
+        if(hamburguesa && a.hamburguesa < 0){
+          a.eHambre = Hambre.COMPRANDO;
+          a.numTienda = t.n;
+          a.tiempoCompra = (int)random(120, 300);
+        } else if ((!hamburguesa) && a.bebida < 0){
+          a.eHambre = Hambre.COMPRANDO;
+          a.numTienda = t.n;
+          a.tiempoCompra = (int)random(120, 300);
+        }
       }
     }
   }

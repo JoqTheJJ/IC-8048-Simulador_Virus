@@ -6,7 +6,7 @@ boolean start = true;
 boolean finish = false;
 boolean finishOg = finish;
 boolean pause = false;
-boolean debug = true;
+boolean debug = false;
 
 
 float eficienciaMascarilla = 0;
@@ -90,7 +90,7 @@ void setup() {
   sPersonas = cp5.addSlider("setTotalSanos")
     .setPosition(width/2 - 250, height/2 -200)
     .setSize(200, 50)
-    .setRange(100, 800)
+    .setRange(100, 400)
     .setValue(totalSanos)
     .setCaptionLabel("")
     .setFont(font);
@@ -243,6 +243,8 @@ void draw(){
       sys.numPersonas += 1;
       sys.numPersonasInfectadas += 1;
     }
+    
+    scene.colorStats();
   }
 }
 

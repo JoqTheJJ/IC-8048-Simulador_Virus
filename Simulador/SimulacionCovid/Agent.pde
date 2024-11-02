@@ -17,15 +17,14 @@ enum Hambre {
   HAMBRIENTO,
   COMPRANDO,
   COMIENDO,
-  SATISFECHO
+  SATISFECHO,
+  UNAVAILABLE
 }
 
 
 
 class Agent {
   boolean debug = false;
-  
-  
   
   //Variables estado
   State estado;
@@ -37,6 +36,7 @@ class Agent {
   float necesidades;
   int bebida;
   int hamburguesa;
+  int comiendo;
   
   //Tienda
   int numTienda = 0;
@@ -48,6 +48,7 @@ class Agent {
   PVector vel;
   PVector acc;
   float maxSpeed = 1;
+  float followSpeed;
   
   int filaPos = 0;
   
@@ -96,16 +97,19 @@ class Agent {
     //vel = new PVector(0, 0);
     acc = new PVector(0, 0);
     vel.limit(maxSpeed);
+    followSpeed = random(0.2, 0.7);
+    
     this.eficienciaMascarilla = eficienciaMascarilla;
     this.estado = estado;
     filaPos = posFila;
     
-    energia = random(100, 200);
+    energia = random(80, 120);
     hambre = random(40, 100);
     necesidades = random(80, 100);
     tiempoCompra = 0;
     bebida = 0;
     hamburguesa = 0;
+    comiendo = 0;
     
     humor = Humor.REFRESHED;
     eHambre = Hambre.SATISFECHO;
@@ -129,24 +133,28 @@ class Agent {
     strokeWeight(3);
     stroke(#000000);
     
+    //Nivel Energia
     if (humor == Humor.NOTTIRED){
-      //energia -= random(0.03);
       if (energia < 0){
         humor = Humor.TIRED;
       }
       
     } else if (humor == Humor.RESTING){
-      energia += random(0.02, 0.03);
+      energia += random(0.03, 0.04);
       if (energia > 80){
         humor = Humor.REFRESHED;
       }
     }
     
+    
+    //Nivel Hambre
     if (eHambre == Hambre.COMPRANDO){
       tiempoCompra--;
       if (tiempoCompra < 0){
-        hambre = random(50, 100);
+        hambre = random(80, 120);
+        energia += random(50, 70);
         eHambre = Hambre.COMIENDO;
+        comiendo = 300;
         if (numTienda % 2 == 0){
           hamburguesa = (int)random(1800, 7200);
         } else {
@@ -159,8 +167,15 @@ class Agent {
       eHambre = Hambre.HAMBRIENTO;
     }
     
-    bebida      -= 1;
-    hamburguesa -= 1;
+    comiendo--;
+    if (comiendo == 0){
+      eHambre = Hambre.SATISFECHO;
+    }
+    
+    bebida--;
+    hamburguesa--;
+    
+    energia -= random(0.03);
     hambre      -= random(0.025);
     necesidades -= random(0.01);
     
@@ -180,11 +195,11 @@ class Agent {
     
     
     //Hambre IZQ
-    fill(zHambreColor());
+    fill(hambreColor());
     rect(pos.x-10, pos.y+radio, 10, 10); //MEDIDOR BORRAR
     
     //Humor DER
-    fill(zHumorColor());
+    fill(humorColor());
     rect(pos.x, pos.y+radio, 10, 10); //MEDIDOR BORRAR
     
     
@@ -202,8 +217,6 @@ class Agent {
       rect(pos.x + radio - 4, pos.y, 7, 2.5); //Tapa
       fill(#FFFFFF);
       rect(pos.x + radio - 1, pos.y - 4, 2, 4); //Pajilla
-    } else if (bebida == 0){
-      eHambre = Hambre.SATISFECHO;
     }
     
     if (hamburguesa > 0){
@@ -214,9 +227,8 @@ class Agent {
       rect(pos.x - radio - 3, pos.y + 5, 7, 2); //Pan
       fill(#5D0909);
       rect(pos.x - radio - 3, pos.y + 3, 7, 2); //Carne
-    } else if (hamburguesa == 0){
-      eHambre = Hambre.SATISFECHO;
     }
+    
     
     if(colorMode == ColorMode.MASK && eficienciaMascarilla > 0){
       int m = int(map(eficienciaMascarilla, 0, 1, 1, 4));
@@ -325,11 +337,31 @@ class Agent {
     PVector steering = PVector.sub(desired, vel);
     float dist = pos.dist(target);
     if (dist <= arrivalRadius) {
+      vel.limit(max(0, map(dist, 0, arrivalRadius, 0, maxSpeed)));
+    }
+    if (debug){
+      stroke(#000000);
+      strokeWeight(3);
+      fill(#FC00E4);
+      circle(x, y, 7);
+    }
+    steering.limit(followSpeed);
+    addForce(steering);
+  }
+  
+  void follow(float x, float y) {
+    PVector target = new PVector(x, y);
+    PVector desired = PVector.sub(target, pos);
+    PVector steering = PVector.sub(desired, vel);
+    float dist = pos.dist(target);
+    if (dist <= arrivalRadius) {
       vel.limit(max(0, map(dist, 0, arrivalRadius, 0, maxSpeed*3)));
     }
-    if (true){
-      fill(#0000FF);
-      circle(x, y, 5);
+    if (debug){
+      stroke(#000000);
+      strokeWeight(3);
+      fill(#FC00E4);
+      circle(x, y, 7);
     }
     addForce(steering);
   }
@@ -338,23 +370,13 @@ class Agent {
     PVector future = vel.copy();
     future.setMag(wanderLookAhead);
     future.add(pos);
-    if (debug) {
-      stroke(255);
-      strokeWeight(1);
-      line(pos.x, pos.y, future.x, future.y);
-      noFill();
-      ellipse(future.x, future.y, wanderRadius * 2, wanderRadius * 2);
-    }
+
     PVector target = vel.copy();
     target.setMag(wanderRadius);
     target.rotate(map(noise(wanderNoiseT), 0, 1, -PI -HALF_PI, PI + HALF_PI));
     wanderNoiseT += wanderNoiseTInc;
     target.add(future);
     
-    if (debug) {
-      strokeWeight(6);
-      point(target.x, target.y);
-    }
     seek(target.x, target.y);
   }
   
@@ -620,7 +642,7 @@ class Agent {
   
   
   
-  color zHambreColor(){
+  color hambreColor(){
     color c = #FFFFFF;
     switch(eHambre) {
       case HAMBRIENTO:
@@ -633,20 +655,23 @@ class Agent {
         c = #76FF00;
         break;
       case SATISFECHO:
-        c = #00FFDF;
+        c = lerpColor(#FF0000, #00FFDF, hambre/100);
+        break;
+      case UNAVAILABLE:
+        c = #000000;
         break;
     }
     return c;
   }
   
-  color zHumorColor(){
+  color humorColor(){
     color c = #FFFFFF;
     switch(humor) {
       case NOTTIRED:
-        c = #00FF1F;
+        c = lerpColor(#FF0000, #76FF00, energia/100);
         break;
       case TIRED:
-        c = #FFD900;
+        c = #FF0000;
         break;
       case RESTING:
         c = #00FFEC;

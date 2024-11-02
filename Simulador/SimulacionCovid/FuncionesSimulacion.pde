@@ -125,10 +125,14 @@ void addRepeledores(){
   //Concierto
   repeledores.add(new Atractor(scene.concertW, scene.concertY, scene.w1W - scene.concertW, scene.concertH,
   0.04, new PVector(-1, 0), sys));
-  /*repeledores.add(new Atractor(scene.concertW, scene.concertY, scene.w1W - scene.concertW - 300, scene.concertH,
-  0.06, new PVector(-1, 0), sys));*/
   repeledores.add(new Repeledor(scene.concertW, scene.concertY, 15, scene.concertH,
   0.19, new PVector(1, 0), sys));
+  
+  //Entrada
+  repeledores.add(new Repeledor(scene.w3X-25, scene.w4Y - 100, 80, 100,
+  0.15, new PVector(-1, 0), sys));  
+  
+  
   
   //Entrada Superior
   repeledores.add(new Atractor(scene.w1W - 100, scene.w1Y - 75, 100, 160,
@@ -158,9 +162,8 @@ void addRepeledores(){
   repeledores.add(new Repeledor(scene.w3X-50, scene.w3Y, 50, height - scene.w3Y,
   0.13, new PVector(-1, 0), sys));  
   
-  //Entrada
-  repeledores.add(new Repeledor(scene.w3X-25, scene.w4Y - 100, 200, 100,
-  0.15, new PVector(-1, 0), sys));  
+  
+  
   
   
   
