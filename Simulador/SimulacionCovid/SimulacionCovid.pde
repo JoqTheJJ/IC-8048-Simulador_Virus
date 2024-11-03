@@ -3,11 +3,14 @@ import controlP5.*;
 
 // Simulacion
 boolean start = true;
+boolean ayuda = false;
+boolean luces = true;
 boolean finish = false;
 boolean finishOg = finish;
 boolean pause = false;
+boolean statShow = true;
 
-boolean debug = true;
+boolean debug = false;
 boolean debugAgent = false;
 
 float eficienciaMascarilla = 0;
@@ -20,6 +23,12 @@ PImage imagenProhibido;
 
 PImage imagenVentilacion;
 float rotacionVentilador = 0;
+
+//Sprites cesped
+PImage c1;
+PImage c2;
+PImage c3;
+PImage c4;
 
 //Control P5
 ControlP5 cp5;
@@ -51,15 +60,7 @@ Fila fila;
 
 
 
-//#83FF99
-//
-// Cambiar color fondo
-//
-// < --------------------------------- >
-// < --------------------------------- >
-// < --------------------------------- >
-// < --------------------------------- >
-//
+
 
 void setup() {
   //size(800, 800);
@@ -71,6 +72,12 @@ void setup() {
   imagenVentilacion = loadImage("ventilacion.png");
   imagenProhibido = loadImage("no.png");
   PFont font = createFont("Arial", 1);
+  
+  c1 = loadImage("cesped1.png");
+  c2 = loadImage("cesped2.png");
+  c3 = loadImage("cesped3.png");
+  c4 = loadImage("cesped4.png");
+  
   
   sEficiencia = cp5.addSlider("setEficienciaMascarilla")
     .setPosition(width/2 - 450, height/2 +200)
@@ -145,15 +152,19 @@ void setup() {
 
 
 void draw(){
-  background(#CECECE);
+  
   
   if(start){ //Menu Inicial
+    background(#CECECE);
     menuPrincipal();
     
-    
-    
+  } else if (ayuda){
+    background(#CECECE);
+    menuAyuda();
     
   } else {
+    background(#92D050);
+    
     if (finish) {
       if (sys.numPersonas > 1 && sys.numPersonas == sys.numPersonasInfectadas){
         pause = true;
@@ -177,7 +188,7 @@ void draw(){
         }
       }
       
-      scene.upperWall();
+      scene.preDisplay();
       for (Tienda t: tiendas){
         t.display();
       }
@@ -187,6 +198,9 @@ void draw(){
       scene.update();
       scene.display();
       
+      if(luces){
+        scene.luces();
+      }
       
       for (Actor a: actores){
         a.run();
@@ -195,7 +209,7 @@ void draw(){
       
       
       
-    } else { //PAUSA
+    } else { // Pausa [||]
       
       if (debug){
         for (Repeledor r: repeledores){
@@ -206,7 +220,7 @@ void draw(){
         }
       }
       
-      scene.upperWall();
+      scene.preDisplay();
       for (Tienda t: tiendas){
         t.display();
       }
@@ -215,7 +229,10 @@ void draw(){
       fila.display();
       sys.display();
       scene.display();
-
+      
+      if(luces){
+        scene.luces();
+      }
       
       
       for (Actor a: actores){
@@ -253,19 +270,7 @@ void draw(){
 
 
 
-void mousePressed(){
-  
-  
-  /*
-  if(mouseButton == RIGHT){
-    sys.addAgent(mouseX, mouseY, true, eficienciaMascarilla);
-    if(eficienciaMascarilla > 0){
-      sys.numPersonasMascarilla += 1;
-    }
-    sys.numPersonas += 1;
-    sys.numPersonasInfectadas += 1;
-  }*/
-}
+
 
 void keyPressed() {
   
@@ -291,12 +296,20 @@ void keyPressed() {
     sys.reset();
   }
   
-  if (key == 'm' || key == 'M'){
-    sys.alterColorMode();
+  if (key == 'h' || key == 'H'){
+    ayuda = !ayuda;
   }
   
-  if (key == 's' || key == 'S'){
-    sys.simulacion(totalSanos, totalContagiados);
+  if (key == 'l' || key == 'L'){
+    luces = !luces;
+  }
+  
+  if (key == 'n' || key == 'N'){
+    statShow = !statShow;
+  }
+  
+  if (key == 'm' || key == 'M'){
+    sys.alterColorMode();
   }
 }
 
@@ -339,8 +352,10 @@ void estadisticas(){
   
   textSize(20);
   fill(#FFFFFF);
+  text("TR: "+realTime, 15, height -230);
   
-  text("Tiempo real: "+realTime, 15, height -200);
+  text("Presiona [H] por ayuda", 15, height -210);
+
   text("Tiempo: "+time, 15, height -180);
   text("Simulacion: "+sd+":"+simulationTime, 15, height -160);
   

@@ -188,9 +188,33 @@ void addRepeledores(){
 
 
 
+// ############################  ############################ //
+// ######################## MENU AYUDA ###################### //
+// ############################  ############################ //
 
-
-
+void menuAyuda(){
+  
+  float x = width/2 - 450;
+  float y = height/2 - 150;
+  
+  PFont menuFont = createFont("8bitOperatorPlus8-Regular.ttf", 30);
+  textFont(menuFont);
+  fill(#000000);
+  
+  text("Presiona   [Espacio]   para pausar o reanudar la simulación", x, y); y += 50;
+  text("Presiona        [R]        para reiniciar la simulación", x, y); y += 50;
+  
+  y += 50;
+  text("Presiona        [M]        para activar o desactivar las mascarillas", x, y); y += 50;
+  text("Presiona        [N]        para activar o desactivar las estadisticas", x, y); y += 50;
+  text("Presiona        [L]        para activar o desactivar las luces", x, y); y += 50;
+  
+  y += 100;
+  x += 200;
+  text("Presiona [H] para cerrar la ayuda", x, y);
+  
+  textFont(createFont("SansSerif", 12));
+}
 
 // ############################  ############################ //
 // ###################### MENU PRINCIPAL #################### //
@@ -362,6 +386,8 @@ void menuPrincipal(){
   }
 }
 
+
+
 void cerrarMenuPrincipal(){
   
   textFont(createFont("SansSerif", 12));
@@ -376,6 +402,10 @@ void cerrarMenuPrincipal(){
   
   start = false;
   pause = false;
+  ayuda = false;
+  
+  luces = true;
+  
   
   resetTime();
 }

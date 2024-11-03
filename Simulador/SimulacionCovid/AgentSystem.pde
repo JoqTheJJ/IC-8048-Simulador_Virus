@@ -67,7 +67,7 @@ class AgentSystem{
       if (posicionFila > 0){ //Estan haciendo fila
         
         a1.humor = Humor.UNAVAILABLE;
-        a1.eHambre = Hambre.UNAVAILABLE;
+        a1.estadoHambre = Hambre.UNAVAILABLE;
         a1.hambre = 100;
         a1.energia = 100;
         if (posicionFila < fila.numPosiciones){
@@ -84,7 +84,7 @@ class AgentSystem{
             a1.follow(fila.posiciones[0].x - 2, fila.posiciones[0].y);
             a1.estado = State.CONCERT;
             a1.humor = Humor.NOTTIRED;
-            a1.eHambre = Hambre.SATISFECHO;
+            a1.estadoHambre = Hambre.SATISFECHO;
             a1.hambre = random(40, 100);
             a1.energia = random(80, 120);
           }
@@ -129,12 +129,12 @@ class AgentSystem{
         
         
         
-        if (a1.eHambre == Hambre.COMPRANDO){
+        if (a1.estadoHambre == Hambre.COMPRANDO){
           Tienda tienda = tiendas.get(a1.numTienda);
           a1.follow(tienda.centerX, tienda.centerY);
           
           
-        } else if (a1.eHambre == Hambre.HAMBRIENTO){
+        } else if (a1.estadoHambre == Hambre.HAMBRIENTO){
           a1.seek(scene.w1W + 50, scene.w1Y - 20);
           if (a1.humor == Humor.RESTING){
             if(a1.pos.x < scene.w1W + 50){
@@ -278,61 +278,6 @@ class AgentSystem{
     
     agents.add(new Agent(x, y, false, eficienciaMascarilla, estado, posFila));
   }
-  
-  void simulacion1(int sanos, int contagiados){
-    sys.reset();
-    
-    
-    numPersonas = sanos + contagiados;
-    numPersonasInfectadas = contagiados;
-    
-    int posFila = 1;
-
-    int sanosMascarilla = (int)((numPersonas - numPersonasInfectadas)*porcentajeMascarilla);
-    int contagiadosMascarilla = (int)((numPersonasInfectadas)*porcentajeMascarilla);
-    
-    numPersonasMascarilla = sanosMascarilla + contagiadosMascarilla;
-    
-    for (int i = 0; i < numPersonas - numPersonasInfectadas; i++){
-      float x = fila.max.x;
-      float y = fila.max.y;
-      
-      State estado = State.STILL;
-      if (posFila > fila.numPosiciones)
-        estado = State.UNAVAILABLE;
-      
-      
-      if (sanosMascarilla > 0){
-        sanosMascarilla--;
-        agents.add(new Agent(x, y, false, eficienciaMascarilla, estado, posFila));
-      } else {
-        agents.add(new Agent(x, y, false, 0, estado, posFila));
-      }
-      posFila++;
-    }
-    
-    for (int i = 0; i < numPersonasInfectadas; i++){
-      float x = fila.max.x;
-      float y = fila.max.y;
-      
-      State estado = State.STILL;
-      if (posFila > fila.numPosiciones)
-        estado = State.UNAVAILABLE;
-      
-      if (contagiadosMascarilla > 0){
-        contagiadosMascarilla--;
-        agents.add(new Agent(x, y, true, eficienciaMascarilla, estado, posFila));
-      } else {
-        agents.add(new Agent(x, y, true, 0, estado, posFila));
-      }
-      posFila++;
-    }
-    
-    //Reset time
-    resetTime();
-  }
-  
-  
   
   
   void simulacion(int sanos, int contagiados){

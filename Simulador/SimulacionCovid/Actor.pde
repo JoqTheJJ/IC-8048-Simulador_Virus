@@ -58,7 +58,9 @@ class Actor{
       arc(pos.x+ offsetX, pos.y+ offsetY +3, radio*1.8, radio*1.8, 0, PI, CHORD); //Traje
       
       if (bebida > 0){
-        bebida--;
+        if (!pause){
+          bebida--;
+        }
         cooldown = (int)random(600, 1800);
         strokeWeight(2);
         stroke(#000000);
@@ -70,7 +72,9 @@ class Actor{
         fill(#FFFFFF);
         rect(pos.x + radio - 1, pos.y -3, 2, 4); //Pajilla
       } else {
-        cooldown--;
+        if (!pause){
+          cooldown--;
+        }
         if (cooldown < 0){
           bebida = (int)random(600, 900);
         }

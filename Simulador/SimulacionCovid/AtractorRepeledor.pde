@@ -26,13 +26,13 @@ class FoodAttractor{
 
   void update(){
     for (Agent a : system.agents) {
-      if (isIn(a) && a.eHambre != Hambre.COMIENDO && a.eHambre != Hambre.COMPRANDO) {
+      if (isIn(a) && a.estadoHambre != Hambre.COMIENDO && a.estadoHambre != Hambre.COMPRANDO) {
         if(hamburguesa && a.hamburguesa < 0){
-          a.eHambre = Hambre.COMPRANDO;
+          a.estadoHambre = Hambre.COMPRANDO;
           a.numTienda = t.n;
           a.tiempoCompra = (int)random(120, 300);
         } else if ((!hamburguesa) && a.bebida < 0){
-          a.eHambre = Hambre.COMPRANDO;
+          a.estadoHambre = Hambre.COMPRANDO;
           a.numTienda = t.n;
           a.tiempoCompra = (int)random(120, 300);
         }
@@ -94,7 +94,7 @@ class AtractorCondicionalHambre extends Repeledor{
   
   void update(){
     for (Agent a : system.agents) {
-      if (a.eHambre == condicion && super.isIn(a)) {
+      if (a.estadoHambre == condicion && super.isIn(a)) {
         PVector f = dir.copy();
         f.mult(force * a.mass);
         f.limit(a.maxSteeringForce);

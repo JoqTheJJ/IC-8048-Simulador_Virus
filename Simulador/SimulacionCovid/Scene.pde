@@ -434,19 +434,24 @@ class Scene{
     rect(concertW/2 +23, (2*concertY+concertH)/2 -140  -23, radio*0.5, 3);
     rect(concertW/2 +23, (2*concertY+concertH)/2 -140  -35, radio*0.5, 3);
     rect(concertW/2 +23, (2*concertY+concertH)/2 -140  -40, radio*0.5, 3);
-    
+  }
+  
+  void luces(){
     //Luces
     for (Reflector r : reflectores){
       r.display();
     }
   }
   
-  void upperWall(){
-    strokeWeight(3);
-    stroke(#A5A5A5);
-    noStroke();
+  void preDisplay(){
+    strokeWeight(5);
+    stroke(#000000);
     fill(#A5A5A5);
     rect(0, 0, width, 50);
+    
+    noStroke();
+    fill(#CECECE);
+    rect(scene.w3X + 5, scene.w3Y, width - scene.w3X-5, height - scene.w3Y);
   }
 }
 

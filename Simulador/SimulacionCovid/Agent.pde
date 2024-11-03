@@ -29,11 +29,11 @@ class Agent {
   //Variables estado
   State estado;
   Humor humor;
-  Hambre eHambre;
+  Hambre estadoHambre;
   //Medidores estado (0-100)
   float energia;
   float hambre;
-  float necesidades;
+  //Temporizadores
   int bebida;
   int hamburguesa;
   int comiendo;
@@ -103,16 +103,17 @@ class Agent {
     this.estado = estado;
     filaPos = posFila;
     
+    
+    //Variables estado del agente
     energia = random(80, 120);
     hambre = random(40, 100);
-    necesidades = random(80, 100);
     tiempoCompra = 0;
     bebida = 0;
     hamburguesa = 0;
     comiendo = 0;
     
     humor = Humor.REFRESHED;
-    eHambre = Hambre.SATISFECHO;
+    estadoHambre = Hambre.SATISFECHO;
     
     if(infectado) {
       quanta = quantaMaxima;
@@ -144,16 +145,18 @@ class Agent {
       if (energia > 80){
         humor = Humor.REFRESHED;
       }
+    } else if (humor == Humor.REFRESHED){
+      energia += random(0.03, 0.035);
     }
     
     
     //Nivel Hambre
-    if (eHambre == Hambre.COMPRANDO){
+    if (estadoHambre == Hambre.COMPRANDO){
       tiempoCompra--;
       if (tiempoCompra < 0){
         hambre = random(80, 120);
         energia += random(50, 70);
-        eHambre = Hambre.COMIENDO;
+        estadoHambre = Hambre.COMIENDO;
         comiendo = 300;
         if (numTienda % 2 == 0){
           hamburguesa = (int)random(1800, 7200);
@@ -163,49 +166,45 @@ class Agent {
       }
     }
     
-    if (hambre < 0 && eHambre != Hambre.COMPRANDO){
-      eHambre = Hambre.HAMBRIENTO;
+    if (hambre < 0 && estadoHambre != Hambre.COMPRANDO){
+      estadoHambre = Hambre.HAMBRIENTO;
     }
     
     comiendo--;
     if (comiendo == 0){
-      eHambre = Hambre.SATISFECHO;
+      estadoHambre = Hambre.SATISFECHO;
     }
     
-    bebida--;
-    hamburguesa--;
+    bebida--;      //Temporicador bebida
+    hamburguesa--; //Temporicador hamburguesa
     
-    energia -= random(0.03);
-    hambre      -= random(0.025);
-    necesidades -= random(0.01);
-    
-    
-    
-    
-    
-    
+    energia     -= random(0.03);  //Stat energia
+    hambre      -= random(0.025); //Stat hambre
     
     int c = int(map(quanta, 0, 3, 0, 5));
     c = min(c, 5);
     if (quanta >= quantaMaxima)
       c = 6;
-    fill(colorsInfection.get(c));
-    circle(pos.x, pos.y, radio*2);
-    
-    
-    
-    //Hambre IZQ
-    fill(hambreColor());
-    rect(pos.x-10, pos.y+radio, 10, 10); //MEDIDOR BORRAR
-    
-    //Humor DER
-    fill(humorColor());
-    rect(pos.x, pos.y+radio, 10, 10); //MEDIDOR BORRAR
-    
+    fill(colorsInfection.get(c));  //Color segun estado infeccion
+    circle(pos.x, pos.y, radio*2); //Cuerpo
     
     fill(#000000);
     rect(pos.x-3, pos.y-4, 0.5, 0.7); //Ojos
     rect(pos.x+3, pos.y-4, 0.5, 0.7); //Ojos
+    
+    
+    
+    if(statShow){
+      //Stat Hambre Izquierda
+      fill(hambreColor());
+      rect(pos.x-10, pos.y+radio, 10, 10);
+      
+      //Stat Humor Derecha
+      fill(humorColor());
+      rect(pos.x, pos.y+radio, 10, 10);
+    }
+    
+    
     
     if (bebida > 0){
       strokeWeight(2);
@@ -250,12 +249,26 @@ class Agent {
     c = min(c, 5);
     if (quanta >= quantaMaxima)
       c = 6;
-    fill(colorsInfection.get(c));
-    circle(pos.x, pos.y, radio*2);
+    fill(colorsInfection.get(c));  //Color segun estado infeccion
+    circle(pos.x, pos.y, radio*2); //Cuerpo
     
     fill(#000000);
     rect(pos.x-3, pos.y-4, 0.5, 0.7); //Ojos
     rect(pos.x+3, pos.y-4, 0.5, 0.7); //Ojos
+    
+    
+    
+    if(statShow){
+      //Stat Hambre Izquierda
+      fill(hambreColor());
+      rect(pos.x-10, pos.y+radio, 10, 10);
+      
+      //Stat Humor Derecha
+      fill(humorColor());
+      rect(pos.x, pos.y+radio, 10, 10);
+    }
+    
+    
     
     if (bebida > 0){
       strokeWeight(2);
@@ -650,7 +663,7 @@ class Agent {
   
   color hambreColor(){
     color c = #000000;
-    switch(eHambre) {
+    switch(estadoHambre) {
       case HAMBRIENTO:
         c = #FF0000;
         break;
