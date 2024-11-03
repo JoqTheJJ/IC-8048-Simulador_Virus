@@ -16,7 +16,7 @@ class FoodAttractor{
   
   void display(){
     noStroke();
-    fill(0, 5, 242, 50);
+    fill(255, 244, 26, 50);
     circle(pos.x, pos.y, radio*2);
   }
   
@@ -60,6 +60,49 @@ class Atractor extends Repeledor{
   }
 }
 
+class AtractorCondicionalHumor extends Repeledor{
+  
+  Humor condicion;
+  
+  AtractorCondicionalHumor(float x, float y, float ancho, float alto, float force, PVector dir, AgentSystem system, Humor condicion){
+    super(x, y, ancho, alto, force, dir, system);
+    c = color(137, 161, 255, 150);
+    this.condicion = condicion;
+  }
+  
+  void update(){
+    for (Agent a : system.agents) {
+      if (a.humor == condicion && super.isIn(a)) {
+        PVector f = dir.copy();
+        f.mult(force * a.mass);
+        f.limit(a.maxSteeringForce);
+        a.addForce(f);
+      }
+    }
+  }
+}
+
+class AtractorCondicionalHambre extends Repeledor{
+  
+  Hambre condicion;
+  
+  AtractorCondicionalHambre(float x, float y, float ancho, float alto, float force, PVector dir, AgentSystem system, Hambre condicion){
+    super(x, y, ancho, alto, force, dir, system);
+    c = color(137, 161, 255, 150);
+    this.condicion = condicion;
+  }
+  
+  void update(){
+    for (Agent a : system.agents) {
+      if (a.eHambre == condicion && super.isIn(a)) {
+        PVector f = dir.copy();
+        f.mult(force * a.mass);
+        f.limit(a.maxSteeringForce);
+        a.addForce(f);
+      }
+    }
+  }
+}
 
 class Repeledor {
   AgentSystem system;

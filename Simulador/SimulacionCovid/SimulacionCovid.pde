@@ -6,8 +6,9 @@ boolean start = true;
 boolean finish = false;
 boolean finishOg = finish;
 boolean pause = false;
-boolean debug = false;
 
+boolean debug = true;
+boolean debugAgent = false;
 
 float eficienciaMascarilla = 0;
 float porcentajeMascarilla = 0;

@@ -22,24 +22,86 @@ class Tienda{
     centerY = y + alto;
   }
   
-  
   void display(){
     strokeWeight(3);
     stroke(#000000);
-
+    
     
     //Tienda
     if (c == Comida.HAMBURGUESA){
       fill(#F0A22E);
+      rect(x, y, ancho, alto);
+      
+      pushMatrix();
+      
+      translate(x + ancho/16, y + alto/2);
+      rotate(-QUARTER_PI/2);
+      
+      strokeWeight(3);
+      stroke(#000000);
+      fill(#FFD089);
+      rect(0, 0, 12, 6); //Pan
+      rect(0, 11, 12, 6); //Pan
+      fill(#5D0909);
+      rect(0, 6, 12, 5); //Carne
+      
+      rotate(QUARTER_PI/2);
+      translate(12.25*ancho/16 +2, -4);
+      rotate(QUARTER_PI/2);
+      
+      strokeWeight(3);
+      stroke(#000000);
+      fill(#FFD089);
+      rect(0, 0, 12, 6); //Pan
+      rect(0, 11, 12, 6); //Pan
+      fill(#5D0909);
+      rect(0, 6, 12, 5); //Carne
+      
+      popMatrix();
+      
+      
     } else {
       fill(#2EF0EB);
+      rect(x, y, ancho, alto);
+      
+      pushMatrix();
+      
+      translate(x + ancho/16, y + alto/2);
+      
+      strokeWeight(3);
+      stroke(#000000);
+      fill(#FF0000);
+      rect(0, 0, 10, 15); //Vaso
+      fill(#D8D8D8);
+      rect(-1, 0, 12, 5); //Tapa
+      fill(#FFFFFF);
+      rect(3, -6, 4, 6); //Pajilla
+      
+      translate(12.25*ancho/16, 0);
+      
+      strokeWeight(3);
+      stroke(#000000);
+      fill(#FF0000);
+      rect(0, 0, 10, 15); //Vaso
+      fill(#D8D8D8);
+      rect(-1, 0, 12, 5); //Tapa
+      fill(#FFFFFF);
+      rect(3, -6, 4, 6); //Pajilla
+
+      popMatrix();
     }
-    rect(x, y, ancho, alto);
+    
+    
     
     //Ventana
+    strokeWeight(3);
+    stroke(#000000);
+    
     fill(#000000);
-    rect(x + 15, y + 10, ancho - 30, alto - 30);
-      
+    rect(x + 25, y + 10, ancho - 50, alto - 30);
+    
+    
+    
     //Chef
     float cY = 27;
     fill(#79F211);
@@ -51,6 +113,7 @@ class Tienda{
     rect(centerX-4, cY-18, 8, 10);
     
     
+    
     //Mostrador
     noStroke();
     if (c == Comida.HAMBURGUESA){
@@ -58,7 +121,7 @@ class Tienda{
     } else {
       fill(#2EF0EB);
     }
-    rect(x+5, cY + 5, ancho-10, alto/2 - 9);
+    rect(x+ancho/4, cY + 5, ancho/2, alto/2 - 9);
   }
 }
 
@@ -267,47 +330,47 @@ class Scene{
     
     
     fill(#FF0000); //HAMBRIENTO
-    rect(10, concertY + 40, 50, 20);
-    text("HAMBRIENTO", 65, concertY + 60);
+    rect(10, concertY + 40, 20, 20);
+    text("HAMBRIENTO", 35, concertY + 60);
     
     fill(#FFC400); //COMPRANDO
-    rect(10, concertY + 70, 50, 20);
-    text("COMPRANDO", 65, concertY + 90);
+    rect(10, concertY + 70, 20, 20);
+    text("COMPRANDO", 35, concertY + 90);
     
     fill(#76FF00); //COMIENDO
-    rect(10, concertY + 100, 50, 20);
-    text("COMIENDO", 65, concertY + 120);
+    rect(10, concertY + 100, 20, 20);
+    text("COMIENDO", 35, concertY + 120);
     
     fill(#00FFDF); //SATISFECHO
-    rect(10, concertY + 130, 50, 20);
-    text("SATISFECHO", 65, concertY + 150);
+    rect(10, concertY + 130, 20, 20);
+    text("SATISFECHO", 35, concertY + 150);
     
-    fill(#000000); //UNAVAILABLE
-    rect(10, concertY + 160, 50, 20);
-    text("UNAVAILABLE", 65, concertY + 180);
+    fill(#FFFFFF); //UNAVAILABLE
+    rect(10, concertY + 160, 20, 20);
+    text("UNAVAILABLE", 35, concertY + 180);
     
     
     
     
     fill(#76FF00); //NOTTIRED
-    rect(10, concertY + 200, 50, 20);
-    text("NOTTIRED", 65, concertY + 220);
+    rect(10, concertY + 200, 20, 20);
+    text("NOTTIRED", 35, concertY + 220);
     
     fill(#FF0000); //TIRED
-    rect(10, concertY + 230, 50, 20);
-    text("TIRED", 65, concertY + 250);
+    rect(10, concertY + 230, 20, 20);
+    text("TIRED", 35, concertY + 250);
     
     fill(#00FFEC); //RESTING
-    rect(10, concertY + 260, 50, 20);
-    text("RESTING", 65, concertY + 280);
+    rect(10, concertY + 260, 20, 20);
+    text("RESTING", 35, concertY + 280);
     
     fill(#0017FF); //REFRESHED
-    rect(10, concertY + 290, 50, 20);
-    text("REFRESHED", 65, concertY + 310);
+    rect(10, concertY + 290, 20, 20);
+    text("REFRESHED", 35, concertY + 310);
     
-    fill(#000000); //UNAVAILABLE
-    rect(10, concertY + 320, 50, 20);
-    text("UNAVAILABLE", 65, concertY + 340);
+    fill(#FFFFFF); //UNAVAILABLE
+    rect(10, concertY + 320, 20, 20);
+    text("UNAVAILABLE", 35, concertY + 340);
   }
   
   void display(){

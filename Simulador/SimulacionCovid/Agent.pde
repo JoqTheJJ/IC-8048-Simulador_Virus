@@ -24,7 +24,7 @@ enum Hambre {
 
 
 class Agent {
-  boolean debug = false;
+  boolean debug = debugAgent;
   
   //Variables estado
   State estado;
@@ -316,6 +316,12 @@ class Agent {
     PVector desired = PVector.sub(target, pos);
     PVector steering = PVector.sub(desired, vel);
     steering.limit(maxSteeringForce);
+    if (debug){
+      stroke(#000000);
+      strokeWeight(3);
+      fill(#FC00E4);
+      circle(x, y, 7);
+    }
     addForce(steering);
   }
   
@@ -643,7 +649,7 @@ class Agent {
   
   
   color hambreColor(){
-    color c = #FFFFFF;
+    color c = #000000;
     switch(eHambre) {
       case HAMBRIENTO:
         c = #FF0000;
@@ -658,14 +664,14 @@ class Agent {
         c = lerpColor(#FF0000, #00FFDF, hambre/100);
         break;
       case UNAVAILABLE:
-        c = #000000;
+        c = #FFFFFF;
         break;
     }
     return c;
   }
   
   color humorColor(){
-    color c = #FFFFFF;
+    color c = #000000;
     switch(humor) {
       case NOTTIRED:
         c = lerpColor(#FF0000, #76FF00, energia/100);
@@ -680,7 +686,7 @@ class Agent {
         c = #0017FF;
         break;
       case UNAVAILABLE:
-        c = #000000;
+        c = #FFFFFF;
         break;
     }
     return c;

@@ -111,12 +111,15 @@ class AgentSystem{
         
         
         
-        if (a1.pos.y < scene.w1Y - 25){ //Is in resting area
+        if (a1.humor == Humor.NOTTIRED && a1.pos.y < scene.w1Y - 25){
           a1.humor = Humor.RESTING;
         }
         
         if (a1.humor == Humor.TIRED){
           a1.seek(scene.w1W + 50, scene.w1Y - 20);
+          if (a1.pos.y < scene.w1Y - 25){
+            a1.humor = Humor.RESTING;
+          }
         } else if (a1.humor == Humor.REFRESHED){
           a1.seek(scene.w1W + 50, scene.w1Y + 40);
           if (a1.pos.y > scene.w1Y + 20){

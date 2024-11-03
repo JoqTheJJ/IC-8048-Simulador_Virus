@@ -1,4 +1,3 @@
-
 ArrayList<Integer> colorsInfection;
 void addColorsInfection(){
   colorsInfection = new ArrayList();
@@ -18,7 +17,6 @@ void addColorsMask(){
   colorsMask.add(#337CFF); //Azul Claro
   colorsMask.add(#0A3BD8); //Azul
 }
-
 
 void addMascarillas(){
   mascarillas = new ArrayList();
@@ -49,7 +47,6 @@ void addTiendas(){
   foodAttractors.add(new FoodAttractor(t4, sys));
   
   
-  
   Tienda t5 = new Tienda(width - 750, 0, Comida.HAMBURGUESA, 4);
   tiendas.add(t5);
   foodAttractors.add(new FoodAttractor(t5, sys));
@@ -66,7 +63,6 @@ void addTiendas(){
   tiendas.add(t8);
   foodAttractors.add(new FoodAttractor(t8, sys));
 }
-
 
 void addActores(){
   actores = new ArrayList<Actor>();
@@ -117,8 +113,6 @@ void addActores(){
     );
 }
 
-
-
 void addRepeledores(){
   repeledores = new ArrayList<Repeledor>();
   
@@ -139,32 +133,33 @@ void addRepeledores(){
   0.06, new PVector(1, 0), sys));
   repeledores.add(new Atractor(scene.w2X, scene.w2Y - 75, 100, 160,
   0.06, new PVector(-1, 0), sys));
-  repeledores.add(new Atractor(scene.w2X - 80, scene.w2Y - 50, 60, 160,
-  0.04, new PVector(0, -1), sys));
+  //Condicionales (Arriba)
+  repeledores.add(new AtractorCondicionalHumor(scene.w2X - 80, scene.w2Y - 50, 60, 180,
+  0.06, new PVector(0, -1), sys, Humor.TIRED));
+  repeledores.add(new AtractorCondicionalHambre(scene.w2X - 80, scene.w2Y - 50, 60, 180,
+  0.06, new PVector(0, -1), sys, Hambre.HAMBRIENTO));
+  //Condicionales (Abajo)
+  repeledores.add(new AtractorCondicionalHumor(scene.w2X - 80, scene.w2Y - 120, 60, 180,
+  0.08, new PVector(0, 1), sys, Humor.REFRESHED));
+  
   
   //Muro 1 superior
-  repeledores.add(new Repeledor(0, scene.w1Y-50, scene.w1W-20, 50,
+  repeledores.add(new Repeledor(0, scene.w1Y-50, scene.w1W-40, 50,
   0.13, new PVector(0, -1), sys));
   //Muro 1 Inferior
-  repeledores.add(new Repeledor(0, scene.w1Y +scene.w1H, scene.w1W-20, 50,
+  repeledores.add(new Repeledor(0, scene.w1Y +scene.w1H, scene.w1W-40, 50,
   0.13, new PVector(0, 1), sys));
-  
   
   //Muro 2 superior
-  repeledores.add(new Repeledor(scene.w2X+20, scene.w2Y-50, width, 50,
+  repeledores.add(new Repeledor(scene.w2X+40, scene.w2Y-50, width - (scene.w2X+40), 50,
   0.13, new PVector(0, -1), sys));
   //Muro 2 Inferior
-  repeledores.add(new Repeledor(scene.w2X+20, scene.w2Y +scene.w2H, scene.w3X - scene.w2X+20, 50,
+  repeledores.add(new Repeledor(scene.w2X+40, scene.w2Y +scene.w2H, scene.w3X - (scene.w2X+40), 50,
   0.13, new PVector(0, 1), sys));
   
-
   //Muro 3 y 4 Izquierda
   repeledores.add(new Repeledor(scene.w3X-50, scene.w3Y, 50, height - scene.w3Y,
   0.13, new PVector(-1, 0), sys));  
-  
-  
-  
-  
   
   
   
