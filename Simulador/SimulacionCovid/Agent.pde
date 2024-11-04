@@ -24,7 +24,6 @@ enum Hambre {
 
 
 class Agent {
-  boolean debug = debugAgent;
   
   //Variables estado
   State estado;
@@ -124,7 +123,9 @@ class Agent {
   
   void run(){
     
-    borders();
+    if(filaPos < 1){
+      borders();
+    }
     
     vel.add(acc);
     vel.limit(maxSpeed);
@@ -329,7 +330,7 @@ class Agent {
     PVector desired = PVector.sub(target, pos);
     PVector steering = PVector.sub(desired, vel);
     steering.limit(maxSteeringForce);
-    if (debug){
+    if (debugAgent){
       stroke(#000000);
       strokeWeight(3);
       fill(#FC00E4);
@@ -358,7 +359,7 @@ class Agent {
     if (dist <= arrivalRadius) {
       vel.limit(max(0, map(dist, 0, arrivalRadius, 0, maxSpeed)));
     }
-    if (debug){
+    if (debugAgent){
       stroke(#000000);
       strokeWeight(3);
       fill(#FC00E4);
@@ -376,7 +377,7 @@ class Agent {
     if (dist <= arrivalRadius) {
       vel.limit(max(0, map(dist, 0, arrivalRadius, 0, maxSpeed*3)));
     }
-    if (debug){
+    if (debugAgent){
       stroke(#000000);
       strokeWeight(3);
       fill(#FC00E4);

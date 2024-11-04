@@ -16,7 +16,7 @@ class FoodAttractor{
   
   void display(){
     noStroke();
-    fill(255, 244, 26, 50);
+    fill(255, 244, 26, 200);
     circle(pos.x, pos.y, radio*2);
   }
   
@@ -45,7 +45,7 @@ class Atractor extends Repeledor{
   
   Atractor(float x, float y, float ancho, float alto, float force, PVector dir, AgentSystem system){
     super(x, y, ancho, alto, force, dir, system);
-    c = color(136, 255, 139, 150);
+    c = color(136, 255, 139, 200);
   }
   
   void update(){
@@ -66,7 +66,7 @@ class AtractorCondicionalHumor extends Repeledor{
   
   AtractorCondicionalHumor(float x, float y, float ancho, float alto, float force, PVector dir, AgentSystem system, Humor condicion){
     super(x, y, ancho, alto, force, dir, system);
-    c = color(137, 161, 255, 150);
+    c = color(137, 161, 255, 200);
     this.condicion = condicion;
   }
   
@@ -88,7 +88,7 @@ class AtractorCondicionalHambre extends Repeledor{
   
   AtractorCondicionalHambre(float x, float y, float ancho, float alto, float force, PVector dir, AgentSystem system, Hambre condicion){
     super(x, y, ancho, alto, force, dir, system);
-    c = color(137, 161, 255, 150);
+    c = color(137, 161, 255, 200);
     this.condicion = condicion;
   }
   
@@ -123,7 +123,7 @@ class Repeledor {
     this.ancho = ancho;
     this.alto = alto;
     this.dir = dir.mult(force);
-    c = color(255, 140, 137, 150);
+    c = color(255, 140, 137, 200);
   }
   
   private boolean isIn(Agent a){

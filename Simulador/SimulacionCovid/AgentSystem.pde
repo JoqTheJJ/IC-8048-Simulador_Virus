@@ -44,25 +44,11 @@ class AgentSystem{
     
     int size = agents.size();
     
-    float seekX = scene.concertX + scene.concertW/2;
-    float seekY = scene.concertY + scene.concertH/2;
-    
     waitingTime--;
     for (int i = 0; i < size; i++) {
       Agent a1 = agents.get(i);
-      
-      //a1.seek(seekX, seekY);
-      //a1.seek(mouseX, mouseY);
-      //a1.arrive(mouseX, mouseY);
-      
-      /*
-      if(scene.concertX < a1.pos.x && a1.pos.x < scene.concertX+ scene.w3X
-      && scene.concertY < a1.pos.y && a1.pos.y < height){
-        a1.arrive(seekX, seekY);
-      }*/
-      
-      
-      
+
+
       int posicionFila = a1.filaPos;
       if (posicionFila > 0){ //Estan haciendo fila
         
@@ -70,11 +56,18 @@ class AgentSystem{
         a1.estadoHambre = Hambre.UNAVAILABLE;
         a1.hambre = 100;
         a1.energia = 100;
-        if (posicionFila < fila.numPosiciones){
+        if (posicionFila < fila.numPosiciones){ //Pos cualquira
           PVector coordenadaFila = fila.posiciones[posicionFila - 1];
           a1.estado = State.STILL;
           a1.followLine(coordenadaFila.x, coordenadaFila.y);
-        } else {
+          
+        } else if (posicionFila == fila.numPosiciones){ //Pos max
+          PVector coordenadaFila = fila.posiciones[posicionFila - 1];
+          a1.estado = State.STILL;
+          a1.follow(coordenadaFila.x, coordenadaFila.y);
+          a1.follow(coordenadaFila.x, coordenadaFila.y);
+          
+        } else { //Entrada concierto
           a1.follow(fila.max.x, fila.max.y);
         }
         
@@ -91,7 +84,7 @@ class AgentSystem{
           advanceLine = false;
         }
         
-        // *********************************************** //
+      // *********************************************** //
       } else { //Estan en la simulacion
         a1.wander();
         a1.separate(agents);
@@ -268,20 +261,8 @@ class AgentSystem{
     advanceLine = true;
   }
   
-  void spawn(boolean infectado, int posFila){
-    float x = fila.max.x;
-    float y = fila.max.y;
-    
-    State estado = State.STILL;
-    if (posFila > fila.numPosiciones)
-      estado = State.UNAVAILABLE;
-    
-    agents.add(new Agent(x, y, false, eficienciaMascarilla, estado, posFila));
-  }
-  
-  
   void simulacion(int sanos, int contagiados){
-    sys.reset();
+    reset();
     
     
     numPersonas = sanos + contagiados;
@@ -295,8 +276,8 @@ class AgentSystem{
     numPersonasMascarilla = sanosMascarilla + contagiadosMascarilla;
     
     for (int i = 0; i < numPersonas - numPersonasInfectadas; i++){
-      float x = fila.max.x;
-      float y = fila.max.y;
+      float x = fila.max.x - 30;
+      float y = fila.max.y + 15;
       
       State estado = State.STILL;
       if (posFila > fila.numPosiciones)
@@ -313,8 +294,8 @@ class AgentSystem{
     }
     
     for (int i = 0; i < numPersonasInfectadas; i++){
-      float x = fila.max.x;
-      float y = fila.max.y;
+      float x = fila.max.x - 30;
+      float y = fila.max.y + 15;
       
       State estado = State.STILL;
       if (posFila > fila.numPosiciones)
@@ -332,9 +313,5 @@ class AgentSystem{
     //Reset time
     resetTime();
   }
-  
-  
-  
-  
-  
+
 }

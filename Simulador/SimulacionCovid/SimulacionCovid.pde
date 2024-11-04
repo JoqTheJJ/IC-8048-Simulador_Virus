@@ -56,12 +56,15 @@ boolean luces = true;
 boolean finish = false;
 boolean finishOg = finish;
 boolean pause = false;
-boolean statShow = true;
+boolean statShow = false;
 boolean click = false;
 
 boolean debug = false;
 boolean debugAgent = false;
 
+float tasaDeTiempo = 30; //Segundos de simulacion por segundo real
+
+//Sliders default
 float eficienciaMascarilla = 0;
 float porcentajeMascarilla = 0;
 float tasaDeVentilacion = 1;// (ACH) Cantidad de cambios de aire por hora
@@ -101,7 +104,7 @@ int startFrame;
 int finishFrame;
 int startTime;
 int elapsedTime;
-float tasaDeTiempo = 30; //Segundos de simulacion por segundo real
+
 
 ArrayList<Float> mascarillas;
 ArrayList<Actor> actores;
@@ -363,16 +366,22 @@ void keyPressed() {
     luces = !luces;
   }
   
-  if (key == 'n' || key == 'N'){
+  if (key == 'e' || key == 'E'){
     statShow = !statShow;
   }
   
   if (key == 'm' || key == 'M'){
     sys.alterColorMode();
   }
+  
+  if (key == 'z' || key == 'Z'){
+    debug = !debug;
+  }
+  
+  if (key == 'x' || key == 'X'){
+    debugAgent = !debugAgent;
+  }
 }
-
-
 
 
 
@@ -388,9 +397,6 @@ void resetTime(){
 
 void estadisticas(){
   elapsedTime = millis() - startTime;
-  int realSeconds = elapsedTime / 1000;
-  int realMinutes = realSeconds / 60;
-  int realHours   = realMinutes / 60;
   
   int elapsedFrames = finishFrame - startFrame;
   int elapsedTimeFrames = elapsedFrames / 60; //frames to ms
@@ -405,13 +411,11 @@ void estadisticas(){
   int sd = (int)(sh / 24);
   
   //Timer
-  String realTime = String.format("%02d:%02d:%02d", realHours, realMinutes %60, realSeconds %60);;
   String time = String.format("%02d:%02d", minutes, seconds %60);
   String simulationTime = String.format("%02d:%02d:%02d", sh %24, sm %60, ss %60);
   
   textSize(20);
   fill(#FFFFFF);
-  text("TR: "+realTime, 15, height -230);
   
   text("Presiona [H] por ayuda", 15, height -210);
 

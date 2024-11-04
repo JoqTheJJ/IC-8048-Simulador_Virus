@@ -195,7 +195,7 @@ void addRepeledores(){
 void menuAyuda(){
   
   float x = width/2 - 450;
-  float y = height/2 - 200;
+  float y = height/2 - 300;
   
   PFont menuFont = createFont("8bitOperatorPlus8-Regular.ttf", 30);
   textFont(menuFont);
@@ -208,11 +208,15 @@ void menuAyuda(){
   
   y += 50;
   text("Presiona        [M]        para activar o desactivar las mascarillas", x, y); y += 40;
-  text("Presiona        [N]        para activar o desactivar las estadisticas", x, y); y += 40;
+  text("Presiona        [E]        para activar o desactivar las estadisticas", x, y); y += 40;
   text("Presiona        [L]        para activar o desactivar las luces", x, y); y += 40;
   text("Presiona        [C]        para activar o desactivar el mouse", x, y); y += 40;
   
-  y += 100;
+  y += 50;
+  text("Presiona        [Z]        para ver los campos de flujo", x, y); y += 40;
+  text("Presiona        [X]        para ver el movimiento de los agentes", x, y); y += 40;
+  
+  y += 200;
   x += 200;
   text("Presiona [H] para cerrar la ayuda", x, y);
   

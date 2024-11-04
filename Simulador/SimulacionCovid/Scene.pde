@@ -156,7 +156,7 @@ class Fila{
   
   PVector[] posiciones;
   int numPosiciones = 188;
-  PVector max = new PVector(width*3/4+5 + 450, 370);
+  PVector max = new PVector(width*3/4+5 + 450, 345);
   int col = 0;
   
   //Center
@@ -362,6 +362,8 @@ class Scene{
     float y = concertY + 10;
     float incremento = 20;
     
+    fill(#FFFFFF);
+    text("Estado Hambre (Izquierda)", x, y+15); y+=incremento;
     
     fill(#00FFDF); //SATISFECHO
     rect(x, y, 20, 20);
@@ -382,9 +384,12 @@ class Scene{
     fill(#FFFFFF); //UNAVAILABLE
     rect(x, y, 20, 20);
     text("No Disponible", x+25, y+15);
+    
     y+=incremento*2;
     
 
+    fill(#FFFFFF);
+    text("Estado Energía (Derecha)", x, y+15); y+=incremento;
 
     fill(#00B050); //REFRESHED
     rect(x, y, 20, 20);
@@ -411,12 +416,14 @@ class Scene{
   
   void display(){
 
-    noStroke();
+    strokeWeight(3);
+    stroke(#000000);
     
     //Area del Concierto
     fill(#343434);
     rect(concertX, concertY, concertW, concertH);
     
+
     //Walls color
     fill(#A5A5A5);
     
@@ -429,18 +436,25 @@ class Scene{
     //W4 Down wall down
     rect(w4X, w4Y, w4W, w4H);
     
+    //Union
+    noStroke();
+    rect(w3X+2, w3Y-5, w3W-3, 10);
+    rect(w2X+5, w2Y+2, w2W, w2H-3);
+    rect(width-3, w2Y+2, 5, 67);
     
-    
+    //Entrada
+    rect(width - 48, w2Y + 5, 48, 30);
+    fill(0, 0, 0, 120);
+    rect(width - 40, w2Y + 35, 30, 35);
     
     
     // ################################### //
     // ########## Instrumentos ########### //
     // ################################### //
     
+    
     strokeWeight(3);
     stroke(#000000);
-
-
     //Bateria
     //Externa
     fill(#C1C1C1);
@@ -503,16 +517,23 @@ class Scene{
           break;
       }
     }
+    noStroke();
+    fill(#CECECE);
+    rect(scene.w3X + 5, scene.w3Y, width - scene.w3X-5, height - scene.w3Y);
+    
+    
     
     
     strokeWeight(3);
     stroke(#000000);
+    
     fill(#A5A5A5);
     rect(0, 0, width, 50);
     
-    noStroke();
-    fill(#CECECE);
-    rect(scene.w3X + 5, scene.w3Y, width - scene.w3X-5, height - scene.w3Y);
+    fill(#A5A5A5);
+    rect(width - 50, w2Y, 50, 70);
+    fill(0, 0, 0);
+    rect(width - 40, w2Y + 30, 30, 40);
   }
   
 }
