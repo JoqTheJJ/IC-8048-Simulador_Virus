@@ -201,13 +201,14 @@ void menuAyuda(){
   textFont(menuFont);
   fill(#000000);
   
-  text("Presiona   [Espacio]   para pausar o reanudar la simulación", x, y); y += 50;
-  text("Presiona        [R]        para reiniciar la simulación", x, y); y += 50;
+  text("Presiona   [Espacio]   para pausar o reanudar la simulación", x, y); y += 40;
+  text("Presiona        [R]        para reiniciar la simulación", x, y); y += 40;
   
   y += 50;
-  text("Presiona        [M]        para activar o desactivar las mascarillas", x, y); y += 50;
-  text("Presiona        [N]        para activar o desactivar las estadisticas", x, y); y += 50;
-  text("Presiona        [L]        para activar o desactivar las luces", x, y); y += 50;
+  text("Presiona        [M]        para activar o desactivar las mascarillas", x, y); y += 40;
+  text("Presiona        [N]        para activar o desactivar las estadisticas", x, y); y += 40;
+  text("Presiona        [L]        para activar o desactivar las luces", x, y); y += 40;
+  text("Presiona        [C]        para activar o desactivar el mouse", x, y); y += 40;
   
   y += 100;
   x += 200;

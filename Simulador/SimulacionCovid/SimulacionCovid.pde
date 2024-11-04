@@ -9,6 +9,7 @@ boolean finish = false;
 boolean finishOg = finish;
 boolean pause = false;
 boolean statShow = true;
+boolean click = false;
 
 boolean debug = false;
 boolean debugAgent = false;
@@ -25,10 +26,12 @@ PImage imagenVentilacion;
 float rotacionVentilador = 0;
 
 //Sprites cesped
-PImage c1;
-PImage c2;
-PImage c3;
-PImage c4;
+PImage cesped1;
+PImage cesped2;
+PImage cesped3;
+PImage cesped4;
+PImage cesped5;
+PImage cesped6;
 
 //Control P5
 ControlP5 cp5;
@@ -50,7 +53,7 @@ int startFrame;
 int finishFrame;
 int startTime;
 int elapsedTime;
-float tasaDeTiempo = 60; //Segundos de simulacion por segundo real
+float tasaDeTiempo = 30; //Segundos de simulacion por segundo real
 
 ArrayList<Float> mascarillas;
 ArrayList<Actor> actores;
@@ -73,10 +76,12 @@ void setup() {
   imagenProhibido = loadImage("no.png");
   PFont font = createFont("Arial", 1);
   
-  c1 = loadImage("cesped1.png");
-  c2 = loadImage("cesped2.png");
-  c3 = loadImage("cesped3.png");
-  c4 = loadImage("cesped4.png");
+  cesped1 = loadImage("c1.png");
+  cesped2 = loadImage("c2.png");
+  cesped3 = loadImage("c3.png");
+  cesped4 = loadImage("c4.png");
+  cesped5 = loadImage("c5.png");
+  cesped6 = loadImage("c6.png");
   
   
   sEficiencia = cp5.addSlider("setEficienciaMascarilla")
@@ -245,7 +250,7 @@ void draw(){
     estadisticas();
     
     
-    if (mousePressed && mouseButton == LEFT) {
+    if (click && mousePressed && mouseButton == LEFT) {
       sys.addAgent(mouseX, mouseY, false, eficienciaMascarilla);
       if(eficienciaMascarilla > 0){
         sys.numPersonasMascarilla += 1;
@@ -253,7 +258,7 @@ void draw(){
       sys.numPersonas += 1;
     }
     
-    if (mousePressed && mouseButton == RIGHT) {
+    if (click && mousePressed && mouseButton == RIGHT) {
       sys.addAgent(mouseX, mouseY, true, eficienciaMascarilla);
       if(eficienciaMascarilla > 0){
         sys.numPersonasMascarilla += 1;
@@ -262,7 +267,9 @@ void draw(){
       sys.numPersonasInfectadas += 1;
     }
     
-    scene.colorStats();
+    if (statShow){
+      scene.colorStats();
+    }
   }
 }
 
@@ -294,6 +301,10 @@ void keyPressed() {
     resetTime();
     
     sys.reset();
+  }
+  
+  if (key == 'c' || key == 'C'){
+    click = !click;
   }
   
   if (key == 'h' || key == 'H'){

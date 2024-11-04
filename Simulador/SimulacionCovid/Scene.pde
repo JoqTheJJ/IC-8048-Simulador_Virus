@@ -127,6 +127,31 @@ class Tienda{
 
 
 
+class Cesped{
+  PVector[] posiciones;
+  int n;
+  
+  Cesped(int n){
+    this.n = n;
+    posiciones = new PVector[n];
+    
+    
+    
+    for (int i = 0; i < n/2; i++){
+      posiciones[i] = new PVector(random(0, width -20), random(50, height/2 -230));
+    }
+    
+    for (int i = n/2; i < n; i++){
+      posiciones[i] = new PVector(random(310, width*3/4 -30), random(height/2 -200, height-20));
+    }
+    
+    
+    
+  }
+}
+
+
+
 class Fila{
   
   PVector[] posiciones;
@@ -245,6 +270,8 @@ class Fila{
 
 
 class Scene{
+  
+  Cesped cesped;
 
   //Concert coordinates
   float concertX = 0;
@@ -309,6 +336,7 @@ class Scene{
   
   Scene(){
     reflectores = new ArrayList<Reflector>();
+    cesped = new Cesped(150);
     
     reflectores.add(new Reflector(r1X, r1Y, reflectorRadio, reflectorVelocidadBase, color(255, 255, 255, 50)));
     reflectores.add(new Reflector(r2X, r2Y, reflectorRadio, reflectorVelocidadBase, color(0, 255, 255, 50)));
@@ -324,53 +352,61 @@ class Scene{
   }
   
   void colorStats(){
+    textFont(createFont("8bitOperatorPlus8-Regular.ttf", 12));
+    
     //Color stadistics
     strokeWeight(3);
     stroke(#000000);
     
+    float x = 10;
+    float y = concertY + 10;
+    float incremento = 20;
     
-    fill(#FF0000); //HAMBRIENTO
-    rect(10, concertY + 40, 20, 20);
-    text("HAMBRIENTO", 35, concertY + 60);
-    
-    fill(#FFC400); //COMPRANDO
-    rect(10, concertY + 70, 20, 20);
-    text("COMPRANDO", 35, concertY + 90);
-    
-    fill(#76FF00); //COMIENDO
-    rect(10, concertY + 100, 20, 20);
-    text("COMIENDO", 35, concertY + 120);
     
     fill(#00FFDF); //SATISFECHO
-    rect(10, concertY + 130, 20, 20);
-    text("SATISFECHO", 35, concertY + 150);
+    rect(x, y, 20, 20);
+    text("Satisfecho", x+25, y+15); y+=incremento;
     
+    fill(#FF0000); //HAMBRIENTO
+    rect(x, y, 20, 20);
+    text("Hambriento", x+25, y+15); y+=incremento;
+    
+    fill(#FFC400); //COMPRANDO
+    rect(x, y, 20, 20);
+    text("Comprando", x+25, y+15); y+=incremento;
+    
+    fill(#76FF00); //COMIENDO
+    rect(x, y, 20, 20);
+    text("Comiendo", x+25, y+15); y+=incremento;
+
     fill(#FFFFFF); //UNAVAILABLE
-    rect(10, concertY + 160, 20, 20);
-    text("UNAVAILABLE", 35, concertY + 180);
+    rect(x, y, 20, 20);
+    text("No Disponible", x+25, y+15);
+    y+=incremento*2;
     
-    
-    
-    
+
+
+    fill(#00B050); //REFRESHED
+    rect(x, y, 20, 20);
+    text("Refrescado", x+25, y+15); y+=incremento;
+
     fill(#76FF00); //NOTTIRED
-    rect(10, concertY + 200, 20, 20);
-    text("NOTTIRED", 35, concertY + 220);
+    rect(x, y, 20, 20);
+    text("Normal", x+25, y+15); y+=incremento;
     
     fill(#FF0000); //TIRED
-    rect(10, concertY + 230, 20, 20);
-    text("TIRED", 35, concertY + 250);
+    rect(x, y, 20, 20);
+    text("Cansado", x+25, y+15); y+=incremento;
     
     fill(#00FFEC); //RESTING
-    rect(10, concertY + 260, 20, 20);
-    text("RESTING", 35, concertY + 280);
-    
-    fill(#0017FF); //REFRESHED
-    rect(10, concertY + 290, 20, 20);
-    text("REFRESHED", 35, concertY + 310);
+    rect(x, y, 20, 20);
+    text("Descansando", x+25, y+15); y+=incremento;
     
     fill(#FFFFFF); //UNAVAILABLE
-    rect(10, concertY + 320, 20, 20);
-    text("UNAVAILABLE", 35, concertY + 340);
+    rect(x, y, 20, 20);
+    text("No Disponible", x+25, y+15); y+=incremento;
+    
+    textFont(createFont("SansSerif", 12));
   }
   
   void display(){
@@ -444,7 +480,32 @@ class Scene{
   }
   
   void preDisplay(){
-    strokeWeight(5);
+    for(int i = 0; i < cesped.n; i++){
+      PVector pos = cesped.posiciones[i];
+      switch (i % 6) {
+        case 0:
+          image(cesped1, pos.x, pos.y, 30, 30);
+          break;
+        case 1:
+          image(cesped2, pos.x, pos.y, 30, 30);
+          break;
+        case 2:
+          image(cesped3, pos.x, pos.y, 30, 25);
+          break;
+        case 4:
+          image(cesped4, pos.x, pos.y, 30, 30);
+          break;
+        case 5:
+          image(cesped5, pos.x, pos.y, 30, 30);
+          break;
+        default:
+          image(cesped6, pos.x, pos.y, 30, 25);
+          break;
+      }
+    }
+    
+    
+    strokeWeight(3);
     stroke(#000000);
     fill(#A5A5A5);
     rect(0, 0, width, 50);
@@ -453,6 +514,7 @@ class Scene{
     fill(#CECECE);
     rect(scene.w3X + 5, scene.w3Y, width - scene.w3X-5, height - scene.w3Y);
   }
+  
 }
 
 

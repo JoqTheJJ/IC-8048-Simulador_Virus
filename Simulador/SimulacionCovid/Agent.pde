@@ -662,8 +662,11 @@ class Agent {
   
   
   color hambreColor(){
-    color c = #000000;
+    color c = #FFFFFF;
     switch(estadoHambre) {
+      case SATISFECHO:
+        c = lerpColor(#FF6600, #00FFDF, hambre/50);
+        break;
       case HAMBRIENTO:
         c = #FF0000;
         break;
@@ -673,9 +676,6 @@ class Agent {
       case COMIENDO:
         c = #76FF00;
         break;
-      case SATISFECHO:
-        c = lerpColor(#FF0000, #00FFDF, hambre/100);
-        break;
       case UNAVAILABLE:
         c = #FFFFFF;
         break;
@@ -684,19 +684,19 @@ class Agent {
   }
   
   color humorColor(){
-    color c = #000000;
+    color c = #FFFFFF;
     switch(humor) {
+      case REFRESHED:
+        c = #00B050;
+        break;
       case NOTTIRED:
-        c = lerpColor(#FF0000, #76FF00, energia/100);
+        c = lerpColor(#FF6600, #76FF00, energia/50);
         break;
       case TIRED:
         c = #FF0000;
         break;
       case RESTING:
         c = #00FFEC;
-        break;
-      case REFRESHED:
-        c = #0017FF;
         break;
       case UNAVAILABLE:
         c = #FFFFFF;
