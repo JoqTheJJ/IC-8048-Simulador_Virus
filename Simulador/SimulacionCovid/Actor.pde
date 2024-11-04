@@ -8,8 +8,6 @@ enum Rol {
   OTRO
 }
 
-
-
 class Actor{
   PVector pos;
   float radio = 10;
@@ -46,7 +44,7 @@ class Actor{
     circle(pos.x + offsetX, pos.y + offsetY, radio*2);
     
     fill(#000000);
-    if (rol == Rol.GUARDA){
+    if (rol == Rol.GUARDA) {
       rect(pos.x-9   + offsetX, pos.y-4 + offsetY, 18, 0.5);
       rect(pos.x-4.5   + offsetX, pos.y-4 + offsetY, 3, 4);
       rect(pos.x+2.5 + offsetX, pos.y-4 + offsetY, 3, 4);
@@ -57,8 +55,8 @@ class Actor{
       fill(#000000);
       arc(pos.x+ offsetX, pos.y+ offsetY +3, radio*1.8, radio*1.8, 0, PI, CHORD); //Traje
       
-      if (bebida > 0){
-        if (!pause){
+      if (bebida > 0) {
+        if (!pause) {
           bebida--;
         }
         cooldown = (int)random(600, 1800);
@@ -72,10 +70,10 @@ class Actor{
         fill(#FFFFFF);
         rect(pos.x + radio - 1, pos.y -3, 2, 4); //Pajilla
       } else {
-        if (!pause){
+        if (!pause) {
           cooldown--;
         }
-        if (cooldown < 0){
+        if (cooldown < 0) {
           bebida = (int)random(600, 900);
         }
       }
@@ -85,8 +83,8 @@ class Actor{
     }
   }  
   
-  void run(){
-    switch(rol){
+  void run() {
+    switch(rol) {
       case CANTANTE:
         cantantePrincipal();
         break;
@@ -118,7 +116,7 @@ class Actor{
   }
   
   
-  void cantantePrincipal(){
+  void cantantePrincipal() {
     offsetX = map(noise(noiseXOffset), 0, 1, -15, 55);
     offsetY = map(noise(noiseYOffset), 0, 1, -35, 35);
     
@@ -126,7 +124,7 @@ class Actor{
     noiseYOffset += 0.005;
   }
   
-  void cantanteSecundario(){
+  void cantanteSecundario() {
     offsetX = map(noise(noiseXOffset), 0, 1, -10, 30);
     offsetY = map(noise(noiseYOffset), 0, 1, -25, 25);
     
@@ -134,7 +132,7 @@ class Actor{
     noiseYOffset += 0.004;
   }
   
-  void guitarrista(){
+  void guitarrista() {
     offsetX = map(noise(noiseXOffset), 0, 1, -10, 20);
     offsetY = map(noise(noiseYOffset), 0, 1, -15, 15);
     
@@ -142,13 +140,13 @@ class Actor{
     noiseYOffset += 0.01;
   }
   
-  void tecladista(){
+  void tecladista() {
     offsetY = map(noise(noiseYOffset), 0, 1, -10, 10);
     
     noiseYOffset += 0.02;
   }
   
-  void baterista(){
+  void baterista() {
     offsetX = map(noise(noiseXOffset), 0, 1, 0, 5);
     offsetY = map(noise(noiseYOffset), 0, 1, -5, 5);
     
@@ -156,7 +154,6 @@ class Actor{
     noiseYOffset += 0.03;
   }
   
-  void noMovement(){
-    
+  void noMovement() {
   }
 }

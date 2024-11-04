@@ -21,8 +21,6 @@ enum Hambre {
   UNAVAILABLE
 }
 
-
-
 class Agent {
   
   //Variables estado
@@ -41,7 +39,6 @@ class Agent {
   int numTienda = 0;
   int tiempoCompra;
   
-  
   // Variables Movimiento
   PVector pos;
   PVector vel;
@@ -51,15 +48,12 @@ class Agent {
   
   int filaPos = 0;
   
-  
   float radio = 10;
   float damp = 1;
   float mass = 1;
   
-  
   //Variables movimiento autonomo
   float maxSteeringForce = 0.005;
-  
   float arrivalRadius = 50;
 
   float wanderLookAhead = 30;
@@ -76,15 +70,10 @@ class Agent {
   float cohesionRadio = 80;
   float cohesionRatio = 1;
   
-  
-  
-  
   // Variables Contagio
   float eficienciaMascarilla;
-  
   float quanta;           // Que tan enfermo esta
   float quantaMaxima = 3; // Limite para que se enferme
-  
   
   // ############################  ############################
   // ################## METODOS PRINCIPALES ###################
@@ -102,7 +91,6 @@ class Agent {
     this.estado = estado;
     filaPos = posFila;
     
-    
     //Variables estado del agente
     energia = random(80, 120);
     hambre = random(40, 100);
@@ -114,16 +102,15 @@ class Agent {
     humor = Humor.REFRESHED;
     estadoHambre = Hambre.SATISFECHO;
     
-    if(infectado) {
+    if (infectado) {
       quanta = quantaMaxima;
     } else {
       quanta = 0;
     }
   }
   
-  void run(){
-    
-    if(filaPos < 1){
+  void run() {
+    if (filaPos < 1) {
       borders();
     }
     
@@ -136,7 +123,7 @@ class Agent {
     stroke(#000000);
     
     //Nivel Energia
-    if (humor == Humor.NOTTIRED){
+    if (humor == Humor.NOTTIRED) {
       if (energia < 0){
         humor = Humor.TIRED;
       }
@@ -149,7 +136,6 @@ class Agent {
     } else if (humor == Humor.REFRESHED){
       energia += random(0.03, 0.035);
     }
-    
     
     //Nivel Hambre
     if (estadoHambre == Hambre.COMPRANDO){
@@ -193,9 +179,7 @@ class Agent {
     rect(pos.x-3, pos.y-4, 0.5, 0.7); //Ojos
     rect(pos.x+3, pos.y-4, 0.5, 0.7); //Ojos
     
-    
-    
-    if(statShow){
+    if (statShow) {
       //Stat Hambre Izquierda
       fill(hambreColor());
       rect(pos.x-10, pos.y+radio, 10, 10);
@@ -205,9 +189,7 @@ class Agent {
       rect(pos.x, pos.y+radio, 10, 10);
     }
     
-    
-    
-    if (bebida > 0){
+    if (bebida > 0) {
       strokeWeight(2);
       stroke(#000000);
       fill(#FF0000);
@@ -219,7 +201,7 @@ class Agent {
       rect(pos.x + radio - 1, pos.y - 4, 2, 4); //Pajilla
     }
     
-    if (hamburguesa > 0){
+    if (hamburguesa > 0) {
       strokeWeight(1);
       stroke(#000000);
       fill(#FFD089);
@@ -228,7 +210,6 @@ class Agent {
       fill(#5D0909);
       rect(pos.x - radio - 3, pos.y + 3, 7, 2); //Carne
     }
-    
     
     if(colorMode == ColorMode.MASK && eficienciaMascarilla > 0){
       int m = int(map(eficienciaMascarilla, 0, 1, 1, 4));
@@ -242,7 +223,7 @@ class Agent {
     }
   }
   
-  void display(){
+  void display() {
     strokeWeight(3);
     stroke(#000000);
     
@@ -257,8 +238,6 @@ class Agent {
     rect(pos.x-3, pos.y-4, 0.5, 0.7); //Ojos
     rect(pos.x+3, pos.y-4, 0.5, 0.7); //Ojos
     
-    
-    
     if(statShow){
       //Stat Hambre Izquierda
       fill(hambreColor());
@@ -269,9 +248,7 @@ class Agent {
       rect(pos.x, pos.y+radio, 10, 10);
     }
     
-    
-    
-    if (bebida > 0){
+    if (bebida > 0) {
       strokeWeight(2);
       stroke(#000000);
       fill(#FF0000);
@@ -283,7 +260,7 @@ class Agent {
       rect(pos.x + radio - 1, pos.y - 4, 2, 4); //Pajilla
     }
     
-    if (hamburguesa > 0){
+    if (hamburguesa > 0) {
       strokeWeight(1);
       stroke(#000000);
       fill(#FFD089);
@@ -291,10 +268,9 @@ class Agent {
       rect(pos.x - radio - 3, pos.y + 5, 7, 2); //Pan
       fill(#5D0909);
       rect(pos.x - radio - 3, pos.y + 3, 7, 2); //Carne
-      
     }
     
-    if(colorMode == ColorMode.MASK && eficienciaMascarilla > 0){
+    if (colorMode == ColorMode.MASK && eficienciaMascarilla > 0) {
       int m = int(map(eficienciaMascarilla, 0, 1, 1, 4));
         
       fill(colorsMask.get(m-1));
@@ -305,8 +281,6 @@ class Agent {
       arc(pos.x, pos.y, radio*1.3, radio*1.3, 0, PI, CHORD);
     }
   }
-  
-  
   
   // ############################  ############################
   // ################### METODOS MOVIMIENTO ###################
@@ -656,15 +630,9 @@ class Agent {
     }
   }
   
-  
-  
-  
-  
-  
-  
-  color hambreColor(){
+  color hambreColor() {
     color c = #FFFFFF;
-    switch(estadoHambre) {
+    switch (estadoHambre) {
       case SATISFECHO:
         c = lerpColor(#FF6600, #00FFDF, hambre/50);
         break;
@@ -684,9 +652,9 @@ class Agent {
     return c;
   }
   
-  color humorColor(){
+  color humorColor() {
     color c = #FFFFFF;
-    switch(humor) {
+    switch (humor) {
       case REFRESHED:
         c = #00B050;
         break;

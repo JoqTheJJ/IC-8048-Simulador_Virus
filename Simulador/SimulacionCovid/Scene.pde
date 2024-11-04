@@ -3,7 +3,7 @@ enum Comida {
   BEBIDA
 }
 
-class Tienda{
+class Tienda {
   float centerX;
   float centerY;
   float alto  = 50;
@@ -13,7 +13,7 @@ class Tienda{
   int n;
   Comida c;
   
-  Tienda(float x, float y, Comida c, int n){
+  Tienda(float x, float y, Comida c, int n) {
     this.n = n;
     this.x = x;
     this.y = y;
@@ -22,13 +22,13 @@ class Tienda{
     centerY = y + alto;
   }
   
-  void display(){
+  void display() {
     strokeWeight(3);
     stroke(#000000);
     
     
     //Tienda
-    if (c == Comida.HAMBURGUESA){
+    if (c == Comida.HAMBURGUESA) {
       fill(#F0A22E);
       rect(x, y, ancho, alto);
       
@@ -58,14 +58,11 @@ class Tienda{
       rect(0, 6, 12, 5); //Carne
       
       popMatrix();
-      
-      
     } else {
       fill(#2EF0EB);
       rect(x, y, ancho, alto);
       
       pushMatrix();
-      
       translate(x + ancho/16, y + alto/2);
       
       strokeWeight(3);
@@ -91,16 +88,11 @@ class Tienda{
       popMatrix();
     }
     
-    
-    
     //Ventana
     strokeWeight(3);
     stroke(#000000);
-    
     fill(#000000);
     rect(x + 25, y + 10, ancho - 50, alto - 30);
-    
-    
     
     //Chef
     float cY = 27;
@@ -112,11 +104,9 @@ class Tienda{
     fill(#FFFFFF);
     rect(centerX-4, cY-18, 8, 10);
     
-    
-    
     //Mostrador
     noStroke();
-    if (c == Comida.HAMBURGUESA){
+    if (c == Comida.HAMBURGUESA) {
       fill(#F0A22E);
     } else {
       fill(#2EF0EB);
@@ -125,35 +115,25 @@ class Tienda{
   }
 }
 
-
-
-class Cesped{
+class Cesped {
   PVector[] posiciones;
   int n;
   
-  Cesped(int n){
+  Cesped(int n) {
     this.n = n;
     posiciones = new PVector[n];
     
-    
-    
-    for (int i = 0; i < n/2; i++){
+    for (int i = 0; i < n/2; i++) {
       posiciones[i] = new PVector(random(0, width -20), random(50, height/2 -230));
     }
     
-    for (int i = n/2; i < n; i++){
+    for (int i = n/2; i < n; i++) {
       posiciones[i] = new PVector(random(310, width*3/4 -30), random(height/2 -200, height-20));
     }
-    
-    
-    
   }
 }
 
-
-
-class Fila{
-  
+class Fila {
   PVector[] posiciones;
   int numPosiciones = 188;
   PVector max = new PVector(width*3/4+5 + 450, 345);
@@ -162,21 +142,20 @@ class Fila{
   //Center
   PVector c = new PVector(width*3/4+5, height/2 +100);
   
-  
-  Fila(){
+  Fila() {
     posiciones = new PVector[numPosiciones];
     
     int i;
     posiciones[0] = new PVector(c.x, c.y);
     
-    for (i = 1; i < 16; i++){//Pone 15
+    for (i = 1; i < 16; i++) {//Pone 15
       posiciones[i] = new PVector(c.x + 30, c.y + (i-1)*30);
     }
     
     //Columna arriba
     posiciones[i] = new PVector(c.x + 60, c.y + 420);// +1
     i++;
-    for (int j = 0; j < 24; j++){//Pone 24
+    for (int j = 0; j < 24; j++) {//Pone 24
       posiciones[i] = new PVector(c.x + 90, c.y + 420 - j*30);
       i++;
     }
@@ -184,7 +163,7 @@ class Fila{
     //Columna abajo
     posiciones[i] = new PVector(c.x + 120, 370);// +1
     i++;
-    for (int j = 0; j < 24; j++){//Pone 24
+    for (int j = 0; j < 24; j++) {//Pone 24
       posiciones[i] = new PVector(c.x + 150, 370 + j*30);
       i++;
     }
@@ -192,7 +171,7 @@ class Fila{
     //Columna arriba
     posiciones[i] = new PVector(c.x + 180, c.y + 420);// +1
     i++;
-    for (int j = 0; j < 24; j++){//Pone 24
+    for (int j = 0; j < 24; j++) {//Pone 24
       posiciones[i] = new PVector(c.x + 210, c.y + 420 - j*30);
       i++;
     }
@@ -200,7 +179,7 @@ class Fila{
     //Columna abajo
     posiciones[i] = new PVector(c.x + 240, 370);// +1
     i++;
-    for (int j = 0; j < 24; j++){//Pone 24
+    for (int j = 0; j < 24; j++) {//Pone 24
       posiciones[i] = new PVector(c.x + 270, 370 + j*30);
       i++;
     }
@@ -208,7 +187,7 @@ class Fila{
     //Columna arriba
     posiciones[i] = new PVector(c.x + 300, c.y + 420);// +1
     i++;
-    for (int j = 0; j < 24; j++){//Pone 24
+    for (int j = 0; j < 24; j++) {//Pone 24
       posiciones[i] = new PVector(c.x + 330, c.y + 420 - j*30);
       i++;
     }
@@ -216,7 +195,7 @@ class Fila{
     //Columna abajo
     posiciones[i] = new PVector(c.x + 360, 370);// +1
     i++;
-    for (int j = 0; j < 24; j++){//Pone 24
+    for (int j = 0; j < 24; j++) {//Pone 24
       posiciones[i] = new PVector(c.x + 390, 370 + j*30);
       i++;
     }
@@ -224,53 +203,47 @@ class Fila{
     //Columna arriba
     posiciones[i] = new PVector(c.x + 420, c.y + 420);// +1
     i++;
-    for (int j = 0; j < 21; j++){//Pone 21
+    for (int j = 0; j < 21; j++) {//Pone 21
       posiciones[i] = new PVector(c.x + 450, c.y + 420 - j*30);
       i++;
     }
   }
   
-  void display(){
+  void display() {
     noStroke();
     col = (frameCount/60) % 8;
     nextColor();
     
-    for(int i = 1; i < numPosiciones; i++){
+    for(int i = 1; i < numPosiciones; i++) {
       PVector pos = posiciones[i];
       circle(pos.x, pos.y, 25);
       nextColor();
     }
   }
   
-  void nextColor(){
-    if (col == 0){
+  void nextColor() {
+    if (col == 0) {
       fill(#FAEA56);//Amarillo
-    } else if (col == 1){
+    } else if (col == 1) {
       fill(#58FA56);//Verde
-    } else if (col == 2){
+    } else if (col == 2) {
       fill(#56F6FA);//Celeste
-    } else if (col == 3){
+    } else if (col == 3) {
       fill(#5884FA);//Azul
-    } else if (col == 4){
+    } else if (col == 4) {
       fill(#7B56FA);//Morado
-    } else if (col == 5){
+    } else if (col == 5) {
       fill(#FA56E7);//Rosado
-    } else if (col == 6){
+    } else if (col == 6) {
       fill(#FA5656);//Rojo
-    } else if (col == 7){
+    } else if (col == 7) {
       fill(#FAB056);//Naranja
     }
     col = (col - 1 + 8) % 8;
   }
 }
 
-
-
-
-
-
-class Scene{
-  
+class Scene {
   Cesped cesped;
 
   //Concert coordinates
@@ -334,7 +307,7 @@ class Scene{
   
   //Ancho puerta = 100
   
-  Scene(){
+  Scene() {
     reflectores = new ArrayList<Reflector>();
     cesped = new Cesped(150);
     
@@ -345,15 +318,15 @@ class Scene{
     reflectores.add(new Reflector(r5X, r5Y, reflectorRadio, reflectorVelocidadBase, color(252, 240, 0, 50)));
   }
   
-  void update(){
+  void update() {
     for (Reflector r : reflectores){
       r.update();
     }
   }
   
-  void colorStats(){
+  void colorStats() {
     textFont(createFont("8bitOperatorPlus8-Regular.ttf", 12));
-    
+
     //Color stadistics
     strokeWeight(3);
     stroke(#000000);
@@ -386,7 +359,6 @@ class Scene{
     text("No Disponible", x+25, y+15);
     
     y+=incremento*2;
-    
 
     fill(#FFFFFF);
     text("Estado Energía (Derecha)", x, y+15); y+=incremento;
@@ -414,15 +386,13 @@ class Scene{
     textFont(createFont("SansSerif", 12));
   }
   
-  void display(){
-
+  void display() {
     strokeWeight(3);
     stroke(#000000);
     
     //Area del Concierto
     fill(#343434);
     rect(concertX, concertY, concertW, concertH);
-    
 
     //Walls color
     fill(#A5A5A5);
@@ -447,11 +417,9 @@ class Scene{
     fill(0, 0, 0, 120);
     rect(width - 40, w2Y + 35, 30, 35);
     
-    
     // ################################### //
     // ########## Instrumentos ########### //
     // ################################### //
-    
     
     strokeWeight(3);
     stroke(#000000);
@@ -460,24 +428,27 @@ class Scene{
     fill(#C1C1C1);
     circle(concertW/2 +30, (2*concertY+concertH)/2 +131  -30, diametro); // 2
     circle(concertW/2 +30, (2*concertY+concertH)/2 +149  -30, diametro); // 3
+    
     //Interna
     fill(#F2F2F2);
     circle(concertW/2 +30, (2*concertY+concertH)/2 +131  -30, radio); // 2
     circle(concertW/2 +30, (2*concertY+concertH)/2 +149  -30, radio); // 3
+    
     //Platillos
     fill(#FFC400);
     circle(concertW/2 +20, (2*concertY+concertH)/2 +160  -30, diametro*0.8); // 4
     circle(concertW/2 +20, (2*concertY+concertH)/2 +120  -30, diametro*0.8); // 1
     
-
     //Piano
     fill(#03FF11);
     strokeWeight(2);
     rect(concertW/2 +21, (2*concertY+concertH)/2 -140  -45, diametro*0.7, diametro*1.5);
+    
     //Superficie
     fill(#FFFFFF);
     strokeWeight(0);
     rect(concertW/2 +23, (2*concertY+concertH)/2 -140  -42, diametro*0.4, diametro*1.2);
+    
     //Teclas
     fill(#000000);
     rect(concertW/2 +23, (2*concertY+concertH)/2 -140  -28, radio*0.5, 3);
@@ -486,15 +457,15 @@ class Scene{
     rect(concertW/2 +23, (2*concertY+concertH)/2 -140  -40, radio*0.5, 3);
   }
   
-  void luces(){
+  void luces() {
     //Luces
-    for (Reflector r : reflectores){
+    for (Reflector r : reflectores) {
       r.display();
     }
   }
   
-  void preDisplay(){
-    for(int i = 0; i < cesped.n; i++){
+  void preDisplay() {
+    for(int i = 0; i < cesped.n; i++) {
       PVector pos = cesped.posiciones[i];
       switch (i % 6) {
         case 0:
@@ -521,9 +492,6 @@ class Scene{
     fill(#CECECE);
     rect(scene.w3X + 5, scene.w3Y, width - scene.w3X-5, height - scene.w3Y);
     
-    
-    
-    
     strokeWeight(3);
     stroke(#000000);
     
@@ -535,12 +503,7 @@ class Scene{
     fill(0, 0, 0);
     rect(width - 40, w2Y + 30, 30, 40);
   }
-  
 }
-
-
-
-
 
 class Reflector {
   PVector pos;
@@ -548,8 +511,7 @@ class Reflector {
   float radio;
   color c;
   
-  
-  Reflector(float x, float y, float radio, float velocity, color c){
+  Reflector(float x, float y, float radio, float velocity, color c) {
     pos = new PVector(x,y);
     float velX = random(1) > 0.5 ? 1 : -1;
     float velY = random(1) > 0.5 ? 1 : -1;
@@ -560,7 +522,7 @@ class Reflector {
     this.c = c;
   }
   
-  void update(){
+  void update() {
     pos.add(vel);
      
     if (pos.x < 0 || pos.x > width) {
@@ -573,7 +535,7 @@ class Reflector {
     }
   }
   
-  void display(){
+  void display() {
     noStroke();
     fill(c);
     circle(pos.x, pos.y, radio*2);

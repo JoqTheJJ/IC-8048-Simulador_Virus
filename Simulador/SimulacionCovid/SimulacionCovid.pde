@@ -105,20 +105,14 @@ int finishFrame;
 int startTime;
 int elapsedTime;
 
-
 ArrayList<Float> mascarillas;
 ArrayList<Actor> actores;
 ColorMode colorMode;
 Fila fila;
 
-
-
-
-
-
 void setup() {
-  //size(800, 800);
-  fullScreen();
+  size(1920, 1080);
+  //fullScreen();
   
   cp5 = new ControlP5(this);
   print("\n\n\n\n\n\n\n\n");
@@ -133,7 +127,6 @@ void setup() {
   cesped4 = loadImage("c4.png");
   cesped5 = loadImage("c5.png");
   cesped6 = loadImage("c6.png");
-  
   
   sEficiencia = cp5.addSlider("setEficienciaMascarilla")
     .setPosition(width/2 - 450, height/2 +200)
@@ -174,16 +167,10 @@ void setup() {
     .setValue(porcentajeMascarilla)
     .setCaptionLabel("")
     .setFont(font);
-                  
-                  
-                  
-  
-  
   
   addColorsInfection();
   addColorsMask();
   //addMascarillas();
-  
   
   startFrame = 0;
   finishFrame = 0;
@@ -201,20 +188,12 @@ void setup() {
   addRepeledores();
 }
 
-
-
-
-
-
-
-void draw(){
-  
-  
-  if(start){ //Menu Inicial
+void draw() {
+  if(start) { //Menu Inicial
     background(#CECECE);
     menuPrincipal();
     
-  } else if (ayuda){
+  } else if (ayuda) {
     background(#CECECE);
     menuAyuda();
     
@@ -228,16 +207,15 @@ void draw(){
       }
     }
   
-    if (!pause){
+    if (!pause) {
       finishFrame += 1;
-
-      for (Repeledor r: repeledores){
+      for (Repeledor r: repeledores) {
         r.update();
         if (debug){
           r.display();
         }
       }
-      for (FoodAttractor a: foodAttractors){
+      for (FoodAttractor a: foodAttractors) {
         a.update();
         if (debug){
           a.display();
@@ -245,7 +223,7 @@ void draw(){
       }
       
       scene.preDisplay();
-      for (Tienda t: tiendas){
+      for (Tienda t: tiendas) {
         t.display();
       }
       
@@ -254,20 +232,15 @@ void draw(){
       scene.update();
       scene.display();
       
-      if(luces){
+      if(luces) {
         scene.luces();
       }
       
-      for (Actor a: actores){
+      for (Actor a: actores) {
         a.run();
       }
-      
-      
-      
-      
     } else { // Pausa [||]
-      
-      if (debug){
+      if (debug) {
         for (Repeledor r: repeledores){
           r.display();
         }
@@ -277,7 +250,7 @@ void draw(){
       }
       
       scene.preDisplay();
-      for (Tienda t: tiendas){
+      for (Tienda t: tiendas) {
         t.display();
       }
       
@@ -286,21 +259,18 @@ void draw(){
       sys.display();
       scene.display();
       
-      if(luces){
+      if(luces) {
         scene.luces();
       }
       
       
-      for (Actor a: actores){
+      for (Actor a: actores) {
         a.display();
       }
     }
     
-    
-    
     estadisticas();
-    
-    
+
     if (click && mousePressed && mouseButton == LEFT) {
       sys.addAgent(mouseX, mouseY, false, eficienciaMascarilla);
       if(eficienciaMascarilla > 0){
@@ -308,7 +278,6 @@ void draw(){
       }
       sys.numPersonas += 1;
     }
-    
     if (click && mousePressed && mouseButton == RIGHT) {
       sys.addAgent(mouseX, mouseY, true, eficienciaMascarilla);
       if(eficienciaMascarilla > 0){
@@ -317,21 +286,13 @@ void draw(){
       sys.numPersonas += 1;
       sys.numPersonasInfectadas += 1;
     }
-    
     if (statShow){
       scene.colorStats();
     }
   }
 }
 
-
-
-
-
-
-
 void keyPressed() {
-  
   if (start && key == '\n') {
     cerrarMenuPrincipal();
   }
@@ -350,7 +311,6 @@ void keyPressed() {
     sPorcentajeMascarilla.show();
     
     resetTime();
-    
     sys.reset();
   }
   
@@ -383,10 +343,8 @@ void keyPressed() {
   }
 }
 
-
-
 void resetTime(){
-  if(finishOg){
+  if(finishOg) {
     finish = true;
   }
   startFrame = frameCount;
@@ -395,7 +353,7 @@ void resetTime(){
   sys.waitingTime = sys.initialWaitingTime;
 }
 
-void estadisticas(){
+void estadisticas() {
   elapsedTime = millis() - startTime;
   
   int elapsedFrames = finishFrame - startFrame;
@@ -423,7 +381,6 @@ void estadisticas(){
   text("Simulacion: "+sd+":"+simulationTime, 15, height -160);
   
   text("Nivel de Ventilación: "+(int)tasaDeVentilacion, 15, height -130);
-  
   
   text("Personas Totales: "+sys.numPersonas, 15, height -100);
   text("Personas Totales: "+sys.numPersonas, 15, height -100);

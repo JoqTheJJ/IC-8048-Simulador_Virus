@@ -1,5 +1,5 @@
 ArrayList<Integer> colorsInfection;
-void addColorsInfection(){
+void addColorsInfection() {
   colorsInfection = new ArrayList();
   colorsInfection.add(color(10, 154, 67));  //Verde
   colorsInfection.add(color(103, 186, 61)); //Verde claro
@@ -11,14 +11,14 @@ void addColorsInfection(){
 }
 
 ArrayList<Integer> colorsMask;
-void addColorsMask(){
+void addColorsMask() {
   colorsMask = new ArrayList();
   colorsMask.add(#FFFFFF); //Blanco
   colorsMask.add(#337CFF); //Azul Claro
   colorsMask.add(#0A3BD8); //Azul
 }
 
-void addMascarillas(){
+void addMascarillas() {
   mascarillas = new ArrayList();
   mascarillas.add(0.0); //Sin mascarilla
   mascarillas.add(0.3); //Generica
@@ -26,7 +26,7 @@ void addMascarillas(){
   mascarillas.add(0.9); //N95
 }
 
-void addTiendas(){
+void addTiendas() {
   tiendas = new ArrayList();
   foodAttractors = new ArrayList();
   
@@ -46,7 +46,6 @@ void addTiendas(){
   tiendas.add(t4);
   foodAttractors.add(new FoodAttractor(t4, sys));
   
-  
   Tienda t5 = new Tienda(width - 750, 0, Comida.HAMBURGUESA, 4);
   tiendas.add(t5);
   foodAttractors.add(new FoodAttractor(t5, sys));
@@ -64,7 +63,7 @@ void addTiendas(){
   foodAttractors.add(new FoodAttractor(t8, sys));
 }
 
-void addActores(){
+void addActores() {
   actores = new ArrayList<Actor>();
   
   actores.add(new Actor( //Pianista
@@ -113,7 +112,7 @@ void addActores(){
     );
 }
 
-void addRepeledores(){
+void addRepeledores() {
   repeledores = new ArrayList<Repeledor>();
   
   //Concierto
@@ -126,13 +125,12 @@ void addRepeledores(){
   repeledores.add(new Repeledor(scene.w3X-25, scene.w4Y - 100, 80, 100,
   0.15, new PVector(-1, 0), sys));  
   
-  
-  
   //Entrada Superior
   repeledores.add(new Atractor(scene.w1W - 100, scene.w1Y - 75, 100, 160,
   0.06, new PVector(1, 0), sys));
   repeledores.add(new Atractor(scene.w2X, scene.w2Y - 75, 100, 160,
   0.06, new PVector(-1, 0), sys));
+  
   //Condicionales (Arriba)
   repeledores.add(new AtractorCondicionalHumor(scene.w2X - 80, scene.w2Y - 50, 60, 180,
   0.06, new PVector(0, -1), sys, Humor.TIRED));
@@ -141,7 +139,6 @@ void addRepeledores(){
   //Condicionales (Abajo)
   repeledores.add(new AtractorCondicionalHumor(scene.w2X - 80, scene.w2Y - 120, 60, 180,
   0.08, new PVector(0, 1), sys, Humor.REFRESHED));
-  
   
   //Muro 1 superior
   repeledores.add(new Repeledor(0, scene.w1Y-50, scene.w1W-40, 50,
@@ -161,8 +158,6 @@ void addRepeledores(){
   repeledores.add(new Repeledor(scene.w3X-50, scene.w3Y, 50, height - scene.w3Y,
   0.13, new PVector(-1, 0), sys));  
   
-  
-  
   //Abajo
   repeledores.add(new Repeledor(scene.concertX, height-50, scene.w4X - scene.concertX, 50,
   0.13, new PVector(0, -1), sys));
@@ -180,20 +175,11 @@ void addRepeledores(){
   0.13, new PVector(-1, 0), sys));
 }
 
-
-
-
-
-
-
-
-
 // ############################  ############################ //
 // ######################## MENU AYUDA ###################### //
 // ############################  ############################ //
 
-void menuAyuda(){
-  
+void menuAyuda() {
   float x = width/2 - 450;
   float y = height/2 - 300;
   
@@ -227,30 +213,28 @@ void menuAyuda(){
 // ###################### MENU PRINCIPAL #################### //
 // ############################  ############################ //
 
-
-
-void setEficienciaMascarilla(float value){
+void setEficienciaMascarilla(float value) {
   eficienciaMascarilla = value;
 }
 
-void setTasaDeVentilacion(float value){
+void setTasaDeVentilacion(float value) {
   tasaDeVentilacion = value;
 }
 
-void setTotalSanos(float value){
+void setTotalSanos(float value) {
   totalSanos = (int)value;
 }
 
-void setTotalContagiados(float value){
+void setTotalContagiados(float value) {
   totalContagiados = (int)value;
 }
 
-void setPorcentajeMascarilla(float value){
+void setPorcentajeMascarilla(float value) {
   porcentajeMascarilla = value;
 }
 
 
-void menuPrincipal(){
+void menuPrincipal() {
   
   //Center: (width/2 - 150, height/2 + 50)
   PVector pos = new PVector(width/2 - 350, height/2 + 50);
@@ -309,11 +293,8 @@ void menuPrincipal(){
   PVector p4 = new PVector(center.x - 62, center.y - 102);
   PVector p5 = new PVector(center.x + 62, center.y - 102);
   
-
   strokeWeight(18);
   stroke(#000000);
-  
-  
   
   fill(colorsInfection.get(0));
   circle(p1.x, p1.y, radio); //Cuerpo
@@ -349,42 +330,36 @@ void menuPrincipal(){
   fill(colorsMask.get(m-1));
   strokeWeight(5);
   
-  if (porcentajeMascarilla > 0.20){
+  if (porcentajeMascarilla > 0.20) {
     line(p2.x-50, p2.y,     p2.x+50, p2.y);
     line(p2.x-50, p2.y +10, p2.x+50, p2.y +10);
     arc(p2.x, p2.y, radio*0.7, radio*0.7, 0, PI, CHORD);
   }
-  if (porcentajeMascarilla > 0.40){
+  if (porcentajeMascarilla > 0.40) {
     line(p4.x-50, p4.y,     p4.x+50, p4.y);
     line(p4.x-50, p4.y +10, p4.x+50, p4.y +10);
     arc(p4.x, p4.y, radio*0.7, radio*0.7, 0, PI, CHORD);
   }
-  if (porcentajeMascarilla > 0.60){
+  if (porcentajeMascarilla > 0.60) {
     line(p5.x-50, p5.y,     p5.x+50, p5.y);
     line(p5.x-50, p5.y +10, p5.x+50, p5.y +10);
     arc(p5.x, p5.y, radio*0.7, radio*0.7, 0, PI, CHORD);
   }
-  if (porcentajeMascarilla > 0.80){
+  if (porcentajeMascarilla > 0.80) {
     line(p3.x-50, p3.y,     p3.x+50, p3.y);
     line(p3.x-50, p3.y +10, p3.x+50, p3.y +10);
     arc(p3.x, p3.y, radio*0.7, radio*0.7, 0, PI, CHORD);
   }
-  if (porcentajeMascarilla > 0.99){
+  if (porcentajeMascarilla > 0.99) {
     line(p1.x-50, p1.y,     p1.x+50, p1.y);
     line(p1.x-50, p1.y +10, p1.x+50, p1.y +10);
     arc(p1.x, p1.y, radio*0.7, radio*0.7, 0, PI, CHORD);
   }
   
-  
-  
-  
-  
-  
   fill(#000000);
   text((int)(eficienciaMascarilla*100) + "%", pos.x - 50, pos.y + 240);
     
   fill(colorsMask.get(m-1));
-  
   strokeWeight(15);
   line(pos.x-radio+20, pos.y -5, pos.x+radio-20, pos.y -5);
   line(pos.x-radio+20, pos.y +15, pos.x+radio-20, pos.y +15);
@@ -395,10 +370,7 @@ void menuPrincipal(){
   }
 }
 
-
-
 void cerrarMenuPrincipal(){
-  
   textFont(createFont("SansSerif", 12));
   
   sEficiencia.hide();
@@ -412,9 +384,7 @@ void cerrarMenuPrincipal(){
   start = false;
   pause = false;
   ayuda = false;
-  
   luces = true;
-  
   
   resetTime();
 }
