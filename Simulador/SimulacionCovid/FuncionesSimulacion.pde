@@ -195,14 +195,16 @@ void addRepeledores(){
 void menuAyuda(){
   
   float x = width/2 - 450;
-  float y = height/2 - 150;
+  float y = height/2 - 200;
   
   PFont menuFont = createFont("8bitOperatorPlus8-Regular.ttf", 30);
   textFont(menuFont);
   fill(#000000);
   
-  text("Presiona   [Espacio]   para pausar o reanudar la simulación", x, y); y += 40;
-  text("Presiona        [R]        para reiniciar la simulación", x, y); y += 40;
+  text("Presiona        [Espacio]          para pausar o reanudar la simulación", x, y); y += 40;
+  text("Presiona             [R]               para reiniciar la simulación", x, y); y += 40;
+  text("Presiona    [Click Derecho]     para invocar agentes contagiados", x, y); y += 40;
+  text("Presiona   [Click Izquierdo]   para invocar agentes sanos", x, y); y += 40;
   
   y += 50;
   text("Presiona        [M]        para activar o desactivar las mascarillas", x, y); y += 40;
@@ -251,12 +253,14 @@ void menuPrincipal(){
   PVector posS = new PVector(pos.x + 200      , pos.y - 400);
   PVector posC = new PVector(pos.x + 200 + 350, pos.y - 400);
   float radio = 100;
+  
+  fill(#000000);
+  textFont(createFont("8bitOperatorPlus8-Regular.ttf", 35));
+  text("Presiona [H] en simulación para ver los controles", width/2 - 450, pos.y + 370);
+  
   PFont menuFont = createFont("8bitOperatorPlus8-Regular.ttf", 50);
   textFont(menuFont);
-  fill(#000000);
-  
-  
-  text("PRESIONA ENTER PARA INICIAR", width/2 - 350, pos.y + 450);
+  text("PRESIONA ENTER PARA INICIAR", width/2 - 350, pos.y + 420);
   
   
   
