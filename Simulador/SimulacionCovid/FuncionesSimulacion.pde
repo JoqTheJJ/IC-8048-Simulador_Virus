@@ -84,11 +84,11 @@ void addActores() {
     #FFFFFF,
     Rol.CANTANTE)
     );
-  actores.add(new Actor( //Cantante secundario
+  actores.add(new Actor( //Bajista
     scene.concertW/2 +20,
     (2*scene.concertY+scene.concertH)/2 +70  -30,
     #6203FF,
-    Rol.SECUNDARIO)
+    Rol.BAJISTA)
     );
   actores.add(new Actor( //Baterista
     scene.concertW/2 +10,

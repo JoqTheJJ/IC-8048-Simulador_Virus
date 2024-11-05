@@ -69,7 +69,6 @@ class AgentSystem {
             a1.hambre = random(40, 100);
             a1.energia = random(80, 120);
           }
-          advanceLine = false;
         }
         // *********************************************** //
       } else { //Estan en la simulacion
@@ -126,6 +125,7 @@ class AgentSystem {
         }
       }
       a1.run();
+      advanceLine = false;
 
       //Infeccion
       if (frameCount % 60 == 0) { //Infeccion 1 vez por segundo
@@ -227,10 +227,13 @@ class AgentSystem {
 
   void simulacion(int sanos, int contagiados) {
     reset();
+    float x = fila.max.x - 25;
+    float y = fila.max.y + 13;
 
     numPersonas = sanos + contagiados;
     numPersonasInfectadas = contagiados;
     
+    randomPos.clear();
     randomPos.append(IntList.fromRange(1, numPersonas + 1));
     randomPos.shuffle();
 
@@ -242,9 +245,6 @@ class AgentSystem {
     numPersonasMascarilla = sanosMascarilla + contagiadosMascarilla;
 
     for (int i = 0; i < numPersonas - numPersonasInfectadas; i++) {
-      float x = fila.max.x - 30;
-      float y = fila.max.y + 15;
-
       State estado = State.STILL;
       if (posFila > fila.numPosiciones)
         estado = State.UNAVAILABLE;
@@ -260,9 +260,6 @@ class AgentSystem {
     }
 
     for (int i = 0; i < numPersonasInfectadas; i++) {
-      float x = fila.max.x - 30;
-      float y = fila.max.y + 15;
-
       State estado = State.STILL;
       if (posFila > fila.numPosiciones)
         estado = State.UNAVAILABLE;
@@ -277,6 +274,5 @@ class AgentSystem {
     }
     //Reset time
     resetTime();
-    randomPos.clear();
   }
 }

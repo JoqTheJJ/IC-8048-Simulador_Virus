@@ -111,8 +111,8 @@ ColorMode colorMode;
 Fila fila;
 
 void setup() {
-  size(1920, 1080);
-  //fullScreen();
+  //size(1920, 1080);
+  fullScreen();
   
   cp5 = new ControlP5(this);
   print("\n\n\n\n\n\n\n\n");

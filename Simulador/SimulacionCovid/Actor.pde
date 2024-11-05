@@ -1,6 +1,6 @@
 enum Rol {
   CANTANTE,
-  SECUNDARIO,
+  BAJISTA,
   BATERISTA,
   GUITARRISTA,
   TECLADISTA,
@@ -42,7 +42,9 @@ class Actor{
 
     fill(c);
     circle(pos.x + offsetX, pos.y + offsetY, radio*2);
+
     
+    strokeWeight(3);
     fill(#000000);
     if (rol == Rol.GUARDA) {
       rect(pos.x-9   + offsetX, pos.y-4 + offsetY, 18, 0.5);
@@ -78,10 +80,75 @@ class Actor{
         }
       }
     } else {
+      fill(#000000);
       rect(pos.x-3 + offsetX, pos.y-4 + offsetY, 0.5, 0.7); //Ojos
       rect(pos.x+3 + offsetX, pos.y-4 + offsetY, 0.5, 0.7); //Ojos
     }
-  }  
+    
+    if (rol == Rol.CANTANTE) { //Microfono
+      strokeWeight(2);
+      fill(#9B9B9B);
+      rect(pos.x +offsetX +5, pos.y +offsetY +3, 3.8, 8);
+      strokeWeight(2);
+      fill(#2C2C2C);
+      circle(pos.x +offsetX +7, pos.y +offsetY +3, 7);
+    }
+    
+    if (rol == Rol.BAJISTA) { //Bajo
+      PVector pos = new PVector(this.pos.x, this.pos.y + 5);
+
+      fill(c);
+      
+      strokeWeight(2);
+      circle(pos.x+offsetX - 2, pos.y+offsetY + 2, 12);
+      
+      strokeWeight(1);
+      circle(pos.x+offsetX - 2, pos.y+offsetY + 2, 6);
+      
+      stroke(0);
+      strokeWeight(6);
+      line(pos.x+offsetX - 3  , pos.y+offsetY + 3, pos.x+offsetX + 13  , pos.y+offsetY - 13);
+      
+      stroke(c);
+      strokeWeight(4);
+      line(pos.x+offsetX - 4  , pos.y+offsetY + 4, pos.x+offsetX + 13  , pos.y+offsetY - 13);
+      
+      stroke(0);
+      strokeWeight(1);
+      line(pos.x+offsetX - 6  , pos.y+offsetY + 4, pos.x+offsetX + 13, pos.y+offsetY - 15);
+      line(pos.x+offsetX - 5  , pos.y+offsetY + 5, pos.x+offsetX + 15, pos.y+offsetY - 15);
+      line(pos.x+offsetX - 4  , pos.y+offsetY + 6, pos.x+offsetX + 15, pos.y+offsetY - 13);
+    }
+    
+    if (rol == Rol.GUITARRISTA) { //Guitarra
+      PVector pos = new PVector(this.pos.x, this.pos.y + 5);
+      fill(c);
+      strokeWeight(1);
+      beginShape();
+      vertex(pos.x+offsetX - 5  , pos.y+offsetY + 5);
+      vertex(pos.x+offsetX - 12 , pos.y+offsetY + 3);
+      
+      vertex(pos.x+offsetX - 4  , pos.y+offsetY - 2);
+      vertex(pos.x+offsetX + 10, pos.y+offsetY - 12);
+      
+      vertex(pos.x+offsetX + 10, pos.y+offsetY - 15);
+      vertex(pos.x+offsetX + 15  , pos.y+offsetY - 15);
+      vertex(pos.x+offsetX + 15, pos.y+offsetY - 10);
+      
+      vertex(pos.x+offsetX + 12, pos.y+offsetY - 10);
+      vertex(pos.x+offsetX + 2  , pos.y+offsetY + 4);
+      
+      vertex(pos.x+offsetX - 2  , pos.y+offsetY + 12);
+      endShape(CLOSE);
+      
+      fill(#904289);
+      circle(pos.x+offsetX - 2, pos.y+offsetY + 2, 6);
+      
+      line(pos.x+offsetX - 7  , pos.y+offsetY + 4, pos.x+offsetX + 13  , pos.y+offsetY - 15);
+      line(pos.x+offsetX - 5  , pos.y+offsetY + 5, pos.x+offsetX + 15  , pos.y+offsetY - 15);
+      line(pos.x+offsetX - 4  , pos.y+offsetY + 7, pos.x+offsetX + 15  , pos.y+offsetY - 13);
+    }
+  }
   
   void run() {
     switch(rol) {
@@ -89,8 +156,8 @@ class Actor{
         cantantePrincipal();
         break;
         
-      case SECUNDARIO:
-        cantanteSecundario();
+      case BAJISTA:
+        bajista();
         break;
         
       case BATERISTA:
@@ -124,7 +191,7 @@ class Actor{
     noiseYOffset += 0.005;
   }
   
-  void cantanteSecundario() {
+  void bajista() {
     offsetX = map(noise(noiseXOffset), 0, 1, -10, 30);
     offsetY = map(noise(noiseYOffset), 0, 1, -25, 25);
     
