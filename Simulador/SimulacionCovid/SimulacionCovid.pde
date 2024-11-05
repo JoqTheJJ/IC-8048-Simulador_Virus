@@ -49,7 +49,7 @@ C:::::C              O:::::O     O:::::O       V:::::V:::::V         I::::I    D
 //Import
 import controlP5.*;
 
-// Simulacion
+//Simulacion
 boolean start = true;
 boolean ayuda = false;
 boolean luces = true;
