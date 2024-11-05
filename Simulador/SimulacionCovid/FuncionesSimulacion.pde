@@ -97,7 +97,6 @@ void addActores() {
     Rol.BATERISTA)
     );
   
-  
   actores.add(new Actor( //Guarda
     width*3/4+5,
     height/2 +50,

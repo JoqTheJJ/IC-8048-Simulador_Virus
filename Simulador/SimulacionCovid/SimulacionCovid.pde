@@ -45,6 +45,10 @@ C:::::C              O:::::O     O:::::O       V:::::V:::::V         I::::I    D
  Controles Simulación:
   -Presiona [H] dentro de la simulación para ver los controles
 
+ <!>
+  Se debe instalar ControlP5 para utilizar el programa desde
+  las bibliotecas de Processing
+
 ##################################################################################################*/
 //Import
 import controlP5.*;
@@ -53,8 +57,6 @@ import controlP5.*;
 boolean start = true;
 boolean ayuda = false;
 boolean luces = true;
-boolean finish = false;
-boolean finishOg = finish;
 boolean pause = false;
 boolean statShow = false;
 boolean click = false;
@@ -62,17 +64,30 @@ boolean click = false;
 boolean debug = false;
 boolean debugAgent = false;
 
-float tasaDeTiempo = 30; //Segundos de simulacion por segundo real
+boolean finish = false;
+boolean finishOg = finish;
 
-//Sliders default
+//Tasa de Tiempo
+float tasaDeTiempo = 60; //Segundos de simulacion por segundo real
+
+//Control P5
+ControlP5 cp5;
+float scrollValue = 0;
+
+//Sliders
+Slider sEficiencia;
+Slider sVentilacion;
+Slider sPersonas;
+Slider sContagiados;
+Slider sPorcentajeMascarilla;
 float eficienciaMascarilla = 0;
 float porcentajeMascarilla = 0;
 float tasaDeVentilacion = 1;// (ACH) Cantidad de cambios de aire por hora
 int totalSanos = 100;
 int totalContagiados = 1;
 
+//Sprites
 PImage imagenProhibido;
-
 PImage imagenVentilacion;
 float rotacionVentilador = 0;
 
@@ -84,43 +99,36 @@ PImage cesped4;
 PImage cesped5;
 PImage cesped6;
 
-//Control P5
-ControlP5 cp5;
-float scrollValue = 0;
-
-Slider sEficiencia;
-Slider sVentilacion;
-Slider sPersonas;
-Slider sContagiados;
-Slider sPorcentajeMascarilla;
-
+//Sistema
 AgentSystem sys;
+ColorMode colorMode;
+Scene scene;
+Fila fila;
 ArrayList<Repeledor> repeledores;
 ArrayList<FoodAttractor> foodAttractors;
 ArrayList<Tienda> tiendas;
-Scene scene;
+ArrayList<Float> mascarillas;
+ArrayList<Actor> actores;
 
+//Tiempo Transcurrido
 int startFrame;
 int finishFrame;
 int startTime;
 int elapsedTime;
 
-ArrayList<Float> mascarillas;
-ArrayList<Actor> actores;
-ColorMode colorMode;
-Fila fila;
+
 
 void setup() {
   //size(1920, 1080);
   fullScreen();
   
+  //Inicializar ControlP5
   cp5 = new ControlP5(this);
   print("\n\n\n\n\n\n\n\n");
   
+  //Cargar Sprites
   imagenVentilacion = loadImage("ventilacion.png");
   imagenProhibido = loadImage("no.png");
-  PFont font = createFont("Arial", 1);
-  
   cesped1 = loadImage("c1.png");
   cesped2 = loadImage("c2.png");
   cesped3 = loadImage("c3.png");
@@ -128,6 +136,8 @@ void setup() {
   cesped5 = loadImage("c5.png");
   cesped6 = loadImage("c6.png");
   
+  //Añadir Sliders
+  PFont font = createFont("Arial", 1);
   sEficiencia = cp5.addSlider("setEficienciaMascarilla")
     .setPosition(width/2 - 450, height/2 +200)
     .setSize(200, 50)
@@ -135,7 +145,6 @@ void setup() {
     .setValue(eficienciaMascarilla)
     .setCaptionLabel("")
     .setFont(font);
-    
   sVentilacion = cp5.addSlider("setTasaDeVentilacion")
     .setPosition(width/2 + 300, height/2 +200)
     .setSize(200, 50)
@@ -143,7 +152,6 @@ void setup() {
     .setValue(tasaDeVentilacion)
     .setCaptionLabel("")
     .setFont(font);
-    
   sPersonas = cp5.addSlider("setTotalSanos")
     .setPosition(width/2 - 250, height/2 -200)
     .setSize(200, 50)
@@ -151,7 +159,6 @@ void setup() {
     .setValue(totalSanos)
     .setCaptionLabel("")
     .setFont(font);
-
   sContagiados = cp5.addSlider("setTotalContagiados")
     .setPosition(width/2 + 100, height/2 -200)
     .setSize(200, 50)
@@ -159,7 +166,6 @@ void setup() {
     .setValue(totalContagiados)
     .setCaptionLabel("")
     .setFont(font);
-    
   sPorcentajeMascarilla = cp5.addSlider("setPorcentajeMascarilla")
     .setPosition(width/2 - 75, height/2 +200)
     .setSize(200, 50)
@@ -168,21 +174,23 @@ void setup() {
     .setCaptionLabel("")
     .setFont(font);
   
+  //Añadir Variables Globales (Funciones Principales)
   addColorsInfection();
   addColorsMask();
-  //addMascarillas();
+  colorMode = ColorMode.INFECTION;
   
+  //Reiniciar tiempo
   startFrame = 0;
   finishFrame = 0;
   startTime = 0;
   elapsedTime = 0;
   
-  colorMode = ColorMode.INFECTION;
-  
+  //Inicializar sistema
   sys = new AgentSystem();
   scene = new Scene();
   fila = new Fila();
   
+  //Añadir Variables Globales (Funciones Principales)
   addTiendas();
   addActores();
   addRepeledores();
@@ -193,11 +201,11 @@ void draw() {
     background(#CECECE);
     menuPrincipal();
     
-  } else if (ayuda) {
+  } else if (ayuda) { //Menu Ayuda
     background(#CECECE);
     menuAyuda();
     
-  } else {
+  } else { //Simulación Normal
     background(#92D050);
     
     if (finish) {
@@ -269,7 +277,7 @@ void draw() {
       }
     }
     
-    estadisticas();
+    
 
     if (click && mousePressed && mouseButton == LEFT) {
       sys.addAgent(mouseX, mouseY, false, eficienciaMascarilla);
@@ -286,6 +294,9 @@ void draw() {
       sys.numPersonas += 1;
       sys.numPersonasInfectadas += 1;
     }
+    
+    //Actualización de estadisticas
+    estadisticas();
     if (statShow){
       scene.colorStats();
     }
@@ -294,14 +305,17 @@ void draw() {
 
 void keyPressed() {
   if (start && key == '\n') {
+    //Enter para cerrar el menu principal
     cerrarMenuPrincipal();
   }
 
   if (key == ' ') {
+    //Espacio para pausar el sistema
     pause = !pause;
   }
   
   if (key == 'r' || key == 'R') {
+    //Reiniciar la simulación
     start = true;
     
     sEficiencia.show();
@@ -315,35 +329,43 @@ void keyPressed() {
   }
   
   if (key == 'c' || key == 'C'){
+    //Activa/Desactiva el mouse
     click = !click;
   }
   
   if (key == 'h' || key == 'H'){
+    //Activa/Desactiva el menu de ayuda
     ayuda = !ayuda;
   }
   
   if (key == 'l' || key == 'L'){
+    //Activa/Desactiva el mouse
     luces = !luces;
   }
   
   if (key == 'e' || key == 'E'){
+    //Activa/Desactiva las estadisticas individuales
     statShow = !statShow;
   }
   
   if (key == 'm' || key == 'M'){
+    //Activa/Desactiva las mascarillas
     sys.alterColorMode();
   }
   
   if (key == 'z' || key == 'Z'){
+    //Activa/Desactiva los campos de flujo
     debug = !debug;
   }
   
   if (key == 'x' || key == 'X'){
+    //Activa/Desactiva la direccion de los agentes
     debugAgent = !debugAgent;
   }
 }
 
 void resetTime(){
+  //Reinicia el tiempo de la simulación
   if(finishOg) {
     finish = true;
   }
@@ -354,14 +376,15 @@ void resetTime(){
 }
 
 void estadisticas() {
-  elapsedTime = millis() - startTime;
+  //Imprime las estadisticas de la simulación
   
+  //Manejo del tiempo
   int elapsedFrames = finishFrame - startFrame;
   int elapsedTimeFrames = elapsedFrames / 60; //frames to ms
   int seconds = elapsedTimeFrames;
   int minutes = seconds / 60;
   
-  //Simulation time tasaDeTiempo
+  //Manejo del tiempo
   elapsedTimeFrames = elapsedFrames *1000 /60;
   int ss = (int)(elapsedTimeFrames * tasaDeTiempo /1000);
   int sm = (int)(ss /60);
