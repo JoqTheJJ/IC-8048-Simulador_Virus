@@ -408,8 +408,12 @@ void estadisticas() {
   text("Personas Totales: "+sys.numPersonas, 15, height -100);
   text("Personas Totales: "+sys.numPersonas, 15, height -100);
   
-  text("Infectados: "+sys.numPersonasInfectadas, 15, height -80);
-  text("Sanos: "+(sys.numPersonas-sys.numPersonasInfectadas), 15, height -60);
+  int total = sys.numPersonas;
+  int infectados = sys.numPersonasInfectadas;
+  int porcentajeInfeccion = 100*infectados/total;
+  
+  text("Infectados: "+porcentajeInfeccion+"%", 15, height -80);
+  text("Sanos: "+(100-porcentajeInfeccion)+"%", 15, height -60);
   
   text("Personas con mascarilla: "+sys.numPersonasMascarilla, 15, height -40);
   text("Personas sin mascarilla: "+(sys.numPersonas-sys.numPersonasMascarilla), 15, height -20);

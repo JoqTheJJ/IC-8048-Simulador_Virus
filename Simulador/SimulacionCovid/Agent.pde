@@ -109,6 +109,10 @@ class Agent {
     }
   }
   
+  Agent(float x, float y, boolean infectado, float eficienciaMascarilla, State estado) {
+    this(x, y, infectado, eficienciaMascarilla, estado, 0);
+  }
+  
   void run() {
     if (filaPos < 1) {
       borders();

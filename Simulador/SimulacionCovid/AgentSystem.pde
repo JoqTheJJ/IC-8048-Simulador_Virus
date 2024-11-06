@@ -105,6 +105,10 @@ class AgentSystem {
         if (a1.estadoHambre == Hambre.COMPRANDO) {
           Tienda tienda = tiendas.get(a1.numTienda);
           a1.follow(tienda.centerX, tienda.centerY);
+          if(dist(tienda.centerX, tienda.centerY, a1.pos.x, a1.pos.y) < 50){
+            a1.follow(a1.pos.x, a1.pos.y-100);
+            a1.follow(a1.pos.x, a1.pos.y-100);
+          }
         } else if (a1.estadoHambre == Hambre.HAMBRIENTO) {
           a1.seek(scene.w1W + 50, scene.w1Y - 20);
           if (a1.humor == Humor.RESTING) {
@@ -168,7 +172,7 @@ class AgentSystem {
   }
 
   void addAgent(float x, float y, boolean infectado, float eficienciaMascarilla) {
-    agents.add(new Agent(x, y, infectado, eficienciaMascarilla, State.CONCERT, 0));
+    agents.add(new Agent(x, y, infectado, eficienciaMascarilla, State.CONCERT));
   }
 
   void reset() {
@@ -220,10 +224,6 @@ class AgentSystem {
   // ############################  ############################
   // ##################### METODOS SISTEMA ####################
   // ############################  ############################
-
-  void advanceLine() {
-    advanceLine = true;
-  }
 
   void simulacion(int sanos, int contagiados) {
     reset();
