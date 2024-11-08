@@ -398,23 +398,21 @@ void estadisticas() {
   textSize(20);
   fill(#FFFFFF);
   
-  text("Presiona [H] por ayuda", 15, height -210);
+  text("Presiona [H] por ayuda", 15, height -200);
 
-  text("Tiempo: "+time, 15, height -180);
-  text("Simulacion: "+sd+":"+simulationTime, 15, height -160);
+  text("Tiempo: "+time, 15, height -170);
+  text("Simulacion: "+sd+":"+simulationTime, 15, height -140);
   
-  text("Nivel de Ventilación: "+(int)tasaDeVentilacion, 15, height -130);
+  text("Eficiencia Mascarilla: "+(int)(100*eficienciaMascarilla)+"%", 15, height -110);
+  text("Nivel de Ventilación: "+(int)tasaDeVentilacion, 15, height -90);
   
-  text("Personas Totales: "+sys.numPersonas, 15, height -100);
-  text("Personas Totales: "+sys.numPersonas, 15, height -100);
+  text("Personas Totales: "+sys.numPersonas, 15, height -60);
+  text("Personas Totales: "+sys.numPersonas, 15, height -60);
   
   int total = sys.numPersonas;
   int infectados = sys.numPersonasInfectadas;
   int porcentajeInfeccion = 100*infectados/total;
   
-  text("Infectados: "+porcentajeInfeccion+"%", 15, height -80);
-  text("Sanos: "+(100-porcentajeInfeccion)+"%", 15, height -60);
-  
-  text("Personas con mascarilla: "+sys.numPersonasMascarilla, 15, height -40);
-  text("Personas sin mascarilla: "+(sys.numPersonas-sys.numPersonasMascarilla), 15, height -20);
+  text("Enfermos: "+porcentajeInfeccion+"%", 15, height -40);
+  text("Sanos: "+(100-porcentajeInfeccion)+"%", 15, height -20);
 }
