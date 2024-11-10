@@ -211,7 +211,7 @@ class Fila {
   
   void display() {
     noStroke();
-    col = (frameCount/60) % 8;
+    col = (frameCount/40) % 8;
     nextColor();
     
     for(int i = 1; i < numPosiciones; i++) {

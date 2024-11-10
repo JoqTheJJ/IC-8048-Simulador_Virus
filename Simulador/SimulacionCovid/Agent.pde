@@ -92,8 +92,8 @@ class Agent {
     filaPos = posFila;
     
     //Variables estado del agente
-    energia = random(80, 120);
-    hambre = random(40, 100);
+    energia = random(20, 100);
+    hambre = random(20, 100);
     tiempoCompra = 0;
     bebida = 0;
     hamburguesa = 0;

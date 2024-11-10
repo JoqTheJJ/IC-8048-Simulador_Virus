@@ -64,7 +64,7 @@ boolean click = false;
 boolean debug = false;
 boolean debugAgent = false;
 
-boolean finish = false;
+boolean finish = true;
 boolean finishOg = finish;
 
 //Tasa de Tiempo
@@ -84,7 +84,7 @@ float eficienciaMascarilla = 0;
 float porcentajeMascarilla = 0;
 float tasaDeVentilacion = 1;// (ACH) Cantidad de cambios de aire por hora
 int totalSanos = 100;
-int totalContagiados = 1;
+int totalContagiados = 100;
 
 //Sprites
 PImage imagenProhibido;
@@ -162,7 +162,7 @@ void setup() {
   sContagiados = cp5.addSlider("setTotalContagiados")
     .setPosition(width/2 + 100, height/2 -200)
     .setSize(200, 50)
-    .setRange(1, 200)
+    .setRange(100, 200)
     .setValue(totalContagiados)
     .setCaptionLabel("")
     .setFont(font);
@@ -177,7 +177,7 @@ void setup() {
   //Añadir Variables Globales (Funciones Principales)
   addColorsInfection();
   addColorsMask();
-  colorMode = ColorMode.INFECTION;
+  colorMode = ColorMode.MASK;
   
   //Reiniciar tiempo
   startFrame = 0;
@@ -398,13 +398,14 @@ void estadisticas() {
   textSize(20);
   fill(#FFFFFF);
   
-  text("Presiona [H] por ayuda", 15, height -200);
+  //text("Presiona [H] por ayuda", 15, height -220);
 
-  text("Tiempo: "+time, 15, height -170);
-  text("Simulacion: "+sd+":"+simulationTime, 15, height -140);
+  text("Tiempo: "+time, 15, height -190);
+  text("Simulacion: "+sd+":"+simulationTime, 15, height -170);
   
+  text("Nivel de Ventilación: "+(int)tasaDeVentilacion, 15, height -130);
   text("Eficiencia Mascarilla: "+(int)(100*eficienciaMascarilla)+"%", 15, height -110);
-  text("Nivel de Ventilación: "+(int)tasaDeVentilacion, 15, height -90);
+  text("Población con Mascarilla: "+(int)(100*porcentajeMascarilla)+"%", 15, height -90);
   
   text("Personas Totales: "+sys.numPersonas, 15, height -60);
   text("Personas Totales: "+sys.numPersonas, 15, height -60);
@@ -412,7 +413,6 @@ void estadisticas() {
   int total = sys.numPersonas;
   int infectados = sys.numPersonasInfectadas;
   int porcentajeInfeccion = 100*infectados/total;
-  
   text("Enfermos: "+porcentajeInfeccion+"%", 15, height -40);
   text("Sanos: "+(100-porcentajeInfeccion)+"%", 15, height -20);
 }

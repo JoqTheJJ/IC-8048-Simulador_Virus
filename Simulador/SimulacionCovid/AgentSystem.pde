@@ -6,6 +6,7 @@ enum ColorMode {
 class AgentSystem {
   ArrayList<Agent> agents;
   IntList randomPos;
+  FloatList randomMascarilla;
 
   boolean advanceLine;
   int initialWaitingTime = 600;
@@ -26,6 +27,7 @@ class AgentSystem {
   AgentSystem() {
     agents = new ArrayList<Agent>();
     randomPos = new IntList();
+    randomMascarilla = new FloatList();
 
     numPersonas = 0;
     numPersonasInfectadas = 0;
@@ -131,6 +133,8 @@ class AgentSystem {
       a1.run();
       advanceLine = false;
 
+      
+      
       //Infeccion
       if (frameCount % 60 == 0) { //Infeccion 1 vez por segundo
         advanceLine = true;
@@ -234,43 +238,70 @@ class AgentSystem {
     numPersonasInfectadas = contagiados;
     
     randomPos.clear();
-    randomPos.append(IntList.fromRange(1, numPersonas + 1));
+    int maxList = (numPersonas - numPersonasInfectadas)/4 + numPersonasInfectadas/4 + 1;
+    randomPos.append(IntList.fromRange(1, maxList));
     randomPos.shuffle();
+    
+    randomMascarilla.clear();
+    maxList = (int)(numPersonas*porcentajeMascarilla);
+    for (int i = 0; i < maxList; i++){
+      randomMascarilla.append(eficienciaMascarilla);
+    }
+    for (int i = 0; i < numPersonas - maxList; i++){
+      randomMascarilla.append(0);
+    }
+    randomMascarilla.shuffle();
+
 
     int posFila = 1;
+    int indiceMascarilla = 0;
 
-    int sanosMascarilla = (int)((numPersonas - numPersonasInfectadas)*porcentajeMascarilla);
-    int contagiadosMascarilla = (int)((numPersonasInfectadas)*porcentajeMascarilla);
-
-    numPersonasMascarilla = sanosMascarilla + contagiadosMascarilla;
-
-    for (int i = 0; i < numPersonas - numPersonasInfectadas; i++) {
-      State estado = State.STILL;
-      if (posFila > fila.numPosiciones)
-        estado = State.UNAVAILABLE;
-
-
-      if (sanosMascarilla > 0) {
-        sanosMascarilla--;
-        agents.add(new Agent(x, y, false, eficienciaMascarilla, estado, randomPos.get(posFila - 1)));
-      } else {
-        agents.add(new Agent(x, y, false, 0, estado, randomPos.get(posFila - 1)));
+    int enFila = (numPersonas - numPersonasInfectadas)/4;
+    for (int i = 0; i < numPersonas - numPersonasInfectadas; i++) { //Spawn Sanos
+      if (i < enFila){ //Spawn Fila
+        State estado = State.STILL;
+        if (posFila > fila.numPosiciones) {
+          estado = State.UNAVAILABLE;
+        }
+  
+        agents.add(new Agent(x, y, false, randomMascarilla.get(indiceMascarilla), estado, randomPos.get(posFila - 1)));
+        posFila++;
+        
+        
+      } else { //Spawn Escenario
+        State estado = State.CONCERT;
+        
+        float posX = random(scene.concertW + 100, scene.w3X - 100);
+        float posY = random(scene.concertY + 100, height - 100);
+        
+        agents.add(new Agent(posX, posY, false, randomMascarilla.get(indiceMascarilla), estado, 0));
       }
-      posFila++;
+      indiceMascarilla++;
     }
-
-    for (int i = 0; i < numPersonasInfectadas; i++) {
-      State estado = State.STILL;
-      if (posFila > fila.numPosiciones)
-        estado = State.UNAVAILABLE;
-
-      if (contagiadosMascarilla > 0) {
-        contagiadosMascarilla--;
-        agents.add(new Agent(x, y, true, eficienciaMascarilla, estado, randomPos.get(posFila - 1)));
-      } else {
-        agents.add(new Agent(x, y, true, 0, estado, randomPos.get(posFila - 1)));
+    
+    
+    enFila = numPersonasInfectadas/4;
+    for (int i = 0; i < numPersonasInfectadas; i++) { //Spawn Contagiados
+      if (i < enFila){ //Spawn Fila
+      
+        State estado = State.STILL;
+        if (posFila > fila.numPosiciones) {
+          estado = State.UNAVAILABLE;
+        }
+  
+        agents.add(new Agent(x, y, true, randomMascarilla.get(indiceMascarilla), estado, randomPos.get(posFila - 1)));
+        posFila++;
+        
+        
+      } else { //Spawn Escenario
+        State estado = State.CONCERT;
+        
+        float posX = random(scene.concertW + 100, scene.w3X - 100);
+        float posY = random(scene.concertY + 100, height - 100);
+        
+        agents.add(new Agent(posX, posY, true, randomMascarilla.get(indiceMascarilla), estado, 0));
       }
-      posFila++;
+      indiceMascarilla++;
     }
     //Reset time
     resetTime();
