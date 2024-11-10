@@ -137,7 +137,9 @@ void addRepeledores() {
   0.06, new PVector(0, -1), sys, Hambre.HAMBRIENTO));
   //Condicionales (Abajo)
   repeledores.add(new AtractorCondicionalHumor(scene.w2X - 80, scene.w2Y - 120, 60, 180,
-  0.08, new PVector(0, 1), sys, Humor.REFRESHED));
+  0.06, new PVector(0, 1), sys, Humor.REFRESHED));
+  repeledores.add(new AtractorCondicionalHambre(scene.w2X - 80, scene.w2Y - 120, 60, 180,
+  0.06, new PVector(0, 1), sys, Hambre.SATISFECHO));
   
   //Muro 1 superior
   repeledores.add(new Repeledor(0, scene.w1Y-50, scene.w1W-40, 50,
@@ -383,7 +385,6 @@ void cerrarMenuPrincipal(){
   start = false;
   pause = false;
   ayuda = false;
-  luces = true;
   
   resetTime();
 }

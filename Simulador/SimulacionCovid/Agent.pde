@@ -92,14 +92,15 @@ class Agent {
     filaPos = posFila;
     
     //Variables estado del agente
-    energia = random(20, 100);
-    hambre = random(20, 100);
+    energia = random(20, 80);
+    hambre = random(20, 80);
+    
     tiempoCompra = 0;
     bebida = 0;
     hamburguesa = 0;
     comiendo = 0;
     
-    humor = Humor.REFRESHED;
+    humor = Humor.NOTTIRED;
     estadoHambre = Hambre.SATISFECHO;
     
     if (infectado) {
@@ -138,7 +139,7 @@ class Agent {
         humor = Humor.REFRESHED;
       }
     } else if (humor == Humor.REFRESHED){
-      energia += random(0.03, 0.035);
+      energia += random(0.04, 0.05);
     }
     
     //Nivel Hambre
