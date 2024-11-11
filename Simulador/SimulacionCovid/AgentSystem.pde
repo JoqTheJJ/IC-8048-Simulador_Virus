@@ -118,7 +118,7 @@ class AgentSystem {
         } else if (a1.estadoHambre == Hambre.HAMBRIENTO) {
           a1.seek(scene.w1W + 50, scene.w1Y - 20);
           if (a1.humor == Humor.RESTING) {
-            if (a1.pos.x < scene.w1W + 50) {
+            if (a1.pos.x < scene.w1W + 65) {
               if (a1.pos.x > 150) {
                 a1.follow(a1.pos.x - 70, 65);
               } else {
