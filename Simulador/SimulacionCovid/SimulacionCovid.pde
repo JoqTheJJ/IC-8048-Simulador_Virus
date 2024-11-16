@@ -64,7 +64,7 @@ boolean click = false;
 boolean debug = false;
 boolean debugAgent = false;
 
-boolean finish = true;
+boolean finish = false;
 boolean finishOg = finish;
 
 //Tasa de Tiempo
