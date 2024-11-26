@@ -56,7 +56,7 @@ import controlP5.*;
 //Simulacion
 boolean start = true;
 boolean ayuda = false;
-boolean luces = true;
+boolean luces = false;
 boolean pause = false;
 boolean statShow = false;
 boolean click = false;
@@ -64,7 +64,7 @@ boolean click = false;
 boolean debug = false;
 boolean debugAgent = false;
 
-boolean finish = false;
+boolean finish = true;
 boolean finishOg = finish;
 
 //Tasa de Tiempo
