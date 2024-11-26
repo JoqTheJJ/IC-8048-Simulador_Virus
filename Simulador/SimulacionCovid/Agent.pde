@@ -85,7 +85,7 @@ class Agent {
     //vel = new PVector(0, 0);
     acc = new PVector(0, 0);
     vel.limit(maxSpeed);
-    followSpeed = random(0.2, 0.7);
+    followSpeed = 1;//random(0.2, 0.7);
     
     this.eficienciaMascarilla = eficienciaMascarilla;
     this.estado = estado;

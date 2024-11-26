@@ -9,7 +9,7 @@ class AgentSystem {
   FloatList randomMascarilla;
 
   boolean advanceLine;
-  int initialWaitingTime = 600;
+  int initialWaitingTime = 900;
   int waitingTime = initialWaitingTime;
 
   //Variables contagio
@@ -136,12 +136,15 @@ class AgentSystem {
       }
       a1.run();
       advanceLine = false;
-
+      
+      
+      if (frameCount % 30 == 0) { //Fila 2 veces por segundo
+        advanceLine = true;
+      }
       
       
       //Infeccion
       if (frameCount % 60 == 0) { //Infeccion 1 vez por segundo
-        advanceLine = true;
 
         for (int j = i+1; j < size; j++) {
           Agent a2 = agents.get(j);
@@ -242,7 +245,8 @@ class AgentSystem {
     numPersonasInfectadas = contagiados;
     
     randomPos.clear();
-    int maxList = (numPersonas - numPersonasInfectadas)/4 + numPersonasInfectadas/4 + 1;
+    int proporcionFila = 15;
+    int maxList = (numPersonas - numPersonasInfectadas)/proporcionFila + numPersonasInfectadas/proporcionFila + 1;
     randomPos.append(IntList.fromRange(1, maxList));
     randomPos.shuffle();
     
@@ -260,7 +264,7 @@ class AgentSystem {
     int posFila = 1;
     int indiceMascarilla = 0;
 
-    int enFila = (numPersonas - numPersonasInfectadas)/4;
+    int enFila = (numPersonas - numPersonasInfectadas)/proporcionFila;
     for (int i = 0; i < numPersonas - numPersonasInfectadas; i++) { //Spawn Sanos
       if (i < enFila){ //Spawn Fila
         State estado = State.STILL;
@@ -284,7 +288,7 @@ class AgentSystem {
     }
     
     
-    enFila = numPersonasInfectadas/4;
+    enFila = numPersonasInfectadas/proporcionFila;
     for (int i = 0; i < numPersonasInfectadas; i++) { //Spawn Contagiados
       if (i < enFila){ //Spawn Fila
       
