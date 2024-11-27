@@ -93,7 +93,7 @@ class Agent {
     
     //Variables estado del agente
     energia = random(0, 80);
-    hambre = random(0, 80);
+    hambre = random(50, 80);
     
     tiempoCompra = 0;
     bebida = 0;

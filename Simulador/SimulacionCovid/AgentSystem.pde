@@ -9,7 +9,7 @@ class AgentSystem {
   FloatList randomMascarilla;
 
   boolean advanceLine;
-  int initialWaitingTime = 900;
+  int initialWaitingTime = 810;
   int waitingTime = initialWaitingTime;
 
   //Variables contagio
@@ -131,7 +131,23 @@ class AgentSystem {
                 a1.follow(width - 150, 55);
               }
             }
+            
+          } else if (a1.humor == Humor.REFRESHED  ) {
+            if (a1.pos.x < scene.w1W + 65) {
+              if (a1.pos.x > 150) {
+                a1.follow(a1.pos.x - 70, 65);
+              } else {
+                a1.follow(150, 55);
+              }
+            } else {
+              if (a1.pos.x < width - 150) {
+                a1.follow(a1.pos.x + 70, 65);
+              } else {
+                a1.follow(width - 150, 55);
+              }
+            }
           }
+          
         }
       }
       a1.run();

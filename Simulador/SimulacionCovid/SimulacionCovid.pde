@@ -401,9 +401,9 @@ void estadisticas() {
   //text("Presiona [H] por ayuda", 15, height -220);
 
   //text("Tiempo: "+time, 15, height -190);
-  text("Simulacion: "+sd+":"+simulationTime, 15, height -170);
+  text("Tiempo Concierto: "+sd+" "+simulationTime, 15, height -170);
   
-  text("Nivel de Ventilación: "+(int)tasaDeVentilacion, 15, height -130);
+  text("Nivel de Ventilación: "+(int)tasaDeVentilacion+" ACH", 15, height -130);
   text("Eficiencia Mascarilla: "+(int)(100*eficienciaMascarilla)+"%", 15, height -110);
   text("Población con Mascarilla: "+(int)(100*porcentajeMascarilla)+"%", 15, height -90);
   
